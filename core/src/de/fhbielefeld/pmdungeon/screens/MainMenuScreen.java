@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import de.fhbielefeld.pmdungeon.PMDungeon;
+import de.fhbielefeld.pmdungeon.characters.MaleKnight;
+import de.fhbielefeld.pmdungeon.characters.PlayableCharacter;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 
 // oder extends ScreenAdapter um nicht alle Methoden überschreiben zu müssen
@@ -17,14 +19,16 @@ public class MainMenuScreen implements Screen {
     private Dungeon dungeon;
     private Texture floorTexture;
 
+    private PlayableCharacter hero;
 
     public MainMenuScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
 
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
+        camera = new OrthographicCamera(250, 150);
+        camera.position.set(0, 0, 0);
         camera.update();
 
+        hero = new MaleKnight();
         dungeon = new Dungeon();
         floorTexture = new Texture("floor_1.png");
     }
@@ -45,16 +49,16 @@ public class MainMenuScreen implements Screen {
         float cameraSpeed = 100;
         float cameraZoomSpeed = 1;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.translate(cameraSpeed * Gdx.graphics.getDeltaTime(), 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             camera.translate(-cameraSpeed * Gdx.graphics.getDeltaTime(), 0);
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            camera.translate(cameraSpeed * Gdx.graphics.getDeltaTime(), 0);
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            camera.translate(0, -cameraSpeed * Gdx.graphics.getDeltaTime());
+            camera.translate(0, cameraSpeed * Gdx.graphics.getDeltaTime());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            camera.translate(0, cameraSpeed * Gdx.graphics.getDeltaTime());
+            camera.translate(0, -cameraSpeed * Gdx.graphics.getDeltaTime());
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.PLUS)) {
@@ -64,7 +68,6 @@ public class MainMenuScreen implements Screen {
             camera.zoom += cameraZoomSpeed * Gdx.graphics.getDeltaTime();
         }
 
-
         pmDungeon.batch.begin();
         for (float i = 0; i < Dungeon.HEIGHT; i++) {
             for (float j = 0; j < Dungeon.WIDTH; j++) {
@@ -72,6 +75,8 @@ public class MainMenuScreen implements Screen {
             }
         }
         //pmDungeon.font.draw(pmDungeon.batch, "Hello World!", Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
+        hero.handleInput(Gdx.input);
+        pmDungeon.batch.draw(hero.getTexture(), hero.getOffsetFromStartX(), hero.getOffsetFromStartY());
         pmDungeon.batch.end();
     }
 
@@ -97,7 +102,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        floorTexture.dispose();
     }
 }
-
