@@ -5,21 +5,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import de.fhbielefeld.pmdungeon.PMDungeon;
 import de.fhbielefeld.pmdungeon.characters.MaleKnight;
 import de.fhbielefeld.pmdungeon.characters.PlayableCharacter;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
+import de.fhbielefeld.pmdungeon.util.dungeonconverter.Room;
 
 // oder extends ScreenAdapter um nicht alle Methoden überschreiben zu müssen
 public class MainMenuScreen implements Screen {
 
     final PMDungeon pmDungeon;
     private OrthographicCamera camera;
-    private Dungeon dungeon;
-    private Texture floorTexture;
-
     private PlayableCharacter hero;
+    private Dungeon dungeon;
+    private Room[] rooms;
 
     public MainMenuScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
@@ -29,8 +29,10 @@ public class MainMenuScreen implements Screen {
         camera.update();
 
         hero = new MaleKnight();
-        dungeon = new Dungeon();
-        floorTexture = new Texture("floor_1.png");
+        dungeon = new Dungeon(pmDungeon.batch);
+
+        DungeonConverter dungeonConverter = new DungeonConverter();
+        dungeon.setRooms(dungeonConverter.roomsFromJson("simple_dungeon.json"));
     }
 
     @Override
@@ -67,15 +69,10 @@ public class MainMenuScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
             camera.zoom += cameraZoomSpeed * Gdx.graphics.getDeltaTime();
         }
+        hero.handleInput(Gdx.input);
 
         pmDungeon.batch.begin();
-        for (float i = 0; i < Dungeon.HEIGHT; i++) {
-            for (float j = 0; j < Dungeon.WIDTH; j++) {
-                pmDungeon.batch.draw(floorTexture, i * floorTexture.getHeight(), j * floorTexture.getWidth());
-            }
-        }
-        //pmDungeon.font.draw(pmDungeon.batch, "Hello World!", Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
-        hero.handleInput(Gdx.input);
+        dungeon.render();
         pmDungeon.batch.draw(hero.getTexture(), hero.getOffsetFromStartX(), hero.getOffsetFromStartY());
         pmDungeon.batch.end();
     }
@@ -102,6 +99,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        floorTexture.dispose();
+        dungeon.dispose();
     }
 }

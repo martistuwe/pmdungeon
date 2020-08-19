@@ -16,8 +16,8 @@ public class PMDungeon extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        DungeonConverter dungeonConverter = new DungeonConverter();
-        dungeonConverter.dungeonFromJson("simple_dungeon.json");
+        //DungeonConverter dungeonConverter = new DungeonConverter();
+        //dungeonConverter.dungeonFromJson("simple_dungeon.json");
         this.setScreen(new MainMenuScreen(this));
     }
 
