@@ -7,6 +7,11 @@ import de.fhbielefeld.pmdungeon.util.dungeonconverter.Room;
 
 public class Dungeon {
 
+    public enum Tile {
+        FLOOR,
+        WALL,
+    }
+
     private SpriteBatch batch;
     private Room[] rooms;
 
@@ -14,6 +19,14 @@ public class Dungeon {
     private Texture wallTextureMid;
     private Texture wallTextureLeft;
     private Texture wallTextureRight;
+
+    private int length;
+    private int height;
+    public Tile[][] tiles;
+
+    public Dungeon(int x, int y) {
+        tiles = new Tile[x][y];
+    }
 
     public Dungeon(SpriteBatch batch) {
         this.batch = batch;
@@ -56,6 +69,14 @@ public class Dungeon {
 
     public void setRooms(Room[] rooms) {
         this.rooms = rooms;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void dispose() {

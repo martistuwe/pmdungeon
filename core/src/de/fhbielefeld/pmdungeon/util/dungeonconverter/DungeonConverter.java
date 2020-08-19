@@ -1,6 +1,5 @@
 package de.fhbielefeld.pmdungeon.util.dungeonconverter;
 
-import com.badlogic.gdx.utils.Array;
 import com.google.gson.Gson;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 
@@ -12,14 +11,14 @@ public class DungeonConverter {
 
     public Dungeon dungeonFromJson(String filename) {
         String jsonString = readFile(filename);
-        Room[] rooms = mapToArray(jsonString);
+        Room[] rooms = mapJsonToArray(jsonString);
 
         return null;
     }
 
     public Room[] roomsFromJson(String filename) {
         String jsonString = readFile(filename);
-        return mapToArray(jsonString);
+        return mapJsonToArray(jsonString);
     }
 
     private String readFile(String filename) {
@@ -38,39 +37,60 @@ public class DungeonConverter {
         return null;
     }
 
-    private Room[] mapToArray(String jsonString) {
+    private Room[] mapJsonToArray(String jsonString) {
         Gson gson = new Gson();
         return gson.fromJson(jsonString, Room[].class);
     }
 
     private Dungeon convertToDungeon(Room[] rooms) {
+        Coordinate globalOffset = getOffset(rooms);
+        Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
+        Dungeon dungeon = new Dungeon(dungeonSize.getX(), dungeonSize.getY());
         for (Room room : rooms) {
+            for (Coordinate shape : room.getShape()) {
 
+            }
+            //convert to 2D tile array
         }
         return null;
     }
 
-    private void getDungeonSize(Room[] rooms) {
-        int dungeonWidth = 0, dungeonHeight = 0;
+    /**
+     * Get the position-offset of the generated dungeon to move it in the positive area of the grid.
+     * @param rooms Dungeon as array of rooms
+     * @return Coordinate offset
+     */
+    private Coordinate getOffset(Room[] rooms) {
+        Coordinate offset = new Coordinate(0, 0);
         for (Room room : rooms) {
-            int maxWidth = Integer.MIN_VALUE, minWidth = Integer.MAX_VALUE;
-            int maxHeight = Integer.MIN_VALUE, minHeight = Integer.MAX_VALUE;
-            for (Coordinate coordinate : room.getShape()) {
-                if (coordinate.getX() > maxWidth) {
-                    maxWidth = coordinate.getX();
-                }
-                if (coordinate.getX() < minWidth) {
-                    minWidth = coordinate.getX();
-                }
-                if (coordinate.getY() > maxHeight) {
-                    maxHeight = coordinate.getY();
-                }
-                if (coordinate.getY() < minHeight) {
-                    minHeight = coordinate.getY();
-                }
-            }
-            dungeonWidth += (maxWidth - minHeight);
-            dungeonHeight += (maxHeight - minHeight);
+            if (room.getPosition().getX() < offset.getX()) offset.setX(room.getPosition().getX());
+            if (room.getPosition().getY() < offset.getY()) offset.setY(room.getPosition().getY());
         }
+        offset.setX(offset.getX() * -1);
+        offset.setY(offset.getY() * -1);
+        return offset;
+    }
+
+    /**
+     * Calculates the extensions of the dungeon in every direction.
+     * @param globalOffset offset to only use the positive area of the grid.
+     * @param rooms Dungeon as array of rooms
+     * @return Size of the dungeon
+     */
+    private Coordinate getDungeonSize(Coordinate globalOffset, Room[] rooms) {
+        Coordinate size = new Coordinate(0,0);
+        for (Room room : rooms) {
+            int maxX = Integer.MIN_VALUE;
+            int maxY = Integer.MIN_VALUE;
+            for (Coordinate shape : room.getShape()) {
+                if (maxX < shape.getX()) maxX = shape.getX();
+                if (maxY < shape.getY()) maxY = shape.getY();
+            }
+            int roomX = room.getPosition().getX() + globalOffset.getX() + maxX;
+            int roomY = room.getPosition().getY() + globalOffset.getY() + maxY;
+            if (size.getX() < roomX) size.setX(roomX);
+            if (size.getY() < roomY) size.setY(roomY);
+        }
+        return size;
     }
 }
