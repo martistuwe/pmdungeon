@@ -12,8 +12,7 @@ public class DungeonConverter {
     public Dungeon dungeonFromJson(String filename) {
         String jsonString = readFile(filename);
         Room[] rooms = mapJsonToArray(jsonString);
-
-        return null;
+        return convertToDungeon(rooms);
     }
 
     public Room[] roomsFromJson(String filename) {
@@ -45,14 +44,47 @@ public class DungeonConverter {
     private Dungeon convertToDungeon(Room[] rooms) {
         Coordinate globalOffset = getOffset(rooms);
         Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
-        Dungeon dungeon = new Dungeon(dungeonSize.getX(), dungeonSize.getY());
+        Dungeon dungeon = new Dungeon(dungeonSize.getX() + 16, dungeonSize.getY() + 16);
         for (Room room : rooms) {
-            for (Coordinate shape : room.getShape()) {
+            Coordinate[] node = room.getShape();
+            int offsetX = room.getPosition().getX() + globalOffset.getX();
+            int offsetY = room.getPosition().getY() + globalOffset.getY();
+            for (int i = 0; i < node.length; i++) {
+                Coordinate edgeFrom = node[i];
+                Coordinate edgeTo;
+                if (node.length == i + 1 ) {
+                    edgeTo = node[0];
+                } else {
+                    edgeTo = node[i + 1];
+                }
 
+                //increasing Y same X
+                for (int j = edgeFrom.getY(); j < edgeTo.getY(); j++) {
+                    dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
+                }
+                //increasing X same Y
+                for (int j = edgeFrom.getX(); j < edgeTo.getX(); j++) {
+                    dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
+                }
+                //decreasing Y same X
+                for (int j = edgeFrom.getY(); j > edgeTo.getY(); j--) {
+                    dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
+                }
+                //decreasing X same Y
+                for (int j = edgeFrom.getX(); j > edgeTo.getX() ; j--) {
+                    dungeon.tiles[j + offsetY][edgeFrom.getX() + offsetX] = Dungeon.Tile.FLOOR;
+                }
             }
-            //convert to 2D tile array
         }
-        return null;
+        return dungeon;
+    }
+
+    private void convertRoomDrawEdges(Coordinate offset, Room room, Dungeon dungeon) {
+        //
+    }
+
+    private void fillTiles(Coordinate from, Coordinate to, Dungeon.Tile kind) {
+        // check if on same axis and fill row
     }
 
     /**

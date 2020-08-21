@@ -29,10 +29,10 @@ public class MainMenuScreen implements Screen {
         camera.update();
 
         hero = new MaleKnight();
-        dungeon = new Dungeon(pmDungeon.batch);
 
         DungeonConverter dungeonConverter = new DungeonConverter();
-        dungeon.setRooms(dungeonConverter.roomsFromJson("simple_dungeon.json"));
+        //dungeon.setRooms(dungeonConverter.roomsFromJson("simple_dungeon.json"));
+        dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
     }
 
     @Override
@@ -72,7 +72,8 @@ public class MainMenuScreen implements Screen {
         hero.handleInput(Gdx.input);
 
         pmDungeon.batch.begin();
-        dungeon.render();
+        //dungeon.render();
+        dungeon.renderTiles(pmDungeon.batch);
         pmDungeon.batch.draw(hero.getTexture(), hero.getOffsetFromStartX(), hero.getOffsetFromStartY());
         pmDungeon.batch.end();
     }

@@ -10,9 +10,9 @@ public class Dungeon {
     public enum Tile {
         FLOOR,
         WALL,
+        EMPTY,
     }
 
-    private SpriteBatch batch;
     private Room[] rooms;
 
     private Texture floorTexture;
@@ -20,24 +20,30 @@ public class Dungeon {
     private Texture wallTextureLeft;
     private Texture wallTextureRight;
 
-    private int length;
+    private int width;
     private int height;
     public Tile[][] tiles;
 
-    public Dungeon(int x, int y) {
-        tiles = new Tile[x][y];
-    }
-
-    public Dungeon(SpriteBatch batch) {
-        this.batch = batch;
-
+    public Dungeon() {
         floorTexture = new Texture("floor_1.png");
         wallTextureMid = new Texture("wall_mid.png");
         wallTextureLeft = new Texture("wall_side_mid_left.png");
         wallTextureRight = new Texture("wall_side_mid_right.png");
     }
 
-    public void render() {
+    public Dungeon(int x, int y) {
+        this();
+        this.width = x;
+        this.height = y;
+        tiles = new Tile[x][y];
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                tiles[i][j] = Tile.EMPTY;
+            }
+        }
+    }
+
+    public void render(SpriteBatch batch) {
         for (Room room : rooms) {
             Coordinate[] shape = room.getShape();
             for (int i = 0; i < shape.length; i++) {
@@ -67,12 +73,22 @@ public class Dungeon {
         }
     }
 
+    public void renderTiles(SpriteBatch batch) {
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (this.tiles[i][j] == Tile.FLOOR) {
+                    batch.draw(floorTexture, i * floorTexture.getWidth(), j * floorTexture.getHeight());
+                }
+            }
+        }
+    }
+
     public void setRooms(Room[] rooms) {
         this.rooms = rooms;
     }
 
-    public int getLength() {
-        return length;
+    public int getWidth() {
+        return width;
     }
 
     public int getHeight() {
