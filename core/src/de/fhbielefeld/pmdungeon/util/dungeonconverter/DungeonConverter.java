@@ -6,7 +6,6 @@ import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-// helper class to convert https://github.com/OndrejNepozitek/Edgar-DotNet generated dungeons to use in game
 public class DungeonConverter {
 
     public Dungeon dungeonFromJson(String filename) {
@@ -24,7 +23,7 @@ public class DungeonConverter {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
             StringBuilder stringBuilder = new StringBuilder();
-            String line = null;
+            String line;
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
@@ -46,45 +45,47 @@ public class DungeonConverter {
         Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
         Dungeon dungeon = new Dungeon(dungeonSize.getX(), dungeonSize.getY());
         for (Room room : rooms) {
-            Coordinate[] node = room.getShape();
-            int offsetX = room.getPosition().getX() + globalOffset.getX();
-            int offsetY = room.getPosition().getY() + globalOffset.getY();
-            for (int i = 0; i < node.length; i++) {
-                Coordinate edgeFrom = node[i];
-                Coordinate edgeTo;
-                if (node.length == i + 1 ) {
-                    edgeTo = node[0];
-                } else {
-                    edgeTo = node[i + 1];
-                }
-
-                //increasing Y same X
-                for (int j = edgeFrom.getY(); j < edgeTo.getY(); j++) {
-                    dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
-                }
-                //increasing X same Y
-                for (int j = edgeFrom.getX(); j < edgeTo.getX(); j++) {
-                    dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
-                }
-                //decreasing Y same X
-                for (int j = edgeFrom.getY(); j > edgeTo.getY(); j--) {
-                    dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
-                }
-                //decreasing X same Y
-                for (int j = edgeFrom.getX(); j > edgeTo.getX() ; j--) {
-                    dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
-                }
-            }
+            drawRoomEdges(globalOffset, room, dungeon);
         }
         return dungeon;
     }
 
-    private void convertRoomDrawEdges(Coordinate offset, Room room, Dungeon dungeon) {
-        //
-    }
+    /**
+     * Draws the outline edges of a room with floor tiles
+     * @param globalOffset Offset of the whole dungeon
+     * @param room The room that should be drawn
+     * @param dungeon The dungeon in which the room should be drawn
+     */
+    private void drawRoomEdges(Coordinate globalOffset, Room room, Dungeon dungeon) {
+        Coordinate[] node = room.getShape();
+        int offsetX = room.getPosition().getX() + globalOffset.getX();
+        int offsetY = room.getPosition().getY() + globalOffset.getY();
+        for (int i = 0; i < node.length; i++) {
+            Coordinate edgeFrom = node[i];
+            Coordinate edgeTo;
+            if (node.length == i + 1 ) {
+                edgeTo = node[0];
+            } else {
+                edgeTo = node[i + 1];
+            }
 
-    private void fillTiles(Coordinate from, Coordinate to, Dungeon.Tile kind) {
-        // check if on same axis and fill row
+            //increasing Y same X
+            for (int j = edgeFrom.getY(); j < edgeTo.getY(); j++) {
+                dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
+            }
+            //increasing X same Y
+            for (int j = edgeFrom.getX(); j < edgeTo.getX(); j++) {
+                dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
+            }
+            //decreasing Y same X
+            for (int j = edgeFrom.getY(); j > edgeTo.getY(); j--) {
+                dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
+            }
+            //decreasing X same Y
+            for (int j = edgeFrom.getX(); j > edgeTo.getX() ; j--) {
+                dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
+            }
+        }
     }
 
     /**
@@ -104,7 +105,7 @@ public class DungeonConverter {
     }
 
     /**
-     * Calculates the extensions of the dungeon in every direction.
+     * Calculates the extensions of the dungeon in x and y direction.
      * @param globalOffset offset to only use the positive area of the grid.
      * @param rooms Dungeon as array of rooms
      * @return Size of the dungeon
