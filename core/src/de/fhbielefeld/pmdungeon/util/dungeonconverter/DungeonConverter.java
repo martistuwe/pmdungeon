@@ -44,7 +44,7 @@ public class DungeonConverter {
     private Dungeon convertToDungeon(Room[] rooms) {
         Coordinate globalOffset = getOffset(rooms);
         Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
-        Dungeon dungeon = new Dungeon(dungeonSize.getX() + 16, dungeonSize.getY() + 16);
+        Dungeon dungeon = new Dungeon(dungeonSize.getX(), dungeonSize.getY());
         for (Room room : rooms) {
             Coordinate[] node = room.getShape();
             int offsetX = room.getPosition().getX() + globalOffset.getX();
@@ -72,7 +72,7 @@ public class DungeonConverter {
                 }
                 //decreasing X same Y
                 for (int j = edgeFrom.getX(); j > edgeTo.getX() ; j--) {
-                    dungeon.tiles[j + offsetY][edgeFrom.getX() + offsetX] = Dungeon.Tile.FLOOR;
+                    dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
                 }
             }
         }
@@ -110,7 +110,7 @@ public class DungeonConverter {
      * @return Size of the dungeon
      */
     private Coordinate getDungeonSize(Coordinate globalOffset, Room[] rooms) {
-        Coordinate size = new Coordinate(0,0);
+        Coordinate size = new Coordinate(Integer.MIN_VALUE,Integer.MIN_VALUE);
         for (Room room : rooms) {
             int maxX = Integer.MIN_VALUE;
             int maxY = Integer.MIN_VALUE;
@@ -120,8 +120,8 @@ public class DungeonConverter {
             }
             int roomX = room.getPosition().getX() + globalOffset.getX() + maxX;
             int roomY = room.getPosition().getY() + globalOffset.getY() + maxY;
-            if (size.getX() < roomX) size.setX(roomX);
-            if (size.getY() < roomY) size.setY(roomY);
+            if (size.getX() <= roomX) size.setX(roomX + 1);
+            if (size.getY() <= roomY) size.setY(roomY + 1);
         }
         return size;
     }
