@@ -73,28 +73,28 @@ public class DungeonConverter {
 
             //increasing Y same X
             for (int j = edgeFrom.getY(); j < edgeTo.getY(); j++) {
-                dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
+                dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.WALL;
             }
             //increasing X same Y
             for (int j = edgeFrom.getX(); j < edgeTo.getX(); j++) {
-                dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
+                dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.WALL;
             }
             //decreasing Y same X
             for (int j = edgeFrom.getY(); j > edgeTo.getY(); j--) {
-                dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.FLOOR;
+                dungeon.tiles[edgeFrom.getX() + offsetX][j + offsetY] = Dungeon.Tile.WALL;
             }
             //decreasing X same Y
             for (int j = edgeFrom.getX(); j > edgeTo.getX(); j--) {
-                dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.FLOOR;
+                dungeon.tiles[j + offsetX][edgeFrom.getY() + offsetY] = Dungeon.Tile.WALL;
             }
         }
     }
 
     private void fillRoom(Room room, Dungeon dungeon, Coordinate globalOffset) {
-        int startX = room.getPosition().getX() + globalOffset.getX() + 1;
-        int startY = room.getPosition().getY() + globalOffset.getY() + 1;
+        int startX = room.getPosition().getX() + room.getShape()[0].getX() + globalOffset.getX() + 1;
+        int startY = room.getPosition().getY() + room.getShape()[0].getY() + globalOffset.getY() + 1;
         while (dungeon.tiles[startX][startY] == Dungeon.Tile.EMPTY) {
-            while (dungeon.tiles[startX][startY - 1] == Dungeon.Tile.EMPTY) {
+            while (dungeon.tiles[startX][startY - 1] != Dungeon.Tile.WALL) {
                 startY--;
             }
             while (dungeon.tiles[startX][startY] == Dungeon.Tile.EMPTY) {
@@ -102,7 +102,6 @@ public class DungeonConverter {
                 startY++;
             }
             startX++;
-            startY = room.getPosition().getY() + globalOffset.getY() + 1;
         }
     }
 

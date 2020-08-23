@@ -32,7 +32,7 @@ public class MainMenuScreen implements Screen {
 
         DungeonConverter dungeonConverter = new DungeonConverter();
         //dungeon.setRooms(dungeonConverter.roomsFromJson("simple_dungeon.json"));
-        dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
+        dungeon = dungeonConverter.dungeonFromJson("boss_dungeon.json");
     }
 
     @Override

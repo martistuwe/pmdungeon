@@ -78,6 +78,8 @@ public class Dungeon {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j] == Tile.FLOOR) {
                     batch.draw(floorTexture, i * floorTexture.getWidth(), j * floorTexture.getHeight());
+                } else if (this.tiles[i][j] == Tile.WALL) {
+                    batch.draw(wallTextureMid, i * floorTexture.getWidth(), j * floorTexture.getHeight());
                 }
             }
         }
