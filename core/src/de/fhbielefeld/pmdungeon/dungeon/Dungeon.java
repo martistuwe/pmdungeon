@@ -85,6 +85,19 @@ public class Dungeon {
         }
     }
 
+    public Tile getTileAt(int x, int y) {
+        if (x > 0 && x < width && y > 0 && y < height) {
+            return tiles[x][y];
+        }
+        return null;
+    }
+
+    public void setTileAt(int x, int y, Tile tile) {
+        if (x > 0 && x < width && y > 0 && y < height) {
+            tiles[x][y] = tile;
+        }
+    }
+
     public void setRooms(Room[] rooms) {
         this.rooms = rooms;
     }

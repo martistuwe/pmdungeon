@@ -23,6 +23,16 @@ public class Room {
         this.doors = doors;
     }
 
+    public Coordinate getExtension() {
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        for (Coordinate shape : this.getShape()) {
+            if (maxX < shape.getX()) maxX = shape.getX();
+            if (maxY < shape.getY()) maxY = shape.getY();
+        }
+        return new Coordinate(maxX, maxY);
+    }
+
     public int getNode() {
         return node;
     }

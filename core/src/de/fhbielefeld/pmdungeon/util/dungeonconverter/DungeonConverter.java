@@ -44,6 +44,7 @@ public class DungeonConverter {
         Coordinate globalOffset = getOffset(rooms);
         Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
         Dungeon dungeon = new Dungeon(dungeonSize.getX(), dungeonSize.getY());
+        dungeon.setRooms(rooms);
         for (Room room : rooms) {
             drawRoomEdges(room, dungeon, globalOffset);
             fillRoom(room, dungeon, globalOffset);
@@ -93,15 +94,16 @@ public class DungeonConverter {
     private void fillRoom(Room room, Dungeon dungeon, Coordinate globalOffset) {
         int startX = room.getPosition().getX() + room.getShape()[0].getX() + globalOffset.getX() + 1;
         int startY = room.getPosition().getY() + room.getShape()[0].getY() + globalOffset.getY() + 1;
-        while (dungeon.tiles[startX][startY] == Dungeon.Tile.EMPTY) {
-            while (dungeon.tiles[startX][startY - 1] != Dungeon.Tile.WALL) {
+        while (dungeon.getTileAt(startX, startY) == Dungeon.Tile.EMPTY) {
+            while (dungeon.getTileAt(startX, startY - 1) != Dungeon.Tile.WALL) {
                 startY--;
             }
-            while (dungeon.tiles[startX][startY] == Dungeon.Tile.EMPTY) {
-                dungeon.tiles[startX][startY] = Dungeon.Tile.FLOOR;
+            while (dungeon.getTileAt(startX, startY) == Dungeon.Tile.EMPTY) {
+                dungeon.setTileAt(startX, startY, Dungeon.Tile.FLOOR);
                 startY++;
             }
             startX++;
+            startY = room.getPosition().getY() + room.getShape()[0].getY() + globalOffset.getY() + 1;
         }
     }
 
@@ -123,7 +125,7 @@ public class DungeonConverter {
     }
 
     /**
-     * Calculates the extensions of the dungeon in x and y direction.
+     * Calculates the extension of the dungeon in x and y direction.
      *
      * @param globalOffset offset to only use the positive area of the grid.
      * @param rooms        Dungeon as array of rooms
@@ -131,7 +133,7 @@ public class DungeonConverter {
      */
     private Coordinate getDungeonSize(Coordinate globalOffset, Room[] rooms) {
         Coordinate size = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (Room room : rooms) {
+        for (Room room : rooms) { // Replace with Room.getSize
             int maxX = Integer.MIN_VALUE;
             int maxY = Integer.MIN_VALUE;
             for (Coordinate shape : room.getShape()) {
