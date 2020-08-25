@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
 public abstract class PlayableCharacter {
 
@@ -21,6 +22,11 @@ public abstract class PlayableCharacter {
 
     protected PlayableCharacter(SpriteBatch batch) {
         this.batch = batch;
+    }
+
+    public void setPosition(Coordinate position) {
+        this.positionX = position.getX();
+        this.positionY = position.getY();
     }
 
     public void handleInput(Input input) {

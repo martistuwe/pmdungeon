@@ -43,6 +43,13 @@ public class Dungeon {
         }
     }
 
+    public Coordinate getStart() {
+        Coordinate start = rooms[0].getCenter();
+        start.setX(start.getX() + rooms[0].getPosition().getX());
+        start.setY(start.getY() + rooms[0].getPosition().getY());
+        return start;
+    }
+
     public void render(SpriteBatch batch) {
         for (Room room : rooms) {
             Coordinate[] shape = room.getShape();

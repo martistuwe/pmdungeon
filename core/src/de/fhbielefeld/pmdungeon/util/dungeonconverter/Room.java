@@ -26,11 +26,18 @@ public class Room {
     public Coordinate getExtension() {
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
-        for (Coordinate shape : this.getShape()) {
-            if (maxX < shape.getX()) maxX = shape.getX();
-            if (maxY < shape.getY()) maxY = shape.getY();
+        for (Coordinate coordinate : this.getShape()) {
+            if (maxX < coordinate.getX()) maxX = coordinate.getX();
+            if (maxY < coordinate.getY()) maxY = coordinate.getY();
         }
         return new Coordinate(maxX, maxY);
+    }
+
+    public Coordinate getCenter() {
+        Coordinate extension = getExtension();
+        extension.setX(extension.getX() / 2);
+        extension.setY(extension.getY() / 2);
+        return extension;
     }
 
     public int getNode() {

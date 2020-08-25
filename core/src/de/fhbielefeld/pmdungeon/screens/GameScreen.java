@@ -8,6 +8,7 @@ import de.fhbielefeld.pmdungeon.PMDungeon;
 import de.fhbielefeld.pmdungeon.characters.MaleKnight;
 import de.fhbielefeld.pmdungeon.characters.PlayableCharacter;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
@@ -22,9 +23,9 @@ public class GameScreen implements Screen {
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
+        hero = new MaleKnight(pmDungeon.batch);
         setupCamera();
         setupDungeon();
-        hero = new MaleKnight(pmDungeon.batch);
     }
 
     private void setupCamera() {
@@ -36,6 +37,9 @@ public class GameScreen implements Screen {
     private void setupDungeon() {
         DungeonConverter dungeonConverter = new DungeonConverter();
         dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
+        //Coordinate startPosition = dungeon.getStart();
+        Coordinate startPosition = new Coordinate(16, 16);
+        hero.setPosition(startPosition);
     }
 
     @Override
