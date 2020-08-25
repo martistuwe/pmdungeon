@@ -37,14 +37,12 @@ public class DungeonConverter {
      */
     private String readFile(String filename) {
         String returnValue = null;
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filename))) {
             StringBuilder stringBuilder = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
-            bufferedReader.close();
             returnValue = stringBuilder.toString();
         } catch (Exception e) {
             Gdx.app.log("Error", "Could not read Dungeon-File", e);
