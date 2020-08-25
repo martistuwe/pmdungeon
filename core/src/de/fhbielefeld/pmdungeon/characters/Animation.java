@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Animation {
 
-    private Array<Texture> textures;
+    private final Array<Texture> textures;
     private int currentFrameIndex = 0;
     private float maxFrameTime = 0;
     private float currentFrameTime = 0;

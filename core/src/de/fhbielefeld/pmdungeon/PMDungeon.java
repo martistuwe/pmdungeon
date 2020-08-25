@@ -3,8 +3,7 @@ package de.fhbielefeld.pmdungeon;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.fhbielefeld.pmdungeon.screens.MainMenuScreen;
-import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
+import de.fhbielefeld.pmdungeon.screens.GameScreen;
 
 public class PMDungeon extends Game {
 
@@ -15,10 +14,7 @@ public class PMDungeon extends Game {
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-
-        //DungeonConverter dungeonConverter = new DungeonConverter();
-        //dungeonConverter.dungeonFromJson("simple_dungeon.json");
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new GameScreen(this));
     }
 
     @Override
