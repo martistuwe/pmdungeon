@@ -1,6 +1,8 @@
 package de.fhbielefeld.pmdungeon.util.dungeonconverter;
 
+import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 
 import java.io.BufferedReader;
@@ -8,9 +10,17 @@ import java.io.FileReader;
 
 public class DungeonConverter {
 
+    /**
+     * Converts the json under the given path and filename to a dungeon
+     *
+     * @param filename Path and filename
+     * @return The converted dungeon or null if failed
+     */
     public Dungeon dungeonFromJson(String filename) {
         String jsonString = readFile(filename);
+        if (jsonString == null) return null;
         Room[] rooms = mapJsonToArray(jsonString);
+        if (rooms == null) return null;
         return convertToDungeon(rooms);
     }
 
@@ -19,7 +29,14 @@ public class DungeonConverter {
         return mapJsonToArray(jsonString);
     }
 
+    /**
+     * Reads the given file from the filesystem
+     *
+     * @param filename Path an filename
+     * @return Content of the file or null if  failed
+     */
     private String readFile(String filename) {
+        String returnValue = null;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
             StringBuilder stringBuilder = new StringBuilder();
@@ -28,18 +45,36 @@ public class DungeonConverter {
                 stringBuilder.append(line);
             }
             bufferedReader.close();
-            return stringBuilder.toString();
+            returnValue = stringBuilder.toString();
         } catch (Exception e) {
+            Gdx.app.log("Error", "Could not read Dungeon-File", e);
         }
-        //TODO Exception handling
-        return null;
+        return returnValue;
     }
 
+    /**
+     * Uses Gson to map json to an array of rooms
+     *
+     * @param jsonString Json representing a dungeon
+     * @return Array of rooms representing the dungeon or null if failed
+     */
     private Room[] mapJsonToArray(String jsonString) {
-        Gson gson = new Gson();
-        return gson.fromJson(jsonString, Room[].class);
+        Room[] returnValue = null;
+        try {
+            Gson gson = new Gson();
+            returnValue = gson.fromJson(jsonString, Room[].class);
+        } catch (JsonSyntaxException jse) {
+            Gdx.app.log("Error", "Could not convert json to object", jse);
+        }
+        return returnValue;
     }
 
+    /**
+     * Transforms the given rooms with der given local coordinates into the global coordinates of the dungeon
+     *
+     * @param rooms Rooms the dungeon consists of
+     * @return Generated dungeon
+     */
     private Dungeon convertToDungeon(Room[] rooms) {
         Coordinate globalOffset = getOffset(rooms);
         Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
@@ -55,9 +90,9 @@ public class DungeonConverter {
     /**
      * Draws the outline edges of a room with floor tiles
      *
-     * @param globalOffset Offset of the whole dungeon
      * @param room         The room that should be drawn
      * @param dungeon      The dungeon in which the room should be drawn
+     * @param globalOffset Offset of the whole dungeon
      */
     private void drawRoomEdges(Room room, Dungeon dungeon, Coordinate globalOffset) {
         Coordinate[] node = room.getShape();
@@ -91,6 +126,13 @@ public class DungeonConverter {
         }
     }
 
+    /**
+     * Fills a room which walls where defined prior with floor tiles
+     *
+     * @param room         Room which should be filled
+     * @param dungeon      Dungeon in which the room is
+     * @param globalOffset Offset of the whole dungeon
+     */
     private void fillRoom(Room room, Dungeon dungeon, Coordinate globalOffset) {
         boolean foundEmptySpace = true;
         int startX = room.getPosition().getX() + room.getShape()[0].getX() + globalOffset.getX() + 1;
