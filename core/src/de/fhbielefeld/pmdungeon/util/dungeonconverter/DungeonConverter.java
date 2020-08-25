@@ -77,6 +77,7 @@ public class DungeonConverter {
         Coordinate globalOffset = getOffset(rooms);
         Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
         Dungeon dungeon = new Dungeon(dungeonSize.getX(), dungeonSize.getY());
+        dungeon.setOffset(globalOffset);
         dungeon.setRooms(rooms);
         for (Room room : rooms) {
             drawRoomEdges(room, dungeon, globalOffset);

@@ -20,6 +20,7 @@ public class Dungeon {
     private Texture wallTextureLeft;
     private Texture wallTextureRight;
 
+    private Coordinate offset;
     private int width;
     private int height;
     public Tile[][] tiles;
@@ -45,8 +46,8 @@ public class Dungeon {
 
     public Coordinate getStart() {
         Coordinate start = rooms[0].getCenter();
-        start.setX(start.getX() + rooms[0].getPosition().getX());
-        start.setY(start.getY() + rooms[0].getPosition().getY());
+        start.setX(rooms[0].getCenter().getX() + rooms[0].getPosition().getX() + this.offset.getX());
+        start.setY(rooms[0].getCenter().getY() + rooms[0].getPosition().getY() + this.offset.getY());
         return start;
     }
 
@@ -115,6 +116,14 @@ public class Dungeon {
 
     public int getHeight() {
         return height;
+    }
+
+    public Coordinate getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Coordinate offset) {
+        this.offset = offset;
     }
 
     public void dispose() {
