@@ -3,34 +3,45 @@ package de.fhbielefeld.pmdungeon.characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class PlayableCharacter {
+
+    protected SpriteBatch batch;
 
     protected Animation idleAnimation;
     protected Animation runAnimation;
 
     protected boolean idle;
+    protected boolean facingLeft = false;
 
-    protected float offsetFromStartX = 0;
-    protected float offsetFromStartY = 0;
+    protected float positionX = 0;
+    protected float positionY = 0;
+
+    protected PlayableCharacter(SpriteBatch batch) {
+        this.batch = batch;
+    }
 
     public void handleInput(Input input) {
         idle = true;
         if (input.isKeyPressed(Input.Keys.W)) {
-            offsetFromStartY += getMovementSpeed() * Gdx.graphics.getDeltaTime();
+            positionY += getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
         }
         if (input.isKeyPressed(Input.Keys.A)) {
-            offsetFromStartX -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
+            positionX -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
+            facingLeft = true;
         }
         if (input.isKeyPressed(Input.Keys.S)) {
-            offsetFromStartY -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
+            positionY -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
         }
         if (input.isKeyPressed(Input.Keys.D)) {
-            offsetFromStartX += getMovementSpeed() * Gdx.graphics.getDeltaTime();
+            positionX += getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
+            facingLeft = false;
         }
     }
 
@@ -39,15 +50,15 @@ public abstract class PlayableCharacter {
     public Texture getTexture() {
         if (idle) {
             return this.idleAnimation.getCurrentTexture();
+        } else {
+            return this.runAnimation.getCurrentTexture();
         }
-        return this.runAnimation.getCurrentTexture();
     }
 
-    public float getOffsetFromStartX() {
-        return offsetFromStartX;
-    }
-
-    public float getOffsetFromStartY() {
-        return offsetFromStartY;
+    public void render() {
+        Sprite sprite = new Sprite(this.getTexture());
+        sprite.flip(facingLeft, false);
+        sprite.setPosition(positionX, positionY);
+        sprite.draw(batch);
     }
 }

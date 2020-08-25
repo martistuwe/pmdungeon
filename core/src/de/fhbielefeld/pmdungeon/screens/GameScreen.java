@@ -24,7 +24,7 @@ public class GameScreen implements Screen {
         this.pmDungeon = pmDungeon;
         setupCamera();
         setupDungeon();
-        hero = new MaleKnight();
+        hero = new MaleKnight(pmDungeon.batch);
     }
 
     private void setupCamera() {
@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
 
         pmDungeon.batch.begin();
         dungeon.renderTiles(pmDungeon.batch);
-        pmDungeon.batch.draw(hero.getTexture(), hero.getOffsetFromStartX(), hero.getOffsetFromStartY());
+        hero.render();
         pmDungeon.batch.end();
     }
 
