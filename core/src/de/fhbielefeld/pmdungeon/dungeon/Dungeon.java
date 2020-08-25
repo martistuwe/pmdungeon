@@ -50,7 +50,7 @@ public class Dungeon {
         return start;
     }
 
-    public void render(SpriteBatch batch) {
+    public void renderWalls(SpriteBatch batch) {
         for (Room room : rooms) {
             Coordinate[] shape = room.getShape();
             for (int i = 0; i < shape.length; i++) {
@@ -80,7 +80,7 @@ public class Dungeon {
         }
     }
 
-    public void renderTiles(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j] == Tile.FLOOR) {

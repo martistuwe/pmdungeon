@@ -82,7 +82,7 @@ public class GameScreen implements Screen {
         hero.handleInput(Gdx.input);
 
         pmDungeon.batch.begin();
-        dungeon.renderTiles(pmDungeon.batch);
+        dungeon.render(pmDungeon.batch);
         hero.render();
         pmDungeon.batch.end();
     }
