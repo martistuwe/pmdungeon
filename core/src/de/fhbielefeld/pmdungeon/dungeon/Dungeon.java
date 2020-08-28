@@ -25,10 +25,10 @@ public class Dungeon {
     public Tile[][] tiles;
 
     public Dungeon() {
-        floorTexture = new Texture("floor_1.png");
-        wallTextureMid = new Texture("wall_mid.png");
-        wallTextureLeft = new Texture("wall_side_mid_left.png");
-        wallTextureRight = new Texture("wall_side_mid_right.png");
+        floorTexture = new Texture("textures/dungeon/floor/floor_1.png");
+        wallTextureMid = new Texture("textures/dungeon/wall/wall_mid.png");
+        wallTextureLeft = new Texture("textures/dungeon/wall/wall_side_mid_left.png");
+        wallTextureRight = new Texture("textures/dungeon/wall/wall_side_mid_right.png");
     }
 
     public Dungeon(int x, int y) {
