@@ -40,6 +40,16 @@ public class Room {
         return extension;
     }
 
+    public void move(Coordinate offset) {
+        if (offset != null) {
+            this.position.add(offset);
+            for (Door door : doors) {
+                door.getFrom().add(offset);
+                door.getTo().add(offset);
+            }
+        }
+    }
+
     public int getNode() {
         return node;
     }

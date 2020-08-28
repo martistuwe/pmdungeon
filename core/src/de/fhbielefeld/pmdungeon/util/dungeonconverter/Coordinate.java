@@ -17,6 +17,13 @@ public class Coordinate {
         this.y = y;
     }
 
+    public void add(Coordinate coordinate) {
+        if (coordinate != null) {
+            this.x += coordinate.getX();
+            this.y += coordinate.getY();
+        }
+    }
+
     public int getX() {
         return x;
     }
