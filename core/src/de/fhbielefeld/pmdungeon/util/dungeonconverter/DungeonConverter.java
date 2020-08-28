@@ -81,7 +81,7 @@ public class DungeonConverter {
         for (Room room : rooms) {
             room.move(globalOffset);
             drawRoomEdges(room, dungeon);
-            //fillRoom(room, dungeon);
+            fillRoom(room, dungeon);
         }
         return dungeon;
     }

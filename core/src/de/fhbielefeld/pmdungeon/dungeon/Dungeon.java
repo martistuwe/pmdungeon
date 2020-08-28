@@ -64,16 +64,17 @@ public class Dungeon {
 
                 int positionOffsetX = room.getPosition().getX();
                 int positionOffsetY = room.getPosition().getY();
+                for (int j = wallFrom.getY(); j < wallTo.getY(); j++) {
+                    batch.draw(floorTexture, (wallFrom.getX() + positionOffsetX) * floorTexture.getWidth(), (j + positionOffsetY) * floorTexture.getHeight());
+                    batch.draw(wallTextureRight, (wallFrom.getX() + positionOffsetX) * floorTexture.getWidth(), (j + positionOffsetY) * floorTexture.getHeight());
+                }
                 for (int j = wallFrom.getX(); j < wallTo.getX(); j++) {
                     batch.draw(wallTextureMid, (j + positionOffsetX) * floorTexture.getWidth(), (wallFrom.getY() + positionOffsetY) * floorTexture.getHeight());
                 }
-                for (int j = wallFrom.getY(); j <= wallTo.getY(); j++) {
-                    batch.draw(wallTextureLeft, (wallFrom.getX() + positionOffsetX) * floorTexture.getWidth(), (j + positionOffsetY) * floorTexture.getHeight());
-                }
                 for (int j = wallFrom.getX(); j > wallTo.getX(); j--) {
-                    batch.draw(wallTextureMid, (j + positionOffsetX) * floorTexture.getWidth(), (wallFrom.getY() + positionOffsetY) * floorTexture.getHeight());
+                    batch.draw(wallTextureMid, (j + positionOffsetX - 1) * floorTexture.getWidth(), (wallFrom.getY() + positionOffsetY) * floorTexture.getHeight());
                 }
-                for (int j = wallFrom.getY(); j >= wallTo.getY(); j--) {
+                for (int j = wallFrom.getY(); j > wallTo.getY(); j--) {
                     batch.draw(wallTextureRight, (wallFrom.getX() + positionOffsetX) * floorTexture.getWidth(), (j + positionOffsetY) * floorTexture.getHeight());
                 }
             }
@@ -85,11 +86,10 @@ public class Dungeon {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j] == Tile.FLOOR) {
                     batch.draw(floorTexture, i * floorTexture.getWidth(), j * floorTexture.getHeight());
-                } else if (this.tiles[i][j] == Tile.WALL) {
-                    batch.draw(wallTextureMid, i * floorTexture.getWidth(), j * floorTexture.getHeight());
                 }
             }
         }
+        renderWalls(batch);
     }
 
     public Tile getTileAt(int x, int y) {
