@@ -83,6 +83,7 @@ public class GameScreen implements Screen {
         pmDungeon.batch.begin();
         dungeon.render(pmDungeon.batch);
         hero.render();
+        dungeon.renderWalls(pmDungeon.batch);
         pmDungeon.batch.end();
     }
 

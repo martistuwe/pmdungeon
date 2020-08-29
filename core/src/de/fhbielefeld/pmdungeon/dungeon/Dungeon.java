@@ -51,31 +51,12 @@ public class Dungeon {
     }
 
     public void renderWalls(SpriteBatch batch) {
-        for (Room room : rooms) {
-            Coordinate[] shape = room.getShape();
-            for (int i = 0; i < shape.length; i++) {
-                Coordinate wallFrom = shape[i];
-                Coordinate wallTo;
-                if (shape.length == i + 1) {
-                    wallTo = shape[0];
-                } else {
-                    wallTo = shape[i + 1];
-                }
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (this.tiles[i][j] == Tile.WALL) {
 
-                int positionOffsetX = room.getPosition().getX();
-                int positionOffsetY = room.getPosition().getY();
-                for (int j = wallFrom.getY(); j < wallTo.getY(); j++) {
-                    batch.draw(floorTexture, (wallFrom.getX() + positionOffsetX) * floorTexture.getWidth(), (j + positionOffsetY) * floorTexture.getHeight());
-                    batch.draw(wallTextureRight, (wallFrom.getX() + positionOffsetX) * floorTexture.getWidth(), (j + positionOffsetY) * floorTexture.getHeight());
-                }
-                for (int j = wallFrom.getX(); j < wallTo.getX(); j++) {
-                    batch.draw(wallTextureMid, (j + positionOffsetX) * floorTexture.getWidth(), (wallFrom.getY() + positionOffsetY) * floorTexture.getHeight());
-                }
-                for (int j = wallFrom.getX(); j > wallTo.getX(); j--) {
-                    batch.draw(wallTextureMid, (j + positionOffsetX - 1) * floorTexture.getWidth(), (wallFrom.getY() + positionOffsetY) * floorTexture.getHeight());
-                }
-                for (int j = wallFrom.getY(); j > wallTo.getY(); j--) {
-                    batch.draw(wallTextureRight, (wallFrom.getX() + positionOffsetX) * floorTexture.getWidth(), (j + positionOffsetY) * floorTexture.getHeight());
+
+                    batch.draw(floorTexture, i * floorTexture.getWidth(), j * floorTexture.getHeight());
                 }
             }
         }
@@ -89,7 +70,6 @@ public class Dungeon {
                 }
             }
         }
-        renderWalls(batch);
     }
 
     public Tile getTileAt(int x, int y) {
