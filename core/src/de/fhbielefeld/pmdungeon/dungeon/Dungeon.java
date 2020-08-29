@@ -51,12 +51,14 @@ public class Dungeon {
     }
 
     public void renderWalls(SpriteBatch batch) {
+        WallPattern wallPattern = new WallPattern();
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j] == Tile.WALL) {
-
-
-                    batch.draw(floorTexture, i * floorTexture.getWidth(), j * floorTexture.getHeight());
+                    wallPattern.fromDungeonTiles(this, new Coordinate(i, j));
+                    if (wallPattern.equals(WallPattern.cornerLeftTop)) {
+                        batch.draw(wallTextureMid, i * wallTextureMid.getWidth(), j * wallTextureMid.getHeight());
+                    }
                 }
             }
         }

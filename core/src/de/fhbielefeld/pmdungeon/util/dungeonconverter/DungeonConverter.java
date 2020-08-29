@@ -177,7 +177,7 @@ public class DungeonConverter {
      */
     private Coordinate getDungeonSize(Coordinate globalOffset, Room[] rooms) {
         Coordinate size = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (Room room : rooms) { //TODO Replace with Room.getSize
+        for (Room room : rooms) { //TODO Replace with Room.getExtensions
             int maxX = Integer.MIN_VALUE;
             int maxY = Integer.MIN_VALUE;
             for (Coordinate shape : room.getShape()) {
