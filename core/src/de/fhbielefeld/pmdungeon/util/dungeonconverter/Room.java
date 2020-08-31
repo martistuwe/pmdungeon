@@ -43,9 +43,11 @@ public class Room {
     public void move(Coordinate offset) {
         if (offset != null) {
             this.position.add(offset);
-            for (Door door : doors) {
-                door.getFrom().add(offset);
-                door.getTo().add(offset);
+            if (doors != null) {
+                for (Door door : doors) {
+                    door.getFrom().add(offset);
+                    door.getTo().add(offset);
+                }
             }
         }
     }

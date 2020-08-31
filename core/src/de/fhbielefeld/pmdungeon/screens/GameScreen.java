@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
 
     private void setupDungeon() {
         DungeonConverter dungeonConverter = new DungeonConverter();
-        dungeon = dungeonConverter.dungeonFromJson("boss_dungeon.json");
+        dungeon = dungeonConverter.dungeonFromJson("single_room.json");
         Coordinate startPosition = dungeon.getStart();
         hero.setPosition(startPosition);
     }
@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
         pmDungeon.batch.begin();
         dungeon.render(pmDungeon.batch);
         hero.render();
-        //dungeon.renderWalls(pmDungeon.batch);
+        dungeon.renderWalls(pmDungeon.batch);
         pmDungeon.batch.end();
     }
 

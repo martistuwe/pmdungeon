@@ -19,6 +19,11 @@ public class WallPattern {
             {N, W, N},
             {N, W, N}
     };
+    public static final Dungeon.Tile[][] verticalWithFloorRight = {
+            {N, W, N},
+            {N, W, F},
+            {N, W, N}
+    };
     public static final Dungeon.Tile[][] cornerLeftTop = {
             {N, N, N},
             {N, W, W},
@@ -49,13 +54,14 @@ public class WallPattern {
     }
 
     public void fromDungeonTiles(Dungeon dungeon, Coordinate center) {
+        // inverted arraycopy to account for internal mirrored representation
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 if (center.getX() - 1 + x < 0 || center.getX() - 1 + x >= dungeon.getWidth() ||
                         center.getY() - 1 + y < 0 || center.getY() - 1 + y >= dungeon.getHeight()) {
-                    this.pattern[x][y] = N;
+                    this.pattern[2 - y][x] = N;
                 } else {
-                    this.pattern[x][y] = dungeon.tiles[center.getX() - 1 + x][center.getY() - 1 + y];
+                    this.pattern[2 - y][x] = dungeon.tiles[center.getX() - 1 + x][center.getY() - 1 + y];
                 }
             }
         }
