@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
 
     private void setupDungeon() {
         DungeonConverter dungeonConverter = new DungeonConverter();
-        dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
+        dungeon = dungeonConverter.dungeonFromJson("boss_dungeon.json");
         Coordinate startPosition = dungeon.getStart();
         hero.setPosition(startPosition);
     }
@@ -78,12 +78,17 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
             camera.zoom += cameraZoomSpeed * Gdx.graphics.getDeltaTime();
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            dungeon.printToConsole();
+        }
+
         hero.handleInput(Gdx.input);
 
         pmDungeon.batch.begin();
         dungeon.render(pmDungeon.batch);
         hero.render();
-        dungeon.renderWalls(pmDungeon.batch);
+        //dungeon.renderWalls(pmDungeon.batch);
         pmDungeon.batch.end();
     }
 

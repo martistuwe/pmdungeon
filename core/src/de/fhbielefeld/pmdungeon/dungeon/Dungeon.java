@@ -74,6 +74,28 @@ public class Dungeon {
         }
     }
 
+    public void printToConsole() {
+        for (int i = 0; i < 20; i++) {
+            System.out.print("\n");
+        }
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                switch (tiles[y][x]) {
+                    case WALL:
+                        System.out.print("W ");
+                        break;
+                    case FLOOR:
+                        System.out.print("F ");
+                        break;
+                    case EMPTY:
+                        System.out.print("  ");
+                        break;
+                }
+            }
+            System.out.print("\n");
+        }
+    }
+
     public Tile getTileAt(int x, int y) {
         if (x > 0 && x < width && y > 0 && y < height) {
             return tiles[x][y];
