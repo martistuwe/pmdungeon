@@ -2,6 +2,8 @@ package de.fhbielefeld.pmdungeon.dungeon;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.fhbielefeld.pmdungeon.dungeon.wallpattern.WallPattern;
+import de.fhbielefeld.pmdungeon.dungeon.wallpattern.WallPatternFactory;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Room;
 
@@ -35,6 +37,8 @@ public class Dungeon {
     private int height;
     public Tile[][] tiles;
 
+    private final WallPatternFactory wallPatternFactory;
+
     public Dungeon() {
         floor = new Texture("textures/dungeon/floor/floor_1.png");
         wallMid = new Texture("textures/dungeon/wall/wall_mid.png");
@@ -49,6 +53,8 @@ public class Dungeon {
         wallRight = new Texture("textures/dungeon/wall/wall_right.png");
         wallCornerTopLeft = new Texture("textures/dungeon/wall/wall_corner_top_left.png");
         wallCornerTopRight = new Texture("textures/dungeon/wall/wall_corner_top_right.png");
+
+        wallPatternFactory = new WallPatternFactory();
     }
 
     public Dungeon(int x, int y) {
@@ -71,35 +77,12 @@ public class Dungeon {
     }
 
     public void renderWalls(SpriteBatch batch) {
-        WallPattern wallPattern = new WallPattern();
-        for (int i = 0; i < this.width; i++) {
-            for (int j = this.height - 1; j >= 0; j--) {
-                if (this.tiles[i][j] == Tile.WALL) {
-                    wallPattern.fromDungeonTiles(this, new Coordinate(i, j));
 
-                    if (wallPattern.equals(WallPattern.horizontal)) {
-                        batch.draw(wallMid, i * wallMid.getWidth(), j * wallMid.getHeight());
-                        batch.draw(wallTopMid, i * wallTopMid.getWidth(), (j + 1f) * wallTopMid.getHeight());
-                    } else if (wallPattern.equals(WallPattern.verticalWithFloorRight)) {
-                        batch.draw(floor, i * floor.getWidth(), j * floor.getHeight());
-                        batch.draw(wallSideMidRight, i * wallSideMidRight.getWidth(), j * wallSideMidRight.getHeight());
-                    } else if (wallPattern.equals(WallPattern.vertical)) {
-                        batch.draw(wallSideMidRight, i * wallSideMidRight.getWidth(), j * wallSideMidRight.getHeight());
-                    } else if (wallPattern.equals(WallPattern.cornerLeftBottom)) {
-                        batch.draw(wallCornerFrontLeft, i * wallCornerFrontLeft.getWidth(), j * wallCornerFrontLeft.getHeight());
-                        batch.draw(wallCornerBottomLeft, i * wallCornerBottomLeft.getWidth(), (j + 1f) * wallCornerBottomLeft.getHeight());
-                    } else if (wallPattern.equals(WallPattern.cornerLeftTop)) {
-                        batch.draw(wallCornerLeft, i * wallCornerLeft.getWidth(), j * wallCornerLeft.getHeight());
-                        batch.draw(wallCornerTopLeft, i * wallCornerTopLeft.getWidth(), (j + 1f) * wallCornerTopLeft.getHeight());
-                    } else if (wallPattern.equals(WallPattern.cornerRightTop)) {
-                        batch.draw(wallRight, (i - 1f) * wallRight.getWidth(), j * wallRight.getHeight());
-                        batch.draw(wallCornerTopRight, (i - 1f) * wallCornerTopRight.getWidth(), (j + 1f) * wallCornerTopRight.getHeight());
-                        batch.draw(wallSideMidRight, i * wallSideMidRight.getWidth(), j * wallSideMidRight.getHeight());
-                        batch.draw(wallSideTopRight, i * wallSideTopRight.getWidth(), (j + 1f) * wallSideTopRight.getHeight());
-                    } else if (wallPattern.equals(WallPattern.cornerRightBottom)) {
-                        batch.draw(wallSideFrontRight, i * wallSideFrontRight.getWidth(), j * wallSideFrontRight.getHeight());
-                        batch.draw(wallCornerFrontRight, (i - 1f) * wallCornerFrontRight.getWidth(), j * wallCornerFrontRight.getHeight());
-                    }
+        for (int x = 0; x < this.width; x++) {
+            for (int y = 0; y < this.height; y++) {
+                WallPattern wallPattern = wallPatternFactory.getWallPattern(this, new Coordinate(x, y));
+                if (wallPattern != null) {
+                    wallPattern.render(batch, new Coordinate(x, y));
                 }
             }
         }

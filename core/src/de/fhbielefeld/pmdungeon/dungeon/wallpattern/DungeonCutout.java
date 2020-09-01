@@ -25,7 +25,7 @@ public class DungeonCutout extends WallPattern {
     }
 
     @Override
-    void render(SpriteBatch batch, Coordinate position) {
+    public void render(SpriteBatch batch, Coordinate position) {
         throw new UnsupportedOperationException("DungeonCutout can't be rendered");
     }
 }

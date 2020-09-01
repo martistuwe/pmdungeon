@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
 
     private void setupDungeon() {
         DungeonConverter dungeonConverter = new DungeonConverter();
-        dungeon = dungeonConverter.dungeonFromJson("single_room.json");
+        dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
         Coordinate startPosition = dungeon.getStart();
         hero.setPosition(startPosition);
     }

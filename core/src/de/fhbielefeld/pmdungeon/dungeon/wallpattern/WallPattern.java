@@ -14,7 +14,7 @@ public abstract class WallPattern {
 
     protected Dungeon.Tile[][] pattern;
 
-    abstract void render(SpriteBatch batch, Coordinate position);
+    public abstract void render(SpriteBatch batch, Coordinate position);
 
     public boolean equals(Dungeon.Tile[][] pattern) {
         for (int x = 0; x < WIDTH; x++) {
