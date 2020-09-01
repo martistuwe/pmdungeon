@@ -24,11 +24,6 @@ public class DungeonConverter {
         return convertToDungeon(rooms);
     }
 
-    public Room[] roomsFromJson(String filename) {
-        String jsonString = readFile(filename);
-        return mapJsonToArray(jsonString);
-    }
-
     /**
      * Reads the given file from the filesystem
      *

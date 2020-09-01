@@ -77,7 +77,6 @@ public class Dungeon {
     }
 
     public void renderWalls(SpriteBatch batch) {
-
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.height; y++) {
                 WallPattern wallPattern = wallPatternFactory.getWallPattern(this, new Coordinate(x, y));
