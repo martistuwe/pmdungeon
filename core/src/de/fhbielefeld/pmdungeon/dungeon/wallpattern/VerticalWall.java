@@ -9,7 +9,7 @@ import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
 public class VerticalWall extends WallPattern {
 
-    protected VerticalWall(ObjectMap<Textures, Texture> textureMap) {
+    public VerticalWall(ObjectMap<Textures, Texture> textureMap) {
         super(textureMap);
 
         this.pattern = new Dungeon.Tile[][]{

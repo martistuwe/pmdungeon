@@ -16,6 +16,7 @@ public class WallPatternFactory {
     public WallPatternFactory(ObjectMap<Textures, Texture> textureMap) {
         wallPatternList.add(new HorizontalWall(textureMap));
         wallPatternList.add(new VerticalWall(textureMap));
+        wallPatternList.add(new UpperLeftCornerWall(textureMap));
     }
 
     public WallPattern getWallPattern(Dungeon dungeon, Coordinate center) {
