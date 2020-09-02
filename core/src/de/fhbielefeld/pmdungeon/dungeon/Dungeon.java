@@ -54,7 +54,7 @@ public class Dungeon {
 
     public void renderWalls(SpriteBatch batch) {
         for (int x = 0; x < this.width; x++) {
-            for (int y = 0; y < this.height; y++) {
+            for (int y = this.height - 1; y >= 0; y--) {
                 WallPattern wallPattern = wallPatternFactory.getWallPattern(this, new Coordinate(x, y));
                 if (wallPattern != null) {
                     wallPattern.render(batch, new Coordinate(x, y));
