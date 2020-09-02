@@ -22,6 +22,6 @@ public class UpperLeftCornerWall extends WallPattern {
     @Override
     public void render(SpriteBatch batch, Coordinate position) {
         batch.draw(textureMap.get(Textures.WALL_CORNER_LEFT), position.getX() * textureMap.get(Textures.WALL_CORNER_LEFT).getWidth(), position.getY() * textureMap.get(Textures.WALL_CORNER_LEFT).getHeight());
-        batch.draw(textureMap.get(Textures.WALL_CORNER_TOP_LEFT), position.getX() * textureMap.get(Textures.WALL_CORNER_TOP_LEFT).getWidth(), (position.getY() * 1f) * textureMap.get(Textures.WALL_CORNER_TOP_LEFT).getHeight());
+        batch.draw(textureMap.get(Textures.WALL_CORNER_TOP_LEFT), position.getX() * textureMap.get(Textures.WALL_CORNER_TOP_LEFT).getWidth(), (position.getY() + 1f) * textureMap.get(Textures.WALL_CORNER_TOP_LEFT).getHeight());
     }
 }
