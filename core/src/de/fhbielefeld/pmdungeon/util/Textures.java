@@ -5,11 +5,22 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 public enum Textures {
 
-    FLOOR("textures/dungeon/floor/floor_1.png"),
-    WALL_MID("textures/dungeon/wall/wall_mid.png"),
-    WALL_TOP_MID("textures/dungeon/wall/wall_top_mid.png"),
+    FLOOR("floor/floor_1.png"),
+    WALL_CORNER_BOTTOM_LEFT("wall/wall_corner_bottom_left.png"),
+    WALL_CORNER_FRONT_LEFT("wall/wall_corner_front_left.png"),
+    WALL_CORNER_FRONT_RIGHT("wall/wall_corner_front_right.png"),
+    WALL_CORNER_LEFT("wall/wall_corner_left.png"),
+    WALL_CORNER_TOP_LEFT("wall/wall_corner_top_left.png"),
+    WALL_CORNER_TOP_RIGHT("wall/wall_corner_top_right.png"),
+    WALL_MID("wall/wall_mid.png"),
+    WALL_RIGHT("wall/wall_right.png"),
+    WALL_SIDE_FRONT_RIGHT("wall/wall_side_front_right.png"),
+    WALL_SIDE_MID_RIGHT("wall/wall_side_mid_right.png"),
+    WALL_SIDE_TOP_RIGHT("wall/wall_side_top_right.png"),
+    WALL_TOP_MID("wall/wall_top_mid.png"),
     ;
 
+    private static final String PATH = "textures/dungeon/";
     private final String filename;
 
     Textures(String filename) {
@@ -18,7 +29,7 @@ public enum Textures {
 
     protected Texture get() {
         if (filename != null) {
-            return new Texture(filename);
+            return new Texture(PATH + filename);
         } else {
             throw new IllegalArgumentException("No texture found for filename.");
         }

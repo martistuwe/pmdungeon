@@ -20,40 +20,15 @@ public class Dungeon {
 
     private Room[] rooms;
 
-    ObjectMap<Textures, Texture> textureMap;
-
-    private final Texture wallSideTopRight;
-    private final Texture wallSideMidRight;
-    private final Texture wallSideFrontRight;
-    private final Texture wallCornerFrontLeft;
-    private final Texture wallCornerFrontRight;
-    private final Texture wallCornerBottomLeft;
-    private final Texture wallTopMid;
-    private final Texture wallCornerLeft;
-    private final Texture wallRight;
-    private final Texture wallCornerTopLeft;
-    private final Texture wallCornerTopRight;
-
     private int width;
     private int height;
     public Tile[][] tiles;
 
+    private final ObjectMap<Textures, Texture> textureMap;
     private final WallPatternFactory wallPatternFactory;
 
     public Dungeon() {
         textureMap = Textures.loadAllTextures();
-
-        wallSideTopRight = new Texture("textures/dungeon/wall/wall_side_top_right.png");
-        wallSideMidRight = new Texture("textures/dungeon/wall/wall_side_mid_right.png");
-        wallSideFrontRight = new Texture("textures/dungeon/wall/wall_side_front_right.png");
-        wallCornerFrontLeft = new Texture("textures/dungeon/wall/wall_corner_front_left.png");
-        wallCornerFrontRight = new Texture("textures/dungeon/wall/wall_corner_front_right.png");
-        wallCornerBottomLeft = new Texture("textures/dungeon/wall/wall_corner_bottom_left.png");
-        wallTopMid = new Texture("textures/dungeon/wall/wall_top_mid.png");
-        wallCornerLeft = new Texture("textures/dungeon/wall/wall_corner_left.png");
-        wallRight = new Texture("textures/dungeon/wall/wall_right.png");
-        wallCornerTopLeft = new Texture("textures/dungeon/wall/wall_corner_top_left.png");
-        wallCornerTopRight = new Texture("textures/dungeon/wall/wall_corner_top_right.png");
 
         wallPatternFactory = new WallPatternFactory(textureMap);
     }
