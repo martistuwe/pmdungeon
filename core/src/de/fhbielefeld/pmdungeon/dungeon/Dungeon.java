@@ -29,17 +29,16 @@ public class Dungeon {
 
     public Dungeon() {
         textureMap = Textures.loadAllTextures();
-
         wallPatternFactory = new WallPatternFactory(textureMap);
     }
 
-    public Dungeon(int x, int y) {
+    public Dungeon(int width, int height) {
         this();
-        this.width = x;
-        this.height = y;
-        tiles = new Tile[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        this.width = width;
+        this.height = height;
+        tiles = new Tile[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 tiles[i][j] = Tile.EMPTY;
             }
         }
