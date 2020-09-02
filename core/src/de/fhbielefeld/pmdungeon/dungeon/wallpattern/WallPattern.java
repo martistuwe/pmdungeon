@@ -10,6 +10,7 @@ import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 public abstract class WallPattern {
 
     protected static final Dungeon.Tile W = Dungeon.Tile.WALL;
+    protected static final Dungeon.Tile F = Dungeon.Tile.FLOOR;
     protected static final Dungeon.Tile A = null; //Anything
 
     protected static final int WIDTH = 3;
