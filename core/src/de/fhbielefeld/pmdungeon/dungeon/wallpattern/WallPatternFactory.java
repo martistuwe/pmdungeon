@@ -1,6 +1,9 @@
 package de.fhbielefeld.pmdungeon.dungeon.wallpattern;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.ObjectMap;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.util.Textures;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
 import java.util.ArrayList;
@@ -8,10 +11,10 @@ import java.util.List;
 
 public class WallPatternFactory {
 
-    private List<WallPattern> wallPatternList = new ArrayList<>();
+    private final List<WallPattern> wallPatternList = new ArrayList<>();
 
-    public WallPatternFactory() {
-        wallPatternList.add(new HorizontalWall());
+    public WallPatternFactory(ObjectMap<Textures, Texture> textureMap) {
+        wallPatternList.add(new HorizontalWall(textureMap));
     }
 
     public WallPattern getWallPattern(Dungeon dungeon, Coordinate center) {

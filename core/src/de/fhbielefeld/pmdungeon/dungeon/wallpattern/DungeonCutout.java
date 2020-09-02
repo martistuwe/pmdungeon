@@ -7,6 +7,7 @@ import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 public class DungeonCutout extends WallPattern {
 
     public DungeonCutout() {
+        super(null);
         this.pattern = new Dungeon.Tile[3][3];
     }
 

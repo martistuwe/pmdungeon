@@ -55,7 +55,7 @@ public class Dungeon {
         wallCornerTopLeft = new Texture("textures/dungeon/wall/wall_corner_top_left.png");
         wallCornerTopRight = new Texture("textures/dungeon/wall/wall_corner_top_right.png");
 
-        wallPatternFactory = new WallPatternFactory();
+        wallPatternFactory = new WallPatternFactory(textureMap);
     }
 
     public Dungeon(int x, int y) {

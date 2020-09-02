@@ -1,7 +1,10 @@
 package de.fhbielefeld.pmdungeon.dungeon.wallpattern;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ObjectMap;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.util.Textures;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
 public abstract class WallPattern {
@@ -13,6 +16,12 @@ public abstract class WallPattern {
     protected static final int HEIGHT = 3;
 
     protected Dungeon.Tile[][] pattern;
+
+    ObjectMap<Textures, Texture> textureMap;
+
+    protected WallPattern(ObjectMap<Textures, Texture> textureMap) {
+        this.textureMap = textureMap;
+    }
 
     public abstract void render(SpriteBatch batch, Coordinate position);
 
