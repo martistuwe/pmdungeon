@@ -7,9 +7,9 @@ import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.util.Textures;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
-public class UpperLeftCorner extends WallPattern {
+public class UpperLeftCornerWall extends WallPattern {
 
-    public UpperLeftCorner(ObjectMap<Textures, Texture> textureMap) {
+    public UpperLeftCornerWall(ObjectMap<Textures, Texture> textureMap) {
         super(textureMap);
 
         this.pattern = new Dungeon.Tile[][]{
