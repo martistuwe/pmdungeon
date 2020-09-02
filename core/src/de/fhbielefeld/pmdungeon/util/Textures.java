@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public enum Textures {
+
     FLOOR("textures/dungeon/floor/floor_1.png"),
     WALL_MID("textures/dungeon/wall/wall_mid.png");
 
