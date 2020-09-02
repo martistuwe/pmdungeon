@@ -2,13 +2,14 @@ package de.fhbielefeld.pmdungeon.dungeon;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ObjectMap;
 import de.fhbielefeld.pmdungeon.dungeon.wallpattern.WallPattern;
 import de.fhbielefeld.pmdungeon.dungeon.wallpattern.WallPatternFactory;
+import de.fhbielefeld.pmdungeon.util.Textures;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Room;
 
 public class Dungeon {
-
 
 
     public enum Tile {
@@ -19,8 +20,8 @@ public class Dungeon {
 
     private Room[] rooms;
 
-    private final Texture floor;
-    private final Texture wallMid;
+    ObjectMap<Textures, Texture> textureMap;
+
     private final Texture wallSideTopRight;
     private final Texture wallSideMidRight;
     private final Texture wallSideFrontRight;
@@ -40,8 +41,8 @@ public class Dungeon {
     private final WallPatternFactory wallPatternFactory;
 
     public Dungeon() {
-        floor = new Texture("textures/dungeon/floor/floor_1.png");
-        wallMid = new Texture("textures/dungeon/wall/wall_mid.png");
+        textureMap = Textures.loadAllTextures();
+
         wallSideTopRight = new Texture("textures/dungeon/wall/wall_side_top_right.png");
         wallSideMidRight = new Texture("textures/dungeon/wall/wall_side_mid_right.png");
         wallSideFrontRight = new Texture("textures/dungeon/wall/wall_side_front_right.png");
@@ -91,7 +92,7 @@ public class Dungeon {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j] == Tile.FLOOR) {
-                    batch.draw(floor, i * floor.getWidth(), j * floor.getHeight());
+                    batch.draw(textureMap.get(Textures.FLOOR), i * textureMap.get(Textures.FLOOR).getWidth(), j * textureMap.get(Textures.FLOOR).getHeight());
                 }
             }
         }
@@ -145,7 +146,8 @@ public class Dungeon {
     }
 
     public void dispose() {
-        floor.dispose();
-        wallMid.dispose();
+        for (Texture t : textureMap.values()) {
+            t.dispose();
+        }
     }
 }
