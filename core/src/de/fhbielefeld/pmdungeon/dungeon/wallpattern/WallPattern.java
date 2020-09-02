@@ -23,8 +23,6 @@ public abstract class WallPattern {
         this.textureMap = textureMap;
     }
 
-    public abstract void render(SpriteBatch batch, Coordinate position);
-
     public boolean equals(Dungeon.Tile[][] pattern) {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -37,4 +35,6 @@ public abstract class WallPattern {
     public Dungeon.Tile[][] getPattern() {
         return pattern;
     }
+
+    public abstract void render(SpriteBatch batch, Coordinate position);
 }
