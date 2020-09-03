@@ -199,15 +199,10 @@ public class DungeonConverter {
      */
     private Coordinate getDungeonSize(Coordinate globalOffset, Room[] rooms) {
         Coordinate size = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (Room room : rooms) { //TODO Replace with Room.getExtensions
-            int maxX = Integer.MIN_VALUE;
-            int maxY = Integer.MIN_VALUE;
-            for (Coordinate shape : room.getShape()) {
-                if (maxX < shape.getX()) maxX = shape.getX();
-                if (maxY < shape.getY()) maxY = shape.getY();
-            }
-            int roomX = room.getPosition().getX() + globalOffset.getX() + maxX;
-            int roomY = room.getPosition().getY() + globalOffset.getY() + maxY;
+        for (Room room : rooms) {
+            Coordinate roomExtensions = room.getExtension();
+            int roomX = room.getPosition().getX() + globalOffset.getX() + roomExtensions.getX();
+            int roomY = room.getPosition().getY() + globalOffset.getY() + roomExtensions.getY();
             if (size.getX() <= roomX) size.setX(roomX + 1);
             if (size.getY() <= roomY) size.setY(roomY + 1);
         }
