@@ -77,7 +77,7 @@ public class DungeonConverter {
             room.move(globalOffset);
             drawRoomEdges(room, dungeon);
             fillRoom(room, dungeon);
-            drawDoors(room, dungeon);
+            //drawDoors(room, dungeon);
         }
         return dungeon;
     }
@@ -127,19 +127,19 @@ public class DungeonConverter {
      */
     private void drawTiles(Coordinate from, Coordinate to, Coordinate offset, Dungeon dungeon, Dungeon.Tile tile) {
         //increasing Y same X
-        for (int j = from.getY(); j < to.getY(); j++) {
+        for (int j = from.getY(); j <= to.getY(); j++) {
             dungeon.tiles[from.getX() + offset.getX()][j + offset.getY()] = tile;
         }
         //increasing X same Y
-        for (int j = from.getX(); j < to.getX(); j++) {
+        for (int j = from.getX(); j <= to.getX(); j++) {
             dungeon.tiles[j + offset.getX()][from.getY() + offset.getY()] = tile;
         }
         //decreasing Y same X
-        for (int j = from.getY(); j > to.getY(); j--) {
+        for (int j = from.getY(); j >= to.getY(); j--) {
             dungeon.tiles[from.getX() + offset.getX()][j + offset.getY()] = tile;
         }
         //decreasing X same Y
-        for (int j = from.getX(); j > to.getX(); j--) {
+        for (int j = from.getX(); j >= to.getX(); j--) {
             dungeon.tiles[j + offset.getX()][from.getY() + offset.getY()] = tile;
         }
     }

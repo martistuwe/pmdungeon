@@ -14,13 +14,14 @@ public class WallPatternFactory {
     private final List<WallPattern> wallPatternList = new ArrayList<>();
 
     public WallPatternFactory(ObjectMap<Textures, Texture> textureMap) {
-        wallPatternList.add(new HorizontalWall(textureMap));
-        wallPatternList.add(new VerticalWallWithFloor(textureMap));
-        wallPatternList.add(new VerticalWall(textureMap));
+        wallPatternList.add(new TCornerNorthWall(textureMap));
         wallPatternList.add(new LowerLeftCornerWall(textureMap));
         wallPatternList.add(new UpperLeftCornerWall(textureMap));
         wallPatternList.add(new UpperRightCornerWall(textureMap));
         wallPatternList.add(new LowerRightCornerWall(textureMap));
+        wallPatternList.add(new HorizontalWall(textureMap));
+        wallPatternList.add(new VerticalWallWithFloor(textureMap));
+        wallPatternList.add(new VerticalWall(textureMap));
     }
 
     public WallPattern getWallPattern(Dungeon dungeon, Coordinate center) {
