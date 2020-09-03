@@ -11,11 +11,29 @@ import de.fhbielefeld.pmdungeon.util.dungeonconverter.Room;
 
 public class Dungeon {
 
-
-    public enum Tile {
-        FLOOR,
-        WALL,
-        EMPTY,
+    public void printToConsole() {
+        for (int i = 0; i < 20; i++) {
+            System.out.print("\n");
+        }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                switch (tiles[x][y]) {
+                    case WALL:
+                        System.out.print("W ");
+                        break;
+                    case FLOOR:
+                        System.out.print("F ");
+                        break;
+                    case DOOR:
+                        System.out.print("D ");
+                        break;
+                    case EMPTY:
+                        System.out.print("  ");
+                        break;
+                }
+            }
+            System.out.print("\n");
+        }
     }
 
     private Room[] rooms;
@@ -72,26 +90,11 @@ public class Dungeon {
         }
     }
 
-    public void printToConsole() {
-        for (int i = 0; i < 20; i++) {
-            System.out.print("\n");
-        }
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                switch (tiles[x][y]) {
-                    case WALL:
-                        System.out.print("W ");
-                        break;
-                    case FLOOR:
-                        System.out.print("F ");
-                        break;
-                    case EMPTY:
-                        System.out.print("  ");
-                        break;
-                }
-            }
-            System.out.print("\n");
-        }
+    public enum Tile {
+        FLOOR,
+        WALL,
+        DOOR,
+        EMPTY,
     }
 
     public Tile getTileAt(int x, int y) {

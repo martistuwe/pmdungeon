@@ -77,6 +77,7 @@ public class DungeonConverter {
             room.move(globalOffset);
             drawRoomEdges(room, dungeon);
             fillRoom(room, dungeon);
+            drawDoors(room, dungeon);
         }
         return dungeon;
     }
@@ -113,6 +114,14 @@ public class DungeonConverter {
             //decreasing X same Y
             for (int j = edgeFrom.getX(); j > edgeTo.getX(); j--) {
                 dungeon.tiles[j + room.getPosition().getX()][edgeFrom.getY() + room.getPosition().getY()] = Dungeon.Tile.WALL;
+            }
+        }
+    }
+
+    private void drawDoors(Room room, Dungeon dungeon) {
+        if (room.getDoors() != null) {
+            for (Door door : room.getDoors()) {
+                dungeon.tiles[door.getTo().getX()][door.getTo().getY()] = Dungeon.Tile.DOOR;
             }
         }
     }
