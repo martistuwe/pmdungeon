@@ -72,9 +72,11 @@ public class Dungeon {
     public void renderWalls(SpriteBatch batch) {
         for (int x = 0; x < this.width; x++) {
             for (int y = this.height - 1; y >= 0; y--) {
-                WallPattern wallPattern = wallPatternFactory.getWallPattern(this, new Coordinate(x, y));
-                if (wallPattern != null) {
-                    wallPattern.render(batch, new Coordinate(x, y));
+                if (this.tiles[x][y] == Tile.WALL) {
+                    WallPattern wallPattern = wallPatternFactory.getWallPattern(this, new Coordinate(x, y));
+                    if (wallPattern != null) {
+                        wallPattern.render(batch, new Coordinate(x, y));
+                    }
                 }
             }
         }
@@ -83,7 +85,7 @@ public class Dungeon {
     public void render(SpriteBatch batch) {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
-                if (this.tiles[i][j] == Tile.FLOOR) {
+                if (this.tiles[i][j] == Tile.FLOOR || this.tiles[i][j] == Tile.DOOR) {
                     batch.draw(textureMap.get(Textures.FLOOR), i * textureMap.get(Textures.FLOOR).getWidth(), j * textureMap.get(Textures.FLOOR).getHeight());
                 }
             }

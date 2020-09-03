@@ -98,31 +98,49 @@ public class DungeonConverter {
             } else {
                 edgeTo = node[i + 1];
             }
+            drawTiles(edgeFrom, edgeTo, room.getPosition(), dungeon, Dungeon.Tile.WALL);
+        }
+    }
 
-            //increasing Y same X
-            for (int j = edgeFrom.getY(); j < edgeTo.getY(); j++) {
-                dungeon.tiles[edgeFrom.getX() + room.getPosition().getX()][j + room.getPosition().getY()] = Dungeon.Tile.WALL;
-            }
-            //increasing X same Y
-            for (int j = edgeFrom.getX(); j < edgeTo.getX(); j++) {
-                dungeon.tiles[j + room.getPosition().getX()][edgeFrom.getY() + room.getPosition().getY()] = Dungeon.Tile.WALL;
-            }
-            //decreasing Y same X
-            for (int j = edgeFrom.getY(); j > edgeTo.getY(); j--) {
-                dungeon.tiles[edgeFrom.getX() + room.getPosition().getX()][j + room.getPosition().getY()] = Dungeon.Tile.WALL;
-            }
-            //decreasing X same Y
-            for (int j = edgeFrom.getX(); j > edgeTo.getX(); j--) {
-                dungeon.tiles[j + room.getPosition().getX()][edgeFrom.getY() + room.getPosition().getY()] = Dungeon.Tile.WALL;
+    /**
+     * Draws the doors into the dungeon
+     *
+     * @param room    Room of which the doors should be drawn
+     * @param dungeon Dungeon to draw the doors into
+     */
+    private void drawDoors(Room room, Dungeon dungeon) {
+        if (room.getDoors() != null) {
+            for (Door door : room.getDoors()) {
+                drawTiles(door.getFrom(), door.getTo(), new Coordinate(0, 0), dungeon, Dungeon.Tile.DOOR);
             }
         }
     }
 
-    private void drawDoors(Room room, Dungeon dungeon) {
-        if (room.getDoors() != null) {
-            for (Door door : room.getDoors()) {
-                dungeon.tiles[door.getTo().getX()][door.getTo().getY()] = Dungeon.Tile.DOOR;
-            }
+    /**
+     * Draws a line of tiles between the two given coordinates
+     *
+     * @param from    Line start
+     * @param to      Line end
+     * @param offset  Offset of the line in the dungeon
+     * @param dungeon Dungeon in which the line should be drawn
+     * @param tile    Kind of tile to draw
+     */
+    private void drawTiles(Coordinate from, Coordinate to, Coordinate offset, Dungeon dungeon, Dungeon.Tile tile) {
+        //increasing Y same X
+        for (int j = from.getY(); j < to.getY(); j++) {
+            dungeon.tiles[from.getX() + offset.getX()][j + offset.getY()] = tile;
+        }
+        //increasing X same Y
+        for (int j = from.getX(); j < to.getX(); j++) {
+            dungeon.tiles[j + offset.getX()][from.getY() + offset.getY()] = tile;
+        }
+        //decreasing Y same X
+        for (int j = from.getY(); j > to.getY(); j--) {
+            dungeon.tiles[from.getX() + offset.getX()][j + offset.getY()] = tile;
+        }
+        //decreasing X same Y
+        for (int j = from.getX(); j > to.getX(); j--) {
+            dungeon.tiles[j + offset.getX()][from.getY() + offset.getY()] = tile;
         }
     }
 
