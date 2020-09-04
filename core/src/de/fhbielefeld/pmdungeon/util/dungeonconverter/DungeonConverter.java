@@ -71,7 +71,7 @@ public class DungeonConverter {
     private Dungeon convertToDungeon(Room[] rooms) {
         Coordinate globalOffset = getOffset(rooms);
         Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
-        Dungeon dungeon = new Dungeon(dungeonSize.getX(), dungeonSize.getY());
+        Dungeon dungeon = new Dungeon(dungeonSize.getX() + 1, dungeonSize.getY() + 1);
         dungeon.setRooms(rooms);
         for (Room room : rooms) {
             room.move(globalOffset);

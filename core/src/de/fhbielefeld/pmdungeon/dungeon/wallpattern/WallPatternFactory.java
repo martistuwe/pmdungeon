@@ -23,7 +23,6 @@ public class WallPatternFactory {
         wallPatternList.add(new UpperRightCornerWall(textureMap));
         wallPatternList.add(new LowerRightCornerWall(textureMap));
         wallPatternList.add(new HorizontalWall(textureMap));
-        wallPatternList.add(new VerticalWallWithFloor(textureMap));
         wallPatternList.add(new VerticalWall(textureMap));
     }
 
