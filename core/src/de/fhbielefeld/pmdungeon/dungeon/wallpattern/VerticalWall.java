@@ -17,10 +17,23 @@ public class VerticalWall extends WallPattern {
                 {A, W, A},
                 {A, W, A}
         });
+
+        this.patternList.add(new Dungeon.Tile[][]{
+                {A, D, A},
+                {A, W, A},
+                {A, W, A}
+        });
+
+        this.patternList.add(new Dungeon.Tile[][]{
+                {A, W, A},
+                {A, W, A},
+                {A, D, A}
+        });
     }
 
     @Override
     public void render(SpriteBatch batch, Coordinate position) {
         batch.draw(textureMap.get(Textures.WALL_SIDE_MID_RIGHT), position.getX() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getWidth(), position.getY() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getHeight());
+        batch.draw(textureMap.get(Textures.WALL_SIDE_FRONT_RIGHT), position.getX() * textureMap.get(Textures.WALL_SIDE_FRONT_RIGHT).getWidth(), (position.getY() - 1) * textureMap.get(Textures.WALL_SIDE_FRONT_RIGHT).getHeight());
     }
 }
