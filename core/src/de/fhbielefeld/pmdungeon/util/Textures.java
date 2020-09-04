@@ -1,6 +1,5 @@
 package de.fhbielefeld.pmdungeon.util;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -18,18 +17,7 @@ public enum Textures {
     WALL_SIDE_FRONT_RIGHT("wall/wall_side_front_right.png"),
     WALL_SIDE_MID_RIGHT("wall/wall_side_mid_right.png"),
     WALL_SIDE_TOP_RIGHT("wall/wall_side_top_right.png"),
-    WALL_TOP_MID("wall/wall_top_mid.png"),
-    BLACK_PIXEL() {
-        @Override
-        public Texture get() {
-            Pixmap blackPixelPixmap = new Pixmap(1, 1, Pixmap.Format.RGB888);
-            blackPixelPixmap.setColor(0f, 0f, 0f, 1f);
-            blackPixelPixmap.fill();
-            Texture blackPixel = new Texture(blackPixelPixmap);
-            blackPixelPixmap.dispose();
-            return blackPixel;
-        }
-    };
+    WALL_TOP_MID("wall/wall_top_mid.png");
 
     private static final String PATH = "textures/dungeon/";
     private String filename = null;
