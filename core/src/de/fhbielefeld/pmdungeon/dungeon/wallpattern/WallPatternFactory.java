@@ -31,7 +31,7 @@ public class WallPatternFactory {
         dungeonCutout.fromDungeonTiles(dungeon, center);
 
         for (WallPattern wallpattern : wallPatternList) {
-            if (dungeonCutout.equals(wallpattern.getPattern())) {
+            if (dungeonCutout.matches(wallpattern.getPatternList())) {
                 return wallpattern;
             }
         }

@@ -12,11 +12,11 @@ public class LowerRightCornerWall extends WallPattern {
     public LowerRightCornerWall(ObjectMap<Textures, Texture> textureMap) {
         super(textureMap);
 
-        this.pattern = new Dungeon.Tile[][]{
+        this.patternList.add(new Dungeon.Tile[][]{
                 {A, W, A},
                 {W, W, A},
                 {A, A, A}
-        };
+        });
     }
 
     @Override

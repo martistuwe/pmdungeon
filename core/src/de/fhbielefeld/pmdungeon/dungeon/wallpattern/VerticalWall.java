@@ -12,11 +12,11 @@ public class VerticalWall extends WallPattern {
     public VerticalWall(ObjectMap<Textures, Texture> textureMap) {
         super(textureMap);
 
-        this.pattern = new Dungeon.Tile[][]{
+        this.patternList.add(new Dungeon.Tile[][]{
                 {A, W, A},
                 {A, W, A},
                 {A, W, A}
-        };
+        });
     }
 
     @Override

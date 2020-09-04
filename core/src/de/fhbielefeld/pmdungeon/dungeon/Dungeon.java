@@ -85,7 +85,7 @@ public class Dungeon {
     public void render(SpriteBatch batch) {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
-                if (this.tiles[i][j] != Tile.EMPTY && (this.tiles[i + 1][j] == Tile.FLOOR || this.tiles[i + 1][j] == Tile.WALL)) {
+                if (this.tiles[i][j] != Tile.EMPTY && this.tiles[i + 1][j] != Tile.EMPTY) {
                     batch.draw(textureMap.get(Textures.FLOOR), i * textureMap.get(Textures.FLOOR).getWidth(), j * textureMap.get(Textures.FLOOR).getHeight());
                 }
             }

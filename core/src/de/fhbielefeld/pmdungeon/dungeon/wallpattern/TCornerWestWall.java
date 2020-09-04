@@ -3,6 +3,7 @@ package de.fhbielefeld.pmdungeon.dungeon.wallpattern;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ObjectMap;
+import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.util.Textures;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
@@ -11,11 +12,11 @@ public class TCornerWestWall extends WallPattern {
     public TCornerWestWall(ObjectMap<Textures, Texture> textureMap) {
         super(textureMap);
 
-        this.pattern = new de.fhbielefeld.pmdungeon.dungeon.Dungeon.Tile[][]{
+        this.patternList.add(new Dungeon.Tile[][]{
                 {A, W, A},
                 {W, W, A},
                 {A, W, A}
-        };
+        });
     }
 
     @Override

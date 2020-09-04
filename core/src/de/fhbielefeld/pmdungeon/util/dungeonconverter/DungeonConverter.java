@@ -77,7 +77,7 @@ public class DungeonConverter {
             room.move(globalOffset);
             drawRoomEdges(room, dungeon);
             fillRoom(room, dungeon);
-            //drawDoors(room, dungeon);
+            drawDoors(room, dungeon);
         }
         return dungeon;
     }
