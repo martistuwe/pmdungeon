@@ -17,6 +17,7 @@ public class WallPatternFactory {
         wallPatternList.add(new TCornerNorthWall(textureMap));
         wallPatternList.add(new TCornerEastWall(textureMap));
         wallPatternList.add(new TCornerSouthWall(textureMap));
+        wallPatternList.add(new TCornerWestWall(textureMap));
         wallPatternList.add(new LowerLeftCornerWall(textureMap));
         wallPatternList.add(new UpperLeftCornerWall(textureMap));
         wallPatternList.add(new UpperRightCornerWall(textureMap));
