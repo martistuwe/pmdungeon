@@ -64,8 +64,8 @@ public class Dungeon {
 
     public Coordinate getStartingPoint() {
         Coordinate start = rooms[0].getCenter();
-        start.setX((rooms[0].getCenter().getX() + rooms[0].getPosition().getX()) * 16);
-        start.setY((rooms[0].getCenter().getY() + rooms[0].getPosition().getY()) * 16);
+        start.setX((rooms[0].getCenter().getX() + rooms[0].getPosition().getX()));
+        start.setY((rooms[0].getCenter().getY() + rooms[0].getPosition().getY()));
         return start;
     }
 

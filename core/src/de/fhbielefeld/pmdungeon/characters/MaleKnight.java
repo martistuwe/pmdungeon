@@ -2,13 +2,14 @@ package de.fhbielefeld.pmdungeon.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 
 public class MaleKnight extends PlayableCharacter {
 
-    private static final float MOVEMENT_SPEED = 90;
+    private static final float MOVEMENT_SPEED = 5;
 
-    public MaleKnight(SpriteBatch batch) {
-        super(batch);
+    public MaleKnight(SpriteBatch batch, Dungeon dungeon) {
+        super(batch, dungeon);
 
         this.movementSpeed = MOVEMENT_SPEED;
 

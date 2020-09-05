@@ -19,11 +19,11 @@ public class GameScreen implements Screen {
 
     private OrthographicCamera camera;
     private Dungeon dungeon;
-    private final PlayableCharacter hero;
+    private PlayableCharacter hero;
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
-        hero = new MaleKnight(pmDungeon.batch);
+
         setupCamera();
         setupDungeon();
     }
@@ -38,6 +38,7 @@ public class GameScreen implements Screen {
         DungeonConverter dungeonConverter = new DungeonConverter();
         dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
         Coordinate startPosition = dungeon.getStartingPoint();
+        hero = new MaleKnight(pmDungeon.batch, dungeon);
         hero.setPosition(startPosition);
     }
 

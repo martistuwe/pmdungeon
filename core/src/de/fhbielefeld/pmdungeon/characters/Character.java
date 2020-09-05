@@ -1,14 +1,15 @@
 package de.fhbielefeld.pmdungeon.characters;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
 public abstract class Character {
 
     protected SpriteBatch batch;
+    protected Dungeon dungeon;
     protected float movementSpeed;
     protected Animation idleAnimation;
     protected Animation runAnimation;
@@ -17,8 +18,9 @@ public abstract class Character {
     protected float positionX = 0;
     protected float positionY = 0;
 
-    protected Character(SpriteBatch batch) {
+    protected Character(SpriteBatch batch, Dungeon dungeon) {
         this.batch = batch;
+        this.dungeon = dungeon;
     }
 
     protected float getMovementSpeed() {
@@ -41,29 +43,14 @@ public abstract class Character {
     public void render() {
         Sprite sprite = new Sprite(this.getTexture());
         sprite.flip(facingLeft, false);
-        sprite.setPosition(positionX, positionY);
+        sprite.setPosition((positionX - 1) * 16, (positionY - 1) * 16);
         sprite.draw(batch);
     }
 
-    protected void moveLeft() {
-        idle = false;
-        positionY += getMovementSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    protected void moveUp() {
-        positionX -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
-        idle = false;
-        facingLeft = true;
-    }
-
-    protected void moveRight() {
-        positionY -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
-        idle = false;
-    }
-
-    protected void moveDown() {
-        positionX += getMovementSpeed() * Gdx.graphics.getDeltaTime();
-        idle = false;
-        facingLeft = false;
+    protected void move(float targetX, float targetY) {
+        if (dungeon.getTileAt((int) targetX, (int) targetY) == Dungeon.Tile.FLOOR || dungeon.getTileAt((int) targetX, (int) targetY) == Dungeon.Tile.DOOR) {
+            this.positionX = targetX;
+            this.positionY = targetY;
+        }
     }
 }
