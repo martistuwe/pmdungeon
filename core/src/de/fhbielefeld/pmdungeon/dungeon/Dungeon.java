@@ -15,7 +15,7 @@ public class Dungeon {
 
     private int width;
     private int height;
-    public Tile[][] tiles;
+    private Tile[][] tiles;
 
     private final ObjectMap<Textures, Texture> textureMap;
     private final WallPatternFactory wallPatternFactory;
