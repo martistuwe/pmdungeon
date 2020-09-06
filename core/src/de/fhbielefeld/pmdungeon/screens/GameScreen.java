@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
         DungeonConverter dungeonConverter = new DungeonConverter();
         dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
         Coordinate startPosition = dungeon.getStartingPoint();
-        hero = new MaleKnight(pmDungeon.batch, dungeon);
+        hero = new MaleKnight(pmDungeon.getBatch(), dungeon);
         hero.setPosition(startPosition);
     }
 
@@ -69,19 +69,19 @@ public class GameScreen implements Screen {
 
         camera.position.set(hero.getPositionX(), hero.getPositionY(), 0);
         camera.update();
-        pmDungeon.batch.setProjectionMatrix(camera.combined);
+        pmDungeon.getBatch().setProjectionMatrix(camera.combined);
 
-        pmDungeon.batch.begin();
-        dungeon.render(pmDungeon.batch);
+        pmDungeon.getBatch().begin();
+        dungeon.render(pmDungeon.getBatch());
         hero.render();
-        dungeon.renderWalls(pmDungeon.batch);
-        pmDungeon.batch.end();
+        dungeon.renderWalls(pmDungeon.getBatch());
+        pmDungeon.getBatch().end();
     }
 
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, VIRTUAL_HEIGHT * width / (float) height, VIRTUAL_HEIGHT);
-        pmDungeon.batch.setProjectionMatrix(camera.combined);
+        pmDungeon.getBatch().setProjectionMatrix(camera.combined);
     }
 
     @Override

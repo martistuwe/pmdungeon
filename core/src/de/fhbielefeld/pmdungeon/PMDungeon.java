@@ -7,8 +7,8 @@ import de.fhbielefeld.pmdungeon.screens.GameScreen;
 
 public class PMDungeon extends Game {
 
-    public SpriteBatch batch;
-    public BitmapFont font;
+    private SpriteBatch batch;
+    private BitmapFont font;
 
     @Override
     public void create() {
@@ -18,13 +18,16 @@ public class PMDungeon extends Game {
     }
 
     @Override
-    public void render() {
-        super.render();
-    }
-
-    @Override
     public void dispose() {
         batch.dispose();
         font.dispose();
+    }
+
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public BitmapFont getFont() {
+        return font;
     }
 }
