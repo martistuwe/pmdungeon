@@ -128,19 +128,19 @@ public class DungeonConverter {
     private void drawTiles(Coordinate from, Coordinate to, Coordinate offset, Dungeon dungeon, Dungeon.Tile tile) {
         //increasing Y same X
         for (int j = from.getY(); j <= to.getY(); j++) {
-            dungeon.tiles[from.getX() + offset.getX()][j + offset.getY()] = tile;
+            dungeon.setTileAt(from.getX() + offset.getX(), j + offset.getY(), tile);
         }
         //increasing X same Y
         for (int j = from.getX(); j <= to.getX(); j++) {
-            dungeon.tiles[j + offset.getX()][from.getY() + offset.getY()] = tile;
+            dungeon.setTileAt(j + offset.getX(), from.getY() + offset.getY(), tile);
         }
         //decreasing Y same X
         for (int j = from.getY(); j >= to.getY(); j--) {
-            dungeon.tiles[from.getX() + offset.getX()][j + offset.getY()] = tile;
+            dungeon.setTileAt(from.getX() + offset.getX(), j + offset.getY(), tile);
         }
         //decreasing X same Y
         for (int j = from.getX(); j >= to.getX(); j--) {
-            dungeon.tiles[j + offset.getX()][from.getY() + offset.getY()] = tile;
+            dungeon.setTileAt(j + offset.getX(), from.getY() + offset.getY(), tile);
         }
     }
 
@@ -154,18 +154,18 @@ public class DungeonConverter {
         boolean foundEmptySpace = true;
         int startX = room.getPosition().getX() + room.getShape()[0].getX() + 1;
         int startY = room.getPosition().getY() + room.getShape()[0].getY() + 1;
-        while (dungeon.tiles[startX][startY] == Dungeon.Tile.EMPTY && foundEmptySpace) {
+        while (dungeon.getTileAt(startX, startY) == Dungeon.Tile.EMPTY && foundEmptySpace) {
             int nextY = room.getPosition().getY() + room.getShape()[0].getY() + 1;
             foundEmptySpace = false;
-            while (dungeon.tiles[startX][startY - 1] != Dungeon.Tile.WALL) {
+            while (dungeon.getTileAt(startX, startY - 1) != Dungeon.Tile.WALL) {
                 startY--;
             }
-            while (dungeon.tiles[startX][startY] == Dungeon.Tile.EMPTY) {
-                if (dungeon.tiles[startX + 1][startY] == Dungeon.Tile.EMPTY) {
+            while (dungeon.getTileAt(startX, startY) == Dungeon.Tile.EMPTY) {
+                if (dungeon.getTileAt(startX + 1, startY) == Dungeon.Tile.EMPTY) {
                     if (!foundEmptySpace) nextY = startY;
                     foundEmptySpace = true;
                 }
-                dungeon.tiles[startX][startY] = Dungeon.Tile.FLOOR;
+                dungeon.setTileAt(startX, startY, Dungeon.Tile.FLOOR);
                 startY++;
             }
             startX++;

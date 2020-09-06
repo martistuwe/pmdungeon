@@ -20,7 +20,7 @@ public class DungeonCutout extends WallPattern {
                         center.getY() - 1 + y < 0 || center.getY() - 1 + y >= dungeon.getHeight()) {
                     pattern[2 - y][x] = A;
                 } else {
-                    pattern[2 - y][x] = dungeon.tiles[center.getX() - 1 + x][center.getY() - 1 + y];
+                    pattern[2 - y][x] = dungeon.getTileAt(center.getX() - 1 + x, center.getY() - 1 + y);
                 }
             }
         }
