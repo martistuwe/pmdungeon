@@ -21,9 +21,9 @@ public class UpperRightCornerWall extends WallPattern {
 
     @Override
     public void render(SpriteBatch batch, Coordinate position) {
-        batch.draw(textureMap.get(Textures.WALL_RIGHT), (position.getX() - 1f) * textureMap.get(Textures.WALL_RIGHT).getWidth(), position.getY() * textureMap.get(Textures.WALL_RIGHT).getHeight());
-        batch.draw(textureMap.get(Textures.WALL_CORNER_TOP_RIGHT), (position.getX() - 1f) * textureMap.get(Textures.WALL_CORNER_TOP_RIGHT).getWidth(), (position.getY() + 1f) * textureMap.get(Textures.WALL_CORNER_TOP_RIGHT).getHeight());
-        batch.draw(textureMap.get(Textures.WALL_SIDE_MID_RIGHT), position.getX() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getWidth(), position.getY() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getHeight());
-        batch.draw(textureMap.get(Textures.WALL_SIDE_TOP_RIGHT), position.getX() * textureMap.get(Textures.WALL_SIDE_TOP_RIGHT).getWidth(), (position.getY() + 1f) * textureMap.get(Textures.WALL_SIDE_TOP_RIGHT).getHeight());
+        batch.draw(textureMap.get(Textures.WALL_RIGHT), position.getX() - 1f, position.getY(), 1, 1);
+        batch.draw(textureMap.get(Textures.WALL_CORNER_TOP_RIGHT), position.getX() - 1f, position.getY() + 1f, 1, 1);
+        batch.draw(textureMap.get(Textures.WALL_SIDE_MID_RIGHT), position.getX(), position.getY(), 1, 1);
+        batch.draw(textureMap.get(Textures.WALL_SIDE_TOP_RIGHT), position.getX(), position.getY() + 1f, 1, 1);
     }
 }

@@ -15,6 +15,8 @@ import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
 public class GameScreen implements Screen {
 
+    static final float VIRTUAL_HEIGHT = 4f;
+
     final PMDungeon pmDungeon;
 
     private OrthographicCamera camera;
@@ -29,7 +31,7 @@ public class GameScreen implements Screen {
     }
 
     private void setupCamera() {
-        camera = new OrthographicCamera(250, 150);
+        camera = new OrthographicCamera();
         camera.position.set(0, 0, 0);
         camera.update();
     }
@@ -59,7 +61,7 @@ public class GameScreen implements Screen {
         pmDungeon.batch.setProjectionMatrix(camera.combined);
 
         float cameraSpeed = 100;
-        float cameraZoomSpeed = 1;
+        float cameraZoomSpeed = 75;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             camera.translate(-cameraSpeed * Gdx.graphics.getDeltaTime(), 0);
         }
@@ -95,9 +97,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        // This method is called every time the game screen is re-sized and the game is not in the paused state.
-        // It is also called once just after the create() method.
-        //The parameters are the new width and height the screen has been resized to in pixels.
+        camera.setToOrtho(false, VIRTUAL_HEIGHT * width / (float) height, VIRTUAL_HEIGHT);
+        pmDungeon.batch.setProjectionMatrix(camera.combined);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class VerticalWall extends WallPattern {
 
     @Override
     public void render(SpriteBatch batch, Coordinate position) {
-        batch.draw(textureMap.get(Textures.WALL_SIDE_MID_RIGHT), position.getX() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getWidth(), position.getY() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getHeight());
-        batch.draw(textureMap.get(Textures.WALL_SIDE_FRONT_RIGHT), position.getX() * textureMap.get(Textures.WALL_SIDE_FRONT_RIGHT).getWidth(), (position.getY() - 1) * textureMap.get(Textures.WALL_SIDE_FRONT_RIGHT).getHeight());
+        batch.draw(textureMap.get(Textures.WALL_SIDE_MID_RIGHT), position.getX(), position.getY(), 1, 1);
+        batch.draw(textureMap.get(Textures.WALL_SIDE_FRONT_RIGHT), position.getX(), position.getY() - 1f, 1, 1);
     }
 }

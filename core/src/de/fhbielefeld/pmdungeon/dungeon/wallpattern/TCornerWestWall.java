@@ -21,6 +21,6 @@ public class TCornerWestWall extends WallPattern {
 
     @Override
     public void render(SpriteBatch batch, Coordinate position) {
-        batch.draw(textureMap.get(Textures.WALL_SIDE_MID_RIGHT), position.getX() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getWidth(), position.getY() * textureMap.get(Textures.WALL_SIDE_MID_RIGHT).getHeight());
+        batch.draw(textureMap.get(Textures.WALL_SIDE_MID_RIGHT), position.getX(), position.getY(), 1, 1);
     }
 }

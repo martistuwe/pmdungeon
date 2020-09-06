@@ -43,7 +43,8 @@ public abstract class Character {
     public void render() {
         Sprite sprite = new Sprite(this.getTexture());
         sprite.flip(facingLeft, false);
-        sprite.setPosition((positionX - 1) * 16, (positionY - 1) * 16);
+        sprite.setSize(1, 1.8f);
+        sprite.setPosition(positionX, positionY);
         sprite.draw(batch);
     }
 
