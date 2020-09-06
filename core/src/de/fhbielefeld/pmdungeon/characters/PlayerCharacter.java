@@ -5,9 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 
-public abstract class PlayableCharacter extends Character {
+public abstract class PlayerCharacter extends Character {
 
-    protected PlayableCharacter(SpriteBatch batch, Dungeon dungeon) {
+    protected PlayerCharacter(SpriteBatch batch, Dungeon dungeon) {
         super(batch, dungeon);
     }
 

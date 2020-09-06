@@ -5,8 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.fhbielefeld.pmdungeon.PMDungeon;
-import de.fhbielefeld.pmdungeon.characters.MaleKnight;
-import de.fhbielefeld.pmdungeon.characters.PlayableCharacter;
+import de.fhbielefeld.pmdungeon.characters.PlayerCharacter;
+import de.fhbielefeld.pmdungeon.characters.playercharacters.MaleKnight;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
@@ -21,7 +21,7 @@ public class GameScreen implements Screen {
 
     private OrthographicCamera camera;
     private Dungeon dungeon;
-    private PlayableCharacter hero;
+    private PlayerCharacter hero;
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
