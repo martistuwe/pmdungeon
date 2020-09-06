@@ -44,6 +44,16 @@ public class GameScreen implements Screen {
         hero.setPosition(startPosition);
     }
 
+    private void debugCameraZoom() {
+        float cameraZoomSpeed = 5;
+        if (Gdx.input.isKeyPressed(Input.Keys.PLUS)) {
+            camera.zoom -= cameraZoomSpeed * Gdx.graphics.getDeltaTime();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
+            camera.zoom += cameraZoomSpeed * Gdx.graphics.getDeltaTime();
+        }
+    }
+
     @Override
     public void show() {
         // Called when this screen becomes the current screen for a Game.
@@ -51,42 +61,15 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //handle Input
-        //update World
-        //render
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
 
+        debugCameraZoom();
+        hero.handleInput(Gdx.input);
+
+        camera.position.set(hero.getPositionX(), hero.getPositionY(), 0);
         camera.update();
         pmDungeon.batch.setProjectionMatrix(camera.combined);
-
-        float cameraSpeed = 5;
-        float cameraZoomSpeed = 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.translate(-cameraSpeed * Gdx.graphics.getDeltaTime(), 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.translate(cameraSpeed * Gdx.graphics.getDeltaTime(), 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            camera.translate(0, cameraSpeed * Gdx.graphics.getDeltaTime());
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            camera.translate(0, -cameraSpeed * Gdx.graphics.getDeltaTime());
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.PLUS)) {
-            camera.zoom -= cameraZoomSpeed * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
-            camera.zoom += cameraZoomSpeed * Gdx.graphics.getDeltaTime();
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            dungeon.printToConsole();
-        }
-
-        hero.handleInput(Gdx.input);
 
         pmDungeon.batch.begin();
         dungeon.render(pmDungeon.batch);

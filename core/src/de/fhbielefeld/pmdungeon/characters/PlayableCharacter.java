@@ -35,8 +35,4 @@ public abstract class PlayableCharacter extends Character {
         }
         move(targetX, targetY);
     }
-
-    private boolean tileIsReachable(float targetX, float targetY) {
-        return dungeon.getTileAt((int) targetX, (int) targetY) == Dungeon.Tile.FLOOR || dungeon.getTileAt((int) targetX, (int) targetY) == Dungeon.Tile.DOOR;
-    }
 }

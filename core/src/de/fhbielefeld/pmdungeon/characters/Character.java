@@ -58,4 +58,12 @@ public abstract class Character {
             this.positionY = targetY;
         }
     }
+
+    public float getPositionX() {
+        return positionX;
+    }
+
+    public float getPositionY() {
+        return positionY;
+    }
 }
