@@ -8,6 +8,9 @@ import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
 public abstract class Character {
 
+    private static final float RENDERING_OFFSET_X = -0.85f;
+    private static final float RENDERING_OFFSET_Y = -0.5f;
+
     protected SpriteBatch batch;
     protected Dungeon dungeon;
     protected float movementSpeed;
@@ -41,10 +44,11 @@ public abstract class Character {
     }
 
     public void render() {
-        Sprite sprite = new Sprite(this.getTexture());
+        Texture texture = this.getTexture();
+        Sprite sprite = new Sprite(texture);
         sprite.flip(facingLeft, false);
-        sprite.setSize(1, 1.8f);
-        sprite.setPosition(positionX - 0.85f, positionY - 0.5f);
+        sprite.setSize(1, (float) texture.getHeight() / (float) texture.getWidth());
+        sprite.setPosition(positionX + RENDERING_OFFSET_X, positionY + RENDERING_OFFSET_Y);
         sprite.draw(batch);
     }
 
