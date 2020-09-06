@@ -15,7 +15,7 @@ import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
 public class GameScreen implements Screen {
 
-    static final float VIRTUAL_HEIGHT = 4f;
+    static final float VIRTUAL_HEIGHT = 5f;
 
     final PMDungeon pmDungeon;
 
@@ -60,8 +60,8 @@ public class GameScreen implements Screen {
         camera.update();
         pmDungeon.batch.setProjectionMatrix(camera.combined);
 
-        float cameraSpeed = 100;
-        float cameraZoomSpeed = 75;
+        float cameraSpeed = 5;
+        float cameraZoomSpeed = 5;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             camera.translate(-cameraSpeed * Gdx.graphics.getDeltaTime(), 0);
         }

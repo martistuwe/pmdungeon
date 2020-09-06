@@ -44,7 +44,7 @@ public abstract class Character {
         Sprite sprite = new Sprite(this.getTexture());
         sprite.flip(facingLeft, false);
         sprite.setSize(1, 1.8f);
-        sprite.setPosition(positionX, positionY);
+        sprite.setPosition(positionX - 0.85f, positionY - 0.5f);
         sprite.draw(batch);
     }
 

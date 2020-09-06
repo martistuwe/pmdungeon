@@ -12,33 +12,28 @@ public abstract class PlayableCharacter extends Character {
     }
 
     public void handleInput(Input input) {
+        float targetX = positionX;
+        float targetY = positionY;
         idle = true;
         if (input.isKeyPressed(Input.Keys.W)) {
-            if (tileIsReachable(positionX, positionY + getMovementSpeed() * Gdx.graphics.getDeltaTime())) {
-                positionY += getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            }
+            targetY += getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
         }
         if (input.isKeyPressed(Input.Keys.A)) {
-            if (tileIsReachable(positionX - getMovementSpeed() * Gdx.graphics.getDeltaTime(), positionY)) {
-                positionX -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            }
+            targetX -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
             facingLeft = true;
         }
         if (input.isKeyPressed(Input.Keys.S)) {
-            if (tileIsReachable(positionX, positionY - getMovementSpeed() * Gdx.graphics.getDeltaTime())) {
-                positionY -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            }
+            targetY -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
         }
         if (input.isKeyPressed(Input.Keys.D)) {
-            if (tileIsReachable(positionX + getMovementSpeed() * Gdx.graphics.getDeltaTime(), positionY)) {
-                positionX += getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            }
+            targetX += getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
             facingLeft = false;
         }
+        move(targetX, targetY);
     }
 
     private boolean tileIsReachable(float targetX, float targetY) {
