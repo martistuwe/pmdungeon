@@ -70,7 +70,7 @@ public class DungeonConverter {
      */
     private Dungeon convertToDungeon(Room[] rooms) {
         Coordinate globalOffset = getOffset(rooms);
-        Coordinate dungeonSize = getDungeonSize(globalOffset, rooms);
+        Coordinate dungeonSize = getDungeonDimensions(globalOffset, rooms);
         Dungeon dungeon = new Dungeon(dungeonSize.getX() + 1, dungeonSize.getY() + 1);
         dungeon.setRooms(rooms);
         for (Room room : rooms) {
@@ -145,7 +145,7 @@ public class DungeonConverter {
     }
 
     /**
-     * Fills a room which walls where defined prior with floor tiles
+     * Fills a room with floor tiles which walls where defined prior
      *
      * @param room    Room which should be filled
      * @param dungeon Dungeon in which the room is
@@ -174,7 +174,7 @@ public class DungeonConverter {
     }
 
     /**
-     * Get the position-offset of the generated dungeon to move it in the positive area of the grid.
+     * Get the position-offset of the generated dungeon to move it into the positive area of the grid.
      *
      * @param rooms Dungeon as array of rooms
      * @return Coordinate offset
@@ -191,13 +191,13 @@ public class DungeonConverter {
     }
 
     /**
-     * Calculates the extension of the dungeon in x and y direction.
+     * Calculates the dimensions of the dungeon in x and y direction.
      *
      * @param globalOffset offset to only use the positive area of the grid.
      * @param rooms        Dungeon as array of rooms
      * @return Size of the dungeon
      */
-    private Coordinate getDungeonSize(Coordinate globalOffset, Room[] rooms) {
+    private Coordinate getDungeonDimensions(Coordinate globalOffset, Room[] rooms) {
         Coordinate size = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
         for (Room room : rooms) {
             Coordinate roomExtensions = room.getExtension();
