@@ -5,7 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.fhbielefeld.pmdungeon.PMDungeon;
+import de.fhbielefeld.pmdungeon.characters.NonPlayerCharacter;
 import de.fhbielefeld.pmdungeon.characters.PlayerCharacter;
+import de.fhbielefeld.pmdungeon.characters.nonplayercharacters.demons.Imp;
 import de.fhbielefeld.pmdungeon.characters.playercharacters.MaleKnight;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
@@ -22,6 +24,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private Dungeon dungeon;
     private PlayerCharacter hero;
+    private NonPlayerCharacter imp;
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
@@ -42,6 +45,12 @@ public class GameScreen implements Screen {
         Coordinate startPosition = dungeon.getStartingPoint();
         hero = new MaleKnight(pmDungeon.getBatch(), dungeon);
         hero.setPosition(startPosition);
+
+        //Testing
+        imp = new Imp(pmDungeon.getBatch(), dungeon);
+        Coordinate impCoordinate = dungeon.getRoom(1).getPosition();
+        impCoordinate.add(dungeon.getRoom(1).getCenter());
+        imp.setPosition(impCoordinate);
     }
 
     private void debugCameraZoom() {
@@ -74,6 +83,7 @@ public class GameScreen implements Screen {
         pmDungeon.getBatch().begin();
         dungeon.render(pmDungeon.getBatch());
         hero.render();
+        imp.render();
         dungeon.renderWalls(pmDungeon.getBatch());
         pmDungeon.getBatch().end();
     }

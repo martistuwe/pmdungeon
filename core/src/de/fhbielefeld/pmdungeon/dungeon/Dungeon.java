@@ -91,6 +91,10 @@ public class Dungeon {
         this.rooms = rooms;
     }
 
+    public Room getRoom(int index) {
+        return this.rooms[index];
+    }
+
     public int getWidth() {
         return width;
     }

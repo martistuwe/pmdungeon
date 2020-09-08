@@ -16,7 +16,7 @@ public abstract class Character {
     protected float movementSpeed;
     protected Animation idleAnimation;
     protected Animation runAnimation;
-    protected boolean idle;
+    protected boolean idle = true;
     protected boolean facingLeft = false;
     protected float positionX = 0;
     protected float positionY = 0;
