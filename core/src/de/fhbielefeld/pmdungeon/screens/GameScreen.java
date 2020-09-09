@@ -81,7 +81,7 @@ public class GameScreen implements Screen {
         pmDungeon.getBatch().setProjectionMatrix(camera.combined);
 
         pmDungeon.getBatch().begin();
-        dungeon.render(pmDungeon.getBatch());
+        dungeon.renderFloor(pmDungeon.getBatch());
         hero.render();
         imp.render();
         dungeon.renderWalls(pmDungeon.getBatch());
