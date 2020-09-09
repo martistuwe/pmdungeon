@@ -22,7 +22,8 @@ public abstract class Character implements Disposable {
     protected float positionY = 0;
 
     protected float movementSpeed;
-    protected int healthPoints;
+    protected float healthPoints;
+    protected float maxHealthPoints;
 
     protected Character(SpriteBatch batch, Dungeon dungeon) {
         this.batch = batch;
@@ -68,6 +69,14 @@ public abstract class Character implements Disposable {
 
     public float getPositionY() {
         return positionY;
+    }
+
+    public float getHealthPoints() {
+        return healthPoints;
+    }
+
+    public float getMaxHealthPoints() {
+        return maxHealthPoints;
     }
 
     @Override

@@ -30,9 +30,10 @@ public class GameScreen implements Screen {
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
-        hud = new HeadUpDisplay();
+
         setupCamera();
         setupDungeon();
+        hud = new HeadUpDisplay(hero);
     }
 
     private void setupCamera() {
