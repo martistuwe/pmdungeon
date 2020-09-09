@@ -10,6 +10,7 @@ import de.fhbielefeld.pmdungeon.characters.PlayerCharacter;
 import de.fhbielefeld.pmdungeon.characters.nonplayercharacters.demons.Imp;
 import de.fhbielefeld.pmdungeon.characters.playercharacters.MaleKnight;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.ui.HeadUpDisplay;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
 
@@ -17,7 +18,7 @@ import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
 public class GameScreen implements Screen {
 
-    static final float VIRTUAL_HEIGHT = 5f;
+    public static final float VIRTUAL_HEIGHT = 5f;
 
     final PMDungeon pmDungeon;
 
@@ -25,10 +26,11 @@ public class GameScreen implements Screen {
     private Dungeon dungeon;
     private PlayerCharacter hero;
     private NonPlayerCharacter imp;
+    private final HeadUpDisplay hud;
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
-
+        hud = new HeadUpDisplay();
         setupCamera();
         setupDungeon();
     }
@@ -85,6 +87,7 @@ public class GameScreen implements Screen {
         hero.render();
         imp.render();
         dungeon.renderWalls(pmDungeon.getBatch());
+        hud.render();
         pmDungeon.getBatch().end();
     }
 
@@ -92,6 +95,7 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         camera.setToOrtho(false, VIRTUAL_HEIGHT * width / (float) height, VIRTUAL_HEIGHT);
         pmDungeon.getBatch().setProjectionMatrix(camera.combined);
+        hud.resize(width, height);
     }
 
     @Override

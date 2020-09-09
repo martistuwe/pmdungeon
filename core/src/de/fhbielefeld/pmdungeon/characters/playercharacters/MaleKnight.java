@@ -9,11 +9,13 @@ import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 public class MaleKnight extends PlayerCharacter {
 
     private static final float MOVEMENT_SPEED = 5;
+    private static final int HEALTH_POINTS = 10;
 
     public MaleKnight(SpriteBatch batch, Dungeon dungeon) {
         super(batch, dungeon);
 
         this.movementSpeed = MOVEMENT_SPEED;
+        this.healthPoints = HEALTH_POINTS;
 
         this.idleAnimation = new Animation(0.2f);
         this.runAnimation = new Animation(0.1f);

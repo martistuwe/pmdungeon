@@ -3,8 +3,9 @@ package de.fhbielefeld.pmdungeon.characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 
-public class Animation {
+public class Animation implements Disposable {
 
     private final Array<Texture> textures;
     private int currentFrameIndex = 0;
@@ -38,5 +39,12 @@ public class Animation {
 
     public void setMaxFrameTime(float maxFrameTime) {
         this.maxFrameTime = maxFrameTime;
+    }
+
+    @Override
+    public void dispose() {
+        for (Texture texture : textures) {
+            texture.dispose();
+        }
     }
 }

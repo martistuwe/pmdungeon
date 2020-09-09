@@ -3,23 +3,26 @@ package de.fhbielefeld.pmdungeon.characters;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
-public abstract class Character {
+public abstract class Character implements Disposable {
 
     private static final float RENDERING_OFFSET_X = -0.85f;
     private static final float RENDERING_OFFSET_Y = -0.5f;
 
     protected SpriteBatch batch;
     protected Dungeon dungeon;
-    protected float movementSpeed;
     protected Animation idleAnimation;
     protected Animation runAnimation;
     protected boolean idle = true;
     protected boolean facingLeft = false;
     protected float positionX = 0;
     protected float positionY = 0;
+
+    protected float movementSpeed;
+    protected int healthPoints;
 
     protected Character(SpriteBatch batch, Dungeon dungeon) {
         this.batch = batch;
@@ -65,5 +68,11 @@ public abstract class Character {
 
     public float getPositionY() {
         return positionY;
+    }
+
+    @Override
+    public void dispose() {
+        idleAnimation.dispose();
+        runAnimation.dispose();
     }
 }
