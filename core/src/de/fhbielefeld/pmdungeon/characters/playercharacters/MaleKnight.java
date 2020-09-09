@@ -15,7 +15,7 @@ public class MaleKnight extends PlayerCharacter {
         super(batch, dungeon);
 
         this.movementSpeed = MOVEMENT_SPEED;
-        this.healthPoints = MAX_HEALTH - 1.5f;
+        this.healthPoints = MAX_HEALTH;
         this.maxHealthPoints = MAX_HEALTH;
 
         this.idleAnimation = new Animation(0.2f);
