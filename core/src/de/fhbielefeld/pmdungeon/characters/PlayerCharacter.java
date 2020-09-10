@@ -9,7 +9,7 @@ import de.fhbielefeld.pmdungeon.items.Sword;
 
 public abstract class PlayerCharacter extends Character {
 
-    private static final int INVENTORY_SIZE = 3;
+    public static final int INVENTORY_SIZE = 3;
     private final Item[] inventory;
 
     protected PlayerCharacter(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints) {

@@ -9,6 +9,10 @@ public abstract class Item implements Disposable {
 
     public abstract void use();
 
+    public Texture getTexture() {
+        return texture;
+    }
+
     @Override
     public void dispose() {
         if (texture != null) {

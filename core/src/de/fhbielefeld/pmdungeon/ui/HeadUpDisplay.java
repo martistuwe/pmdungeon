@@ -1,16 +1,20 @@
 package de.fhbielefeld.pmdungeon.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.characters.PlayerCharacter;
+import de.fhbielefeld.pmdungeon.items.Item;
 
 import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;
 
 public class HeadUpDisplay implements Disposable {
 
     private static final float HEART_SIZE = 0.5f;
+    private static final float INVENTORY_ITEM_SIZE = 0.75f;
 
     private final PlayerCharacter hero;
     private final SpriteBatch hudBatch;
@@ -34,6 +38,7 @@ public class HeadUpDisplay implements Disposable {
         hudBatch.begin();
         if (hero != null) {
             drawHealthPoints();
+            drawInventory();
         }
         hudBatch.end();
     }
@@ -49,6 +54,28 @@ public class HeadUpDisplay implements Disposable {
         for (; i < hero.getMaxHealthPoints(); i++) {
             hudBatch.draw(heartEmpty, i * HEART_SIZE, VIRTUAL_HEIGHT - HEART_SIZE, HEART_SIZE, HEART_SIZE);
         }
+    }
+
+    private void drawInventory() {
+        Texture background = createInventoryBackground();
+        float backgroundXCoord = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (PlayerCharacter.INVENTORY_SIZE * INVENTORY_ITEM_SIZE) / 2;
+
+        Item[] items = hero.getInventory();
+        for (int i = 0; i < PlayerCharacter.INVENTORY_SIZE; i++) {
+            hudBatch.draw(background, backgroundXCoord + i * INVENTORY_ITEM_SIZE, 0, INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE);
+            if (items[i] != null) {
+                hudBatch.draw(items[i].getTexture(), backgroundXCoord + i * INVENTORY_ITEM_SIZE, 0, ((float) items[i].getTexture().getWidth() / (float) items[i].getTexture().getHeight()) * INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE);
+            }
+        }
+    }
+
+    private Texture createInventoryBackground() {
+        Pixmap backgroundPixmap = new Pixmap(16, 16, Pixmap.Format.RGBA8888);
+        backgroundPixmap.setColor(0, 0, 0, 0.3f);
+        backgroundPixmap.fill();
+        Texture background = new Texture(backgroundPixmap);
+        backgroundPixmap.dispose();
+        return background;
     }
 
     public void resize(int width, int height) {
