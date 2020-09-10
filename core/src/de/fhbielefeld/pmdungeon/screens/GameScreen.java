@@ -11,7 +11,6 @@ import de.fhbielefeld.pmdungeon.characters.nonplayercharacters.demons.Imp;
 import de.fhbielefeld.pmdungeon.characters.playercharacters.MaleKnight;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.ui.HeadUpDisplay;
-import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
@@ -33,6 +32,7 @@ public class GameScreen implements Screen {
 
         setupCamera();
         setupDungeon();
+        setupCharacters();
         hud = new HeadUpDisplay(hero);
     }
 
@@ -45,11 +45,12 @@ public class GameScreen implements Screen {
     private void setupDungeon() {
         DungeonConverter dungeonConverter = new DungeonConverter();
         dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
-        Coordinate startPosition = dungeon.getStartingPoint();
-        hero = new MaleKnight(pmDungeon.getBatch(), dungeon);
-        hero.setPosition(startPosition);
+    }
 
-        //Testing
+    private void setupCharacters() {
+        hero = new MaleKnight(pmDungeon.getBatch(), dungeon);
+        hero.setPosition(dungeon.getStartingPoint());
+
         imp = new Imp(pmDungeon.getBatch(), dungeon);
         imp.setPosition(dungeon.getRandomPointInDungeon());
     }

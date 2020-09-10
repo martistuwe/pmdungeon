@@ -21,4 +21,9 @@ public class Imp extends NonPlayerCharacter {
             this.runAnimation.addTexture(new Texture("textures/characters/nonplayercharacters/demons/imp/imp_run_anim_f" + i + ".png"));
         }
     }
+
+    @Override
+    public void update() {
+        //soon
+    }
 }

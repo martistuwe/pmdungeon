@@ -33,22 +33,7 @@ public abstract class Character implements Disposable {
         this.healthPoints = maxHealthPoints;
     }
 
-    protected float getMovementSpeed() {
-        return movementSpeed;
-    }
-
-    public void setPosition(Coordinate position) {
-        this.positionX = position.getX();
-        this.positionY = position.getY();
-    }
-
-    public Texture getTexture() {
-        if (idle) {
-            return this.idleAnimation.getCurrentTexture();
-        } else {
-            return this.runAnimation.getCurrentTexture();
-        }
-    }
+    public abstract void update();
 
     public void render() {
         Texture texture = this.getTexture();
@@ -64,6 +49,23 @@ public abstract class Character implements Disposable {
             this.positionX = targetX;
             this.positionY = targetY;
         }
+    }
+
+    public void setPosition(Coordinate position) {
+        this.positionX = position.getX();
+        this.positionY = position.getY();
+    }
+
+    public Texture getTexture() {
+        if (idle) {
+            return this.idleAnimation.getCurrentTexture();
+        } else {
+            return this.runAnimation.getCurrentTexture();
+        }
+    }
+
+    protected float getMovementSpeed() {
+        return movementSpeed;
     }
 
     public float getPositionX() {
