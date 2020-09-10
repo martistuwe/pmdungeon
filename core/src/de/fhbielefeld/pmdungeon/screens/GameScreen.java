@@ -77,7 +77,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
 
         debugCameraZoom();
-        hero.handleInput(Gdx.input);
+        hero.update();
 
         camera.position.set(hero.getPositionX(), hero.getPositionY(), 0);
         camera.update();

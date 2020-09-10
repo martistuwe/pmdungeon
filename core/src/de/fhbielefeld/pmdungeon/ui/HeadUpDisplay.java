@@ -13,9 +13,9 @@ import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;
 
 public class HeadUpDisplay implements Disposable {
 
-    private static final float HEART_SIZE = 0.5f;
-    private static final float INVENTORY_BACKGROUND_SIZE = 0.6f;
-    private static final float INVENTORY_ITEM_SIZE = 0.6f;
+    private static final float HEART_SIZE = 0.4f;
+    private static final float INVENTORY_BACKGROUND_SIZE = 0.5f;
+    private static final float INVENTORY_ITEM_SIZE = 0.5f;
 
     private final PlayerCharacter hero;
     private final SpriteBatch hudBatch;
@@ -59,12 +59,16 @@ public class HeadUpDisplay implements Disposable {
 
     private void drawInventory() {
         Texture background = createInventoryBackground();
+        Texture highlight = createInventoryHighlight();
         float backgroundXAxis = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (PlayerCharacter.INVENTORY_SIZE * INVENTORY_BACKGROUND_SIZE) / 2;
 
         Item[] items = hero.getInventory();
         for (int i = 0; i < PlayerCharacter.INVENTORY_SIZE; i++) {
             hudBatch.draw(background, backgroundXAxis + i * INVENTORY_BACKGROUND_SIZE, 0, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE);
             if (items[i] != null) {
+                if (hero.getSelectedItem() != null && items[i] == hero.getSelectedItem()) {
+                    hudBatch.draw(highlight, backgroundXAxis + i * INVENTORY_BACKGROUND_SIZE, 0, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE / 12);
+                }
                 float itemOffset = INVENTORY_BACKGROUND_SIZE / 2 - calculateItemWidth(items[i]) / 2;
                 hudBatch.draw(items[i].getTexture(), (backgroundXAxis + i * INVENTORY_ITEM_SIZE) + itemOffset, 0, calculateItemWidth(items[i]), INVENTORY_ITEM_SIZE);
             }
@@ -72,12 +76,21 @@ public class HeadUpDisplay implements Disposable {
     }
 
     private Texture createInventoryBackground() {
-        Pixmap backgroundPixmap = new Pixmap(16, 16, Pixmap.Format.RGBA8888);
+        Pixmap backgroundPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         backgroundPixmap.setColor(0, 0, 0, 0.3f);
         backgroundPixmap.fill();
         Texture background = new Texture(backgroundPixmap);
         backgroundPixmap.dispose();
         return background;
+    }
+
+    private Texture createInventoryHighlight() {
+        Pixmap highlightPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        highlightPixmap.setColor(0, 0, 1, 0.5f);
+        highlightPixmap.fill();
+        Texture highlight = new Texture(highlightPixmap);
+        highlightPixmap.dispose();
+        return highlight;
     }
 
     private float calculateItemWidth(Item item) {

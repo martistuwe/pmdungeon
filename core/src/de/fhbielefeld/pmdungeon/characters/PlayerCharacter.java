@@ -11,6 +11,7 @@ public abstract class PlayerCharacter extends Character {
 
     public static final int INVENTORY_SIZE = 3;
     private final Item[] inventory;
+    private Item selectedItem;
 
     protected PlayerCharacter(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints) {
         super(batch, dungeon, movementSpeed, maxHealthPoints);
@@ -20,35 +21,56 @@ public abstract class PlayerCharacter extends Character {
         inventory[2] = new Sword();
     }
 
-    public void handleInput(Input input) {
+    public void update() {
+        updatePosition();
+        updateInventory();
+    }
+
+    private void updatePosition() {
         float targetX = positionX;
         float targetY = positionY;
         idle = true;
-        if (input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             targetY += getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
         }
-        if (input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             targetX -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
             facingLeft = true;
         }
-        if (input.isKeyPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             targetY -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
         }
-        if (input.isKeyPressed(Input.Keys.D)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             targetX += getMovementSpeed() * Gdx.graphics.getDeltaTime();
             idle = false;
             facingLeft = false;
         }
         move(targetX, targetY);
-        if (input.isKeyPressed(Input.Keys.SPACE) && inventory[0] != null) {
-            inventory[0].use();
+    }
+
+    private void updateInventory() {
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            this.selectedItem = inventory[0];
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+            this.selectedItem = inventory[1];
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+            this.selectedItem = inventory[2];
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && this.selectedItem != null) {
+            this.selectedItem.use();
         }
     }
 
     public Item[] getInventory() {
         return inventory;
+    }
+
+    public Item getSelectedItem() {
+        return selectedItem;
     }
 }
