@@ -21,6 +21,7 @@ public class Dungeon {
 
     private final ObjectMap<Textures, Texture> textureMap;
     private final WallPatternFactory wallPatternFactory;
+    private final Random random = new Random();
 
     public Dungeon() {
         textureMap = Textures.loadAllTextures();
@@ -40,16 +41,24 @@ public class Dungeon {
     }
 
     public Coordinate getStartingPoint() {
-        Coordinate startRoomExtensions = rooms[0].getExtension();
-        Random random = new Random();
-        Coordinate start = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        while (getTileAt(start) != Tile.FLOOR) {
-            start.setX(random.nextInt(startRoomExtensions.getX() - 1));
-            start.setY(random.nextInt(startRoomExtensions.getY() - 1));
+        return getRandomPointInRoom(0);
+    }
+
+    public Coordinate getRandomPointInRoom(int roomId) {
+        if (rooms[roomId] != null) {
+            Coordinate roomExtensions = rooms[roomId].getExtension();
+
+            Coordinate point = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            while (getTileAt(point) != Tile.FLOOR) {
+                point.setX(random.nextInt(roomExtensions.getX() - 1));
+                point.setY(random.nextInt(roomExtensions.getY() - 1));
+            }
+            point.add(new Coordinate(1, 1));
+            point.add(new Coordinate(rooms[roomId].getPosition().getX(), rooms[roomId].getPosition().getY()));
+            return point;
+        } else {
+            return null;
         }
-        start.add(new Coordinate(1, 1));
-        start.add(new Coordinate(rooms[0].getPosition().getX(), rooms[0].getPosition().getY()));
-        return start;
     }
 
     public void renderWalls(SpriteBatch batch) {
