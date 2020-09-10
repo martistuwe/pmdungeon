@@ -14,7 +14,8 @@ import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;
 public class HeadUpDisplay implements Disposable {
 
     private static final float HEART_SIZE = 0.5f;
-    private static final float INVENTORY_ITEM_SIZE = 0.75f;
+    private static final float INVENTORY_BACKGROUND_SIZE = 0.6f;
+    private static final float INVENTORY_ITEM_SIZE = 0.6f;
 
     private final PlayerCharacter hero;
     private final SpriteBatch hudBatch;
@@ -58,13 +59,14 @@ public class HeadUpDisplay implements Disposable {
 
     private void drawInventory() {
         Texture background = createInventoryBackground();
-        float backgroundXCoord = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (PlayerCharacter.INVENTORY_SIZE * INVENTORY_ITEM_SIZE) / 2;
+        float backgroundXAxis = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (PlayerCharacter.INVENTORY_SIZE * INVENTORY_BACKGROUND_SIZE) / 2;
 
         Item[] items = hero.getInventory();
         for (int i = 0; i < PlayerCharacter.INVENTORY_SIZE; i++) {
-            hudBatch.draw(background, backgroundXCoord + i * INVENTORY_ITEM_SIZE, 0, INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE);
+            hudBatch.draw(background, backgroundXAxis + i * INVENTORY_BACKGROUND_SIZE, 0, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE);
             if (items[i] != null) {
-                hudBatch.draw(items[i].getTexture(), backgroundXCoord + i * INVENTORY_ITEM_SIZE, 0, ((float) items[i].getTexture().getWidth() / (float) items[i].getTexture().getHeight()) * INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE);
+                float itemOffset = INVENTORY_BACKGROUND_SIZE / 2 - calculateItemWidth(items[i]) / 2;
+                hudBatch.draw(items[i].getTexture(), (backgroundXAxis + i * INVENTORY_ITEM_SIZE) + itemOffset, 0, calculateItemWidth(items[i]), INVENTORY_ITEM_SIZE);
             }
         }
     }
@@ -76,6 +78,10 @@ public class HeadUpDisplay implements Disposable {
         Texture background = new Texture(backgroundPixmap);
         backgroundPixmap.dispose();
         return background;
+    }
+
+    private float calculateItemWidth(Item item) {
+        return (float) item.getTexture().getWidth() / (float) item.getTexture().getHeight() * INVENTORY_ITEM_SIZE;
     }
 
     public void resize(int width, int height) {

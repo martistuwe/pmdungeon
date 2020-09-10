@@ -16,6 +16,8 @@ public abstract class PlayerCharacter extends Character {
         super(batch, dungeon, movementSpeed, maxHealthPoints);
         inventory = new Item[INVENTORY_SIZE];
         inventory[0] = new Sword();
+        inventory[1] = new Sword();
+        inventory[2] = new Sword();
     }
 
     public void handleInput(Input input) {
