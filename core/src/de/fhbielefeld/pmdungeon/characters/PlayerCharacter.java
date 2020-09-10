@@ -41,6 +41,9 @@ public abstract class PlayerCharacter extends Character {
             facingLeft = false;
         }
         move(targetX, targetY);
+        if (input.isKeyPressed(Input.Keys.SPACE) && inventory[0] != null) {
+            inventory[0].use();
+        }
     }
 
     public Item[] getInventory() {

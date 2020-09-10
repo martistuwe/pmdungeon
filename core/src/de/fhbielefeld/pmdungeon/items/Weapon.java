@@ -2,9 +2,11 @@ package de.fhbielefeld.pmdungeon.items;
 
 public abstract class Weapon extends Item {
 
-    private final int damage;
+    private final float damage;
+    private final float range;
 
-    protected Weapon(int damage) {
+    protected Weapon(float damage, float range) {
         this.damage = damage;
+        this.range = range;
     }
 }
