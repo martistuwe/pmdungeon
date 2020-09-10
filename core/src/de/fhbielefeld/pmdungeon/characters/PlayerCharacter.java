@@ -4,11 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.items.Item;
 
 public abstract class PlayerCharacter extends Character {
 
+    private static final int INVENTORY_SIZE = 3;
+    private final Item[] inventory;
+
     protected PlayerCharacter(SpriteBatch batch, Dungeon dungeon) {
         super(batch, dungeon);
+        inventory = new Item[INVENTORY_SIZE];
     }
 
     public void handleInput(Input input) {
@@ -34,5 +39,9 @@ public abstract class PlayerCharacter extends Character {
             facingLeft = false;
         }
         move(targetX, targetY);
+    }
+
+    public Item[] getInventory() {
+        return inventory;
     }
 }
