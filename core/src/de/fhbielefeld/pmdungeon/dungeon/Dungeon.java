@@ -44,7 +44,12 @@ public class Dungeon {
         return getRandomPointInRoom(0);
     }
 
-    public Coordinate getRandomPointInRoom(int roomId) {
+    public Coordinate getRandomPointInDungeon() {
+        int roomId = (this.random.nextInt(rooms.length - 1)) + 1;
+        return getRandomPointInRoom(roomId);
+    }
+
+    private Coordinate getRandomPointInRoom(int roomId) {
         if (rooms[roomId] != null) {
             Coordinate roomExtensions = rooms[roomId].getExtension();
 

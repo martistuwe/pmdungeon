@@ -51,9 +51,7 @@ public class GameScreen implements Screen {
 
         //Testing
         imp = new Imp(pmDungeon.getBatch(), dungeon);
-        Coordinate impCoordinate = dungeon.getRoom(1).getPosition();
-        impCoordinate.add(dungeon.getRoom(1).getCenter());
-        imp.setPosition(impCoordinate);
+        imp.setPosition(dungeon.getRandomPointInDungeon());
     }
 
     private void debugCameraZoom() {
