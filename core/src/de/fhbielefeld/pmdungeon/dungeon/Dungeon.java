@@ -9,6 +9,8 @@ import de.fhbielefeld.pmdungeon.util.Textures;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Room;
 
+import java.util.Random;
+
 public class Dungeon {
 
     private Room[] rooms;
@@ -38,9 +40,15 @@ public class Dungeon {
     }
 
     public Coordinate getStartingPoint() {
-        Coordinate start = rooms[0].getCenter();
-        start.setX((rooms[0].getCenter().getX() + rooms[0].getPosition().getX()));
-        start.setY((rooms[0].getCenter().getY() + rooms[0].getPosition().getY()));
+        Coordinate startRoomExtensions = rooms[0].getExtension();
+        Random random = new Random();
+        Coordinate start = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        while (getTileAt(start) != Tile.FLOOR) {
+            start.setX(random.nextInt(startRoomExtensions.getX() - 1));
+            start.setY(random.nextInt(startRoomExtensions.getY() - 1));
+        }
+        start.add(new Coordinate(1, 1));
+        start.add(new Coordinate(rooms[0].getPosition().getX(), rooms[0].getPosition().getY()));
         return start;
     }
 
@@ -79,6 +87,10 @@ public class Dungeon {
             return tiles[x][y];
         }
         return null;
+    }
+
+    public Tile getTileAt(Coordinate coordinate) {
+        return this.getTileAt(coordinate.getX(), coordinate.getY());
     }
 
     public void setTileAt(int x, int y, Tile tile) {
