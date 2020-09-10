@@ -5,15 +5,17 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.items.Item;
+import de.fhbielefeld.pmdungeon.items.Sword;
 
 public abstract class PlayerCharacter extends Character {
 
     private static final int INVENTORY_SIZE = 3;
     private final Item[] inventory;
 
-    protected PlayerCharacter(SpriteBatch batch, Dungeon dungeon) {
-        super(batch, dungeon);
+    protected PlayerCharacter(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints) {
+        super(batch, dungeon, movementSpeed, maxHealthPoints);
         inventory = new Item[INVENTORY_SIZE];
+        inventory[0] = new Sword();
     }
 
     public void handleInput(Input input) {

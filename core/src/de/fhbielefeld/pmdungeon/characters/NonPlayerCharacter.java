@@ -5,7 +5,7 @@ import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 
 public abstract class NonPlayerCharacter extends Character {
 
-    protected NonPlayerCharacter(SpriteBatch batch, Dungeon dungeon) {
-        super(batch, dungeon);
+    protected NonPlayerCharacter(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints) {
+        super(batch, dungeon, movementSpeed, maxHealthPoints);
     }
 }

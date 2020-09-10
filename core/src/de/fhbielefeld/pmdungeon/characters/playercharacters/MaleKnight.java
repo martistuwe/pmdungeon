@@ -12,11 +12,7 @@ public class MaleKnight extends PlayerCharacter {
     private static final float MAX_HEALTH = 5f;
 
     public MaleKnight(SpriteBatch batch, Dungeon dungeon) {
-        super(batch, dungeon);
-
-        this.movementSpeed = MOVEMENT_SPEED;
-        this.healthPoints = MAX_HEALTH;
-        this.maxHealthPoints = MAX_HEALTH;
+        super(batch, dungeon, MOVEMENT_SPEED, MAX_HEALTH);
 
         this.idleAnimation = new Animation(0.2f);
         this.runAnimation = new Animation(0.1f);

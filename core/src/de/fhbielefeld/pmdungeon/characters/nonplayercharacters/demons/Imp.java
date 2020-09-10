@@ -9,11 +9,10 @@ import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 public class Imp extends NonPlayerCharacter {
 
     private static final float MOVEMENT_SPEED = 2f;
+    private static final float MAX_HEALTH_POINTS = 2f;
 
     public Imp(SpriteBatch batch, Dungeon dungeon) {
-        super(batch, dungeon);
-
-        this.movementSpeed = MOVEMENT_SPEED;
+        super(batch, dungeon, MOVEMENT_SPEED, MAX_HEALTH_POINTS);
 
         this.idleAnimation = new Animation(0.2f);
         this.runAnimation = new Animation(0.2f);

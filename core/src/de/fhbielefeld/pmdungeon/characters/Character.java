@@ -21,13 +21,16 @@ public abstract class Character implements Disposable {
     protected float positionX = 0;
     protected float positionY = 0;
 
-    protected float movementSpeed;
-    protected float healthPoints;
-    protected float maxHealthPoints;
+    private final float movementSpeed;
+    private final float healthPoints;
+    private final float maxHealthPoints;
 
-    protected Character(SpriteBatch batch, Dungeon dungeon) {
+    protected Character(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints) {
         this.batch = batch;
         this.dungeon = dungeon;
+        this.movementSpeed = movementSpeed;
+        this.maxHealthPoints = maxHealthPoints;
+        this.healthPoints = maxHealthPoints;
     }
 
     protected float getMovementSpeed() {
