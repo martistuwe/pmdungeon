@@ -2,6 +2,8 @@ package de.fhbielefeld.pmdungeon.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.items.Item;
@@ -10,6 +12,7 @@ import de.fhbielefeld.pmdungeon.items.Sword;
 public abstract class PlayerCharacter extends Character {
 
     public static final int INVENTORY_SIZE = 3;
+    private static final float ITEM_SIZE_SCALE = 0.04f;
     private final Item[] inventory;
     private Item selectedItem;
 
@@ -19,6 +22,23 @@ public abstract class PlayerCharacter extends Character {
         inventory[0] = new Sword();
         inventory[1] = new Sword();
         inventory[2] = new Sword();
+    }
+
+    @Override
+    public void render() {
+        if (selectedItem != null) {
+            Texture itemTexture = selectedItem.getTexture();
+            Sprite sprite = new Sprite(itemTexture);
+            sprite.setSize(itemTexture.getHeight() * ITEM_SIZE_SCALE, itemTexture.getWidth() * ITEM_SIZE_SCALE);
+            sprite.rotate90(!facingLeft);
+            if (facingLeft) {
+                sprite.setPosition(positionX - 1.5f, positionY);
+            } else {
+                sprite.setPosition(positionX, positionY);
+            }
+            sprite.draw(batch);
+        }
+        super.render();
     }
 
     public void update() {

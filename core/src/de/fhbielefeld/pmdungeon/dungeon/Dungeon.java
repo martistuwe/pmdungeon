@@ -23,7 +23,7 @@ public class Dungeon {
     private final WallPatternFactory wallPatternFactory;
     private final Random random = new Random();
 
-    public Dungeon() {
+    private Dungeon() {
         textureMap = Textures.loadAllTextures();
         wallPatternFactory = new WallPatternFactory(textureMap);
     }
