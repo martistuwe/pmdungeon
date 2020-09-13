@@ -29,12 +29,11 @@ public abstract class PlayerCharacter extends Character {
         if (selectedItem != null) {
             Texture itemTexture = selectedItem.getTexture();
             Sprite sprite = new Sprite(itemTexture);
-            sprite.setSize(itemTexture.getHeight() * ITEM_SIZE_SCALE, itemTexture.getWidth() * ITEM_SIZE_SCALE);
-            sprite.rotate90(!facingLeft);
+            sprite.setSize(itemTexture.getWidth() * ITEM_SIZE_SCALE, itemTexture.getHeight() * ITEM_SIZE_SCALE);
             if (facingLeft) {
-                sprite.setPosition(positionX - 1.5f, positionY);
+                sprite.setPosition(positionX - 1f, positionY);
             } else {
-                sprite.setPosition(positionX, positionY);
+                sprite.setPosition(positionX - 0.1f, positionY);
             }
             sprite.draw(batch);
         }
