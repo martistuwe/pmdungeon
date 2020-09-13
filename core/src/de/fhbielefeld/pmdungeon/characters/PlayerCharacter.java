@@ -80,8 +80,8 @@ public abstract class PlayerCharacter extends Character {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
             this.selectedItem = inventory[2];
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && this.selectedItem != null) {
-            this.selectedItem.use();
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && this.selectedItem != null) {
+            this.selectedItem.use(this);
         }
     }
 

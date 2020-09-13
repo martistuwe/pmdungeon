@@ -22,7 +22,7 @@ public abstract class Character implements Disposable {
     protected float positionY = 0;
 
     private final float movementSpeed;
-    private final float healthPoints;
+    private float healthPoints;
     private final float maxHealthPoints;
 
     protected Character(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints) {
@@ -55,14 +55,23 @@ public abstract class Character implements Disposable {
         float minDistance = Float.MAX_VALUE;
         Character returnCharacter = null;
         for (Character character : characters) {
-            float distance = characterDistance(character);
+            float distance = distanceBetween(character);
             if (minDistance > distance && character != this) returnCharacter = character;
         }
         return returnCharacter;
     }
 
-    private float characterDistance(Character that) {
+    public float distanceBetween(Character that) {
         return (float) Math.sqrt(Math.pow(this.positionX - that.positionX, 2) + Math.pow(this.positionY - that.positionY, 2));
+    }
+
+    public void attack(Character character, float damage) {
+        character.decreaseHealth(damage);
+    }
+
+    private void decreaseHealth(float damage) {
+        this.healthPoints -= damage;
+        //TODO if healthPoints < 0 = die
     }
 
     public void setPosition(Coordinate position) {

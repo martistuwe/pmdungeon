@@ -11,9 +11,4 @@ public class Sword extends Weapon {
         super(DAMAGE, RANGE);
         this.texture = new Texture("textures/items/weapon_regular_sword.png");
     }
-
-    @Override
-    public void use() {
-        //TODO implement
-    }
 }

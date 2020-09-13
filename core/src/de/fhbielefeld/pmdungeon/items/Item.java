@@ -2,12 +2,13 @@ package de.fhbielefeld.pmdungeon.items;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
+import de.fhbielefeld.pmdungeon.characters.Character;
 
 public abstract class Item implements Disposable {
 
     protected Texture texture;
 
-    public abstract void use();
+    public abstract void use(Character character);
 
     public Texture getTexture() {
         return texture;
