@@ -51,6 +51,20 @@ public abstract class Character implements Disposable {
         }
     }
 
+    public Character nearestCharacter(Character[] characters) {
+        float minDistance = Float.MAX_VALUE;
+        Character returnCharacter = null;
+        for (Character character : characters) {
+            float distance = characterDistance(character);
+            if (minDistance > distance && character != this) returnCharacter = character;
+        }
+        return returnCharacter;
+    }
+
+    private float characterDistance(Character that) {
+        return (float) Math.sqrt(Math.pow(this.positionX - that.positionX, 2) + Math.pow(this.positionY - that.positionY, 2));
+    }
+
     public void setPosition(Coordinate position) {
         this.positionX = position.getX();
         this.positionY = position.getY();
