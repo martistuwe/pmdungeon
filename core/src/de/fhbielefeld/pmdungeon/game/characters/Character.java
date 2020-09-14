@@ -77,12 +77,14 @@ public abstract class Character implements Disposable {
         inventory.setSelectedItem(index);
     }
 
-    public Character nearestCharacter(Character[] characters) {
+    public Character nearestCharacter() {
         float minDistance = Float.MAX_VALUE;
         Character returnCharacter = null;
-        for (Character character : characters) {
-            float distance = distanceBetween(character);
-            if (minDistance > distance && character != this) returnCharacter = character;
+        for (Character character : gameWorld.getCharacterList()) {
+            if (this != character) {
+                float distance = distanceBetween(character);
+                if (minDistance > distance) returnCharacter = character;
+            }
         }
         return returnCharacter;
     }
@@ -92,11 +94,16 @@ public abstract class Character implements Disposable {
     }
 
     public void attack(Character character, float damage) {
-        character.decreaseHealth(damage);
+        if (this != character) {
+            character.decreaseHealth(damage);
+        }
     }
 
     private void decreaseHealth(float damage) {
         this.healthPoints -= damage;
+        if (this.healthPoints <= 0) {
+            System.out.println("DEAD: " + this.toString());
+        }
         //TODO if healthPoints < 0 = die
     }
 
