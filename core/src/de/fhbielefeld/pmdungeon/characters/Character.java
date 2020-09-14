@@ -1,5 +1,6 @@
 package de.fhbielefeld.pmdungeon.characters;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,11 +45,26 @@ public abstract class Character implements Disposable {
         sprite.draw(batch);
     }
 
-    protected void move(float targetX, float targetY) {
-        if (dungeon.getTileAt((int) targetX, (int) targetY) == Dungeon.Tile.FLOOR || dungeon.getTileAt((int) targetX, (int) targetY) == Dungeon.Tile.DOOR) {
-            this.positionX = targetX;
-            this.positionY = targetY;
-        }
+    public void moveUp() {
+        float nextY = positionY + movementSpeed * Gdx.graphics.getDeltaTime();
+        if (dungeon.isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+    }
+
+    public void moveDown() {
+        float nextY = positionY - movementSpeed * Gdx.graphics.getDeltaTime();
+        if (dungeon.isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+    }
+
+    public void moveLeft() {
+        facingLeft = true;
+        float nextX = positionX - movementSpeed * Gdx.graphics.getDeltaTime();
+        if (dungeon.isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+    }
+
+    public void moveRight() {
+        facingLeft = false;
+        float nextX = positionX + movementSpeed * Gdx.graphics.getDeltaTime();
+        if (dungeon.isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
     }
 
     public Character nearestCharacter(Character[] characters) {
@@ -87,10 +103,6 @@ public abstract class Character implements Disposable {
         }
     }
 
-    protected float getMovementSpeed() {
-        return movementSpeed;
-    }
-
     public float getPositionX() {
         return positionX;
     }
@@ -105,6 +117,10 @@ public abstract class Character implements Disposable {
 
     public float getMaxHealthPoints() {
         return maxHealthPoints;
+    }
+
+    public void setIdle(boolean idle) {
+        this.idle = idle;
     }
 
     @Override

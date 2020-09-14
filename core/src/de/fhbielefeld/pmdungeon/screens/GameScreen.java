@@ -10,6 +10,8 @@ import de.fhbielefeld.pmdungeon.characters.PlayerCharacter;
 import de.fhbielefeld.pmdungeon.characters.nonplayercharacters.demons.Imp;
 import de.fhbielefeld.pmdungeon.characters.playercharacters.MaleKnight;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.inputhandling.Command;
+import de.fhbielefeld.pmdungeon.inputhandling.InputHandler;
 import de.fhbielefeld.pmdungeon.ui.HeadUpDisplay;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
 
@@ -26,6 +28,8 @@ public class GameScreen implements Screen {
     private PlayerCharacter hero;
     private NonPlayerCharacter imp;
     private final HeadUpDisplay hud;
+
+    private final InputHandler inputHandler = new InputHandler();
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
@@ -76,7 +80,15 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
 
         debugCameraZoom();
-        hero.update();
+        Command[] commands = inputHandler.handleInput();
+        if (commands.length == 0) hero.setIdle(true);
+        for (Command command : commands) {
+            if (command != null) {
+                hero.setIdle(false);
+                command.execute(hero);
+            }
+        }
+        //hero.update();
 
         camera.position.set(hero.getPositionX(), hero.getPositionY(), 0);
         camera.update();

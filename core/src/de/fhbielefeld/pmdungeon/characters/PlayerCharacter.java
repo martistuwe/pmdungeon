@@ -41,33 +41,7 @@ public abstract class PlayerCharacter extends Character {
     }
 
     public void update() {
-        updatePosition();
         updateInventory();
-    }
-
-    private void updatePosition() {
-        float targetX = positionX;
-        float targetY = positionY;
-        idle = true;
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            targetY += getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            idle = false;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            targetX -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            idle = false;
-            facingLeft = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            targetY -= getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            idle = false;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            targetX += getMovementSpeed() * Gdx.graphics.getDeltaTime();
-            idle = false;
-            facingLeft = false;
-        }
-        move(targetX, targetY);
     }
 
     private void updateInventory() {

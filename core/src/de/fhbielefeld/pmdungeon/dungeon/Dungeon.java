@@ -113,6 +113,11 @@ public class Dungeon {
         }
     }
 
+    public boolean isTileAccessible(int x, int y) {
+        Tile tile = getTileAt(x, y);
+        return tile == Tile.FLOOR || tile == Tile.DOOR;
+    }
+
     public void setRooms(Room[] rooms) {
         this.rooms = rooms;
     }
