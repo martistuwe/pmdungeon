@@ -2,8 +2,7 @@ package de.fhbielefeld.pmdungeon.game.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.items.Sword;
 
 public class MaleKnight extends Character {
@@ -13,8 +12,8 @@ public class MaleKnight extends Character {
     public static final int INVENTORY_SIZE = 3;
     private static final float ITEM_SIZE_SCALE = 0.04f;
 
-    public MaleKnight(SpriteBatch batch, Dungeon dungeon) {
-        super(batch, dungeon, MOVEMENT_SPEED, MAX_HEALTH, INVENTORY_SIZE);
+    public MaleKnight(GameWorld gameWorld) {
+        super(gameWorld, MOVEMENT_SPEED, MAX_HEALTH, INVENTORY_SIZE);
 
         this.idleAnimation = new Animation(0.2f);
         this.runAnimation = new Animation(0.1f);
@@ -41,7 +40,7 @@ public class MaleKnight extends Character {
             } else {
                 sprite.setPosition(positionX - 0.1f, positionY);
             }
-            sprite.draw(batch);
+            sprite.draw(gameWorld.getBatch());
         }
         super.render();
     }

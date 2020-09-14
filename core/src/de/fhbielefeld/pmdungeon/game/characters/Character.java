@@ -3,9 +3,8 @@ package de.fhbielefeld.pmdungeon.game.characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.items.Inventory;
 
@@ -14,8 +13,8 @@ public abstract class Character implements Disposable {
     private static final float RENDERING_OFFSET_X = -0.85f;
     private static final float RENDERING_OFFSET_Y = -0.5f;
 
-    protected SpriteBatch batch;
-    protected Dungeon dungeon;
+    protected GameWorld gameWorld;
+
     protected Animation idleAnimation;
     protected Animation runAnimation;
     protected boolean idle = true;
@@ -29,9 +28,8 @@ public abstract class Character implements Disposable {
 
     protected final Inventory inventory;
 
-    protected Character(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints, int inventorySize) {
-        this.batch = batch;
-        this.dungeon = dungeon;
+    protected Character(GameWorld gameWorld, float movementSpeed, float maxHealthPoints, int inventorySize) {
+        this.gameWorld = gameWorld;
         this.movementSpeed = movementSpeed;
         this.maxHealthPoints = maxHealthPoints;
         this.healthPoints = maxHealthPoints;
@@ -46,29 +44,29 @@ public abstract class Character implements Disposable {
         sprite.flip(facingLeft, false);
         sprite.setSize(1, (float) texture.getHeight() / (float) texture.getWidth());
         sprite.setPosition(positionX + RENDERING_OFFSET_X, positionY + RENDERING_OFFSET_Y);
-        sprite.draw(batch);
+        sprite.draw(gameWorld.getBatch());
     }
 
     public void moveUp() {
         float nextY = positionY + movementSpeed * Gdx.graphics.getDeltaTime();
-        if (dungeon.isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+        if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
     }
 
     public void moveDown() {
         float nextY = positionY - movementSpeed * Gdx.graphics.getDeltaTime();
-        if (dungeon.isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+        if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
     }
 
     public void moveLeft() {
         facingLeft = true;
         float nextX = positionX - movementSpeed * Gdx.graphics.getDeltaTime();
-        if (dungeon.isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+        if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
     }
 
     public void moveRight() {
         facingLeft = false;
         float nextX = positionX + movementSpeed * Gdx.graphics.getDeltaTime();
-        if (dungeon.isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+        if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
     }
 
     public void useSelectedItem() {
