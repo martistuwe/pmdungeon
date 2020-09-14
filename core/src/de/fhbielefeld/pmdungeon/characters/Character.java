@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.items.Inventory;
 import de.fhbielefeld.pmdungeon.util.dungeonconverter.Coordinate;
 
 public abstract class Character implements Disposable {
@@ -26,12 +27,17 @@ public abstract class Character implements Disposable {
     private float healthPoints;
     private final float maxHealthPoints;
 
-    protected Character(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints) {
+    protected final Inventory inventory;
+    private final int inventorySize;
+
+    protected Character(SpriteBatch batch, Dungeon dungeon, float movementSpeed, float maxHealthPoints, int inventorySize) {
         this.batch = batch;
         this.dungeon = dungeon;
         this.movementSpeed = movementSpeed;
         this.maxHealthPoints = maxHealthPoints;
         this.healthPoints = maxHealthPoints;
+        this.inventorySize = inventorySize;
+        this.inventory = new Inventory(inventorySize);
     }
 
     public abstract void update();
@@ -65,6 +71,14 @@ public abstract class Character implements Disposable {
         facingLeft = false;
         float nextX = positionX + movementSpeed * Gdx.graphics.getDeltaTime();
         if (dungeon.isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+    }
+
+    public void useSelectedItem() {
+        inventory.getSelectedItem().use(this);
+    }
+
+    public void selectItem(int index) {
+        inventory.setSelectedItem(index);
     }
 
     public Character nearestCharacter(Character[] characters) {
@@ -121,6 +135,14 @@ public abstract class Character implements Disposable {
 
     public void setIdle(boolean idle) {
         this.idle = idle;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public int getInventorySize() {
+        return inventorySize;
     }
 
     @Override

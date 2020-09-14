@@ -12,7 +12,7 @@ public class Inventory {
     }
 
     public void setSlot(int index, Item item) {
-        if (index > 0 && index < items.length) {
+        if (index >= 0 && index < items.length) {
             items[index] = item;
         }
     }
@@ -27,5 +27,9 @@ public class Inventory {
 
     public int getSize() {
         return size;
+    }
+
+    public Item[] getItems() {
+        return items;
     }
 }

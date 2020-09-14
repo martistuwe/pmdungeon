@@ -5,8 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.fhbielefeld.pmdungeon.PMDungeon;
-import de.fhbielefeld.pmdungeon.characters.NonPlayerCharacter;
-import de.fhbielefeld.pmdungeon.characters.PlayerCharacter;
+import de.fhbielefeld.pmdungeon.characters.Character;
 import de.fhbielefeld.pmdungeon.characters.nonplayercharacters.demons.Imp;
 import de.fhbielefeld.pmdungeon.characters.playercharacters.MaleKnight;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
@@ -25,8 +24,8 @@ public class GameScreen implements Screen {
 
     private OrthographicCamera camera;
     private Dungeon dungeon;
-    private PlayerCharacter hero;
-    private NonPlayerCharacter imp;
+    private Character hero;
+    private Character imp;
     private final HeadUpDisplay hud;
 
     private final InputHandler inputHandler = new InputHandler();

@@ -3,16 +3,17 @@ package de.fhbielefeld.pmdungeon.characters.nonplayercharacters.demons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.fhbielefeld.pmdungeon.characters.Animation;
-import de.fhbielefeld.pmdungeon.characters.NonPlayerCharacter;
+import de.fhbielefeld.pmdungeon.characters.Character;
 import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
 
-public class Imp extends NonPlayerCharacter {
+public class Imp extends Character {
 
     private static final float MOVEMENT_SPEED = 2f;
     private static final float MAX_HEALTH_POINTS = 2f;
+    private static final int INVENTORY_SIZE = 1;
 
     public Imp(SpriteBatch batch, Dungeon dungeon) {
-        super(batch, dungeon, MOVEMENT_SPEED, MAX_HEALTH_POINTS);
+        super(batch, dungeon, MOVEMENT_SPEED, MAX_HEALTH_POINTS, INVENTORY_SIZE);
 
         this.idleAnimation = new Animation(0.2f);
         this.runAnimation = new Animation(0.2f);

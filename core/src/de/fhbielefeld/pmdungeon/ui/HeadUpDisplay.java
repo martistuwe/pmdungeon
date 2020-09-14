@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import de.fhbielefeld.pmdungeon.characters.PlayerCharacter;
+import de.fhbielefeld.pmdungeon.characters.Character;
+import de.fhbielefeld.pmdungeon.items.Inventory;
 import de.fhbielefeld.pmdungeon.items.Item;
 
 import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;
@@ -17,14 +18,14 @@ public class HeadUpDisplay implements Disposable {
     private static final float INVENTORY_BACKGROUND_SIZE = 0.5f;
     private static final float INVENTORY_ITEM_SIZE = 0.5f;
 
-    private final PlayerCharacter hero;
+    private final Character hero;
     private final SpriteBatch hudBatch;
     private final OrthographicCamera hudCamera;
     private final Texture heartFull = new Texture("textures/ui/ui_heart_full.png");
     private final Texture heartHalf = new Texture("textures/ui/ui_heart_half.png");
     private final Texture heartEmpty = new Texture("textures/ui/ui_heart_empty.png");
 
-    public HeadUpDisplay(PlayerCharacter hero) {
+    public HeadUpDisplay(Character hero) {
         this.hero = hero;
         hudBatch = new SpriteBatch();
         hudCamera = new OrthographicCamera();
@@ -60,13 +61,16 @@ public class HeadUpDisplay implements Disposable {
     private void drawInventory() {
         Texture background = createInventoryBackground();
         Texture highlight = createInventoryHighlight();
-        float backgroundXAxis = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (PlayerCharacter.INVENTORY_SIZE * INVENTORY_BACKGROUND_SIZE) / 2;
 
-        Item[] items = hero.getInventory();
-        for (int i = 0; i < PlayerCharacter.INVENTORY_SIZE; i++) {
+        Inventory inventory = hero.getInventory();
+
+        float backgroundXAxis = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (inventory.getSize() * INVENTORY_BACKGROUND_SIZE) / 2;
+
+        Item[] items = inventory.getItems();
+        for (int i = 0; i < inventory.getSize(); i++) {
             hudBatch.draw(background, backgroundXAxis + i * INVENTORY_BACKGROUND_SIZE, 0, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE);
             if (items[i] != null) {
-                if (hero.getSelectedItem() != null && items[i] == hero.getSelectedItem()) {
+                if (inventory.getSelectedItem() != null && items[i] == inventory.getSelectedItem()) {
                     hudBatch.draw(highlight, backgroundXAxis + i * INVENTORY_BACKGROUND_SIZE, 0, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE / 12);
                 }
                 float itemOffset = INVENTORY_BACKGROUND_SIZE / 2 - calculateItemWidth(items[i]) / 2;
