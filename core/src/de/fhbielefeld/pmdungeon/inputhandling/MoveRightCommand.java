@@ -6,6 +6,6 @@ public class MoveRightCommand implements Command {
 
     @Override
     public void execute(Character character) {
-        character.moveRight;
+        character.moveRight();
     }
 }
