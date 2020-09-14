@@ -5,14 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.fhbielefeld.pmdungeon.PMDungeon;
-import de.fhbielefeld.pmdungeon.characters.Character;
-import de.fhbielefeld.pmdungeon.characters.nonplayercharacters.demons.Imp;
-import de.fhbielefeld.pmdungeon.characters.playercharacters.MaleKnight;
-import de.fhbielefeld.pmdungeon.dungeon.Dungeon;
-import de.fhbielefeld.pmdungeon.inputhandling.Command;
-import de.fhbielefeld.pmdungeon.inputhandling.InputHandler;
-import de.fhbielefeld.pmdungeon.ui.HeadUpDisplay;
-import de.fhbielefeld.pmdungeon.util.dungeonconverter.DungeonConverter;
+import de.fhbielefeld.pmdungeon.game.characters.Character;
+import de.fhbielefeld.pmdungeon.game.characters.Imp;
+import de.fhbielefeld.pmdungeon.game.characters.MaleKnight;
+import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
+import de.fhbielefeld.pmdungeon.game.inputhandling.Command;
+import de.fhbielefeld.pmdungeon.game.inputhandling.InputHandler;
+import de.fhbielefeld.pmdungeon.game.ui.HeadUpDisplay;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
