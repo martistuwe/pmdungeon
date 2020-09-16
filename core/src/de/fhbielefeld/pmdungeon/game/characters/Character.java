@@ -114,12 +114,26 @@ public abstract class Character implements Disposable {
         }
     }
 
+    public void heal(float heal) {
+        increaseHealth(heal);
+    }
+
     private void decreaseHealth(float damage) {
         this.healthPoints -= damage;
         if (this.healthPoints <= 0) {
             System.out.println("DEAD: " + this.toString());
         }
         //TODO if healthPoints < 0 = die
+    }
+
+    private void increaseHealth(float heal) {
+        if (heal > 0) {
+            if (this.healthPoints + heal >= this.maxHealthPoints) {
+                this.healthPoints = this.maxHealthPoints;
+            } else {
+                this.healthPoints += heal;
+            }
+        }
     }
 
     public void setPosition(Coordinate position) {

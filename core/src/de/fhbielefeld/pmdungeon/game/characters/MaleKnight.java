@@ -2,6 +2,7 @@ package de.fhbielefeld.pmdungeon.game.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
+import de.fhbielefeld.pmdungeon.game.items.HealthPotion;
 import de.fhbielefeld.pmdungeon.game.items.Sword;
 
 public class MaleKnight extends Character {
@@ -20,6 +21,7 @@ public class MaleKnight extends Character {
             this.runAnimation.addTexture(new Texture("textures/characters/playercharacters/knight_m_run_anim_f" + i + ".png"));
         }
         inventory.setSlot(0, new Sword());
+        inventory.setSlot(1, new HealthPotion());
     }
 
     @Override
