@@ -17,20 +17,17 @@ public abstract class Item implements Disposable {
         this.texture = texture;
     }
 
-    protected Sprite prepareSprite(boolean flipRotation) {
+    public abstract void use(Character character);
+
+    protected abstract void alterSprite(Sprite sprite, float x, float y, boolean facingLeft);
+
+    public void renderAtCharacter(float x, float y, boolean facingLeft, SpriteBatch batch) {
         Sprite sprite = new Sprite(texture);
         sprite.setSize(texture.getWidth() * ITEM_SIZE_SCALE, texture.getHeight() * ITEM_SIZE_SCALE);
         sprite.setOrigin((texture.getWidth() * ITEM_SIZE_SCALE) / 2, -0.1f);
-
-        return sprite;
-    }
-
-    public abstract void use(Character character);
-
-    public void renderAtCharacter(float x, float y, boolean facingLeft, SpriteBatch batch) {
-        Sprite sprite = prepareSprite(!facingLeft);
         sprite.setPosition(x, y);
 
+        alterSprite(sprite, x, y, facingLeft);
         sprite.draw(batch);
     }
 
