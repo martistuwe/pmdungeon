@@ -39,6 +39,14 @@ public abstract class Character implements Disposable {
     public abstract void update();
 
     public void render() {
+        if (this.inventory.getSelectedItem() != null) {
+            if (facingLeft) {
+                this.inventory.getSelectedItem().renderAtCharacter(positionX - 1f, positionY, gameWorld.getBatch());
+            } else {
+                this.inventory.getSelectedItem().renderAtCharacter(positionX - 0.1f, positionY, gameWorld.getBatch());
+            }
+        }
+
         Texture texture = this.getTexture();
         Sprite sprite = new Sprite(texture);
         sprite.flip(facingLeft, false);
