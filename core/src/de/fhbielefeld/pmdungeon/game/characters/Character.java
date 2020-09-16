@@ -40,14 +40,21 @@ public abstract class Character implements Disposable {
 
     public void render() {
         if (this.inventory.getSelectedItem() != null) {
-            if (facingLeft) {
-                this.inventory.getSelectedItem().renderAtCharacter(positionX - 1f, positionY, gameWorld.getBatch());
-            } else {
-                this.inventory.getSelectedItem().renderAtCharacter(positionX - 0.1f, positionY, gameWorld.getBatch());
-            }
+            renderSelectedInventoryItem();
         }
+        renderCharacter();
+    }
 
-        Texture texture = this.getTexture();
+    private void renderSelectedInventoryItem() {
+        if (facingLeft) {
+            this.inventory.getSelectedItem().renderAtCharacter(positionX - 1f, positionY, facingLeft, gameWorld.getBatch());
+        } else {
+            this.inventory.getSelectedItem().renderAtCharacter(positionX - 0.1f, positionY, facingLeft, gameWorld.getBatch());
+        }
+    }
+
+    private void renderCharacter() {
+        Texture texture = this.getCurrentTexture();
         Sprite sprite = new Sprite(texture);
         sprite.flip(facingLeft, false);
         sprite.setSize(1, (float) texture.getHeight() / (float) texture.getWidth());
@@ -120,7 +127,7 @@ public abstract class Character implements Disposable {
         this.positionY = position.getY();
     }
 
-    public Texture getTexture() {
+    public Texture getCurrentTexture() {
         if (idle) {
             return this.idleAnimation.getCurrentTexture();
         } else {
