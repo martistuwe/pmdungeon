@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
-import de.fhbielefeld.pmdungeon.game.items.Inventory;
+import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 import de.fhbielefeld.pmdungeon.game.items.Item;
 
 import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;

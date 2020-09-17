@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
-import de.fhbielefeld.pmdungeon.game.items.Inventory;
+import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 
 public abstract class Character implements Disposable {
 

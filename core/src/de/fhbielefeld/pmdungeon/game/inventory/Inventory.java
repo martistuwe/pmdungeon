@@ -1,4 +1,6 @@
-package de.fhbielefeld.pmdungeon.game.items;
+package de.fhbielefeld.pmdungeon.game.inventory;
+
+import de.fhbielefeld.pmdungeon.game.items.Item;
 
 public class Inventory {
 
