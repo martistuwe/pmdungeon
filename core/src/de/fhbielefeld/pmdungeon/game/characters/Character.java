@@ -10,6 +10,7 @@ import de.fhbielefeld.pmdungeon.game.items.Inventory;
 
 public abstract class Character implements Disposable {
 
+    public static final float CHARACTER_WIDTH = 1;
     private static final float RENDERING_OFFSET_X = -0.85f;
     private static final float RENDERING_OFFSET_Y = -0.5f;
 
@@ -47,9 +48,9 @@ public abstract class Character implements Disposable {
 
     private void renderSelectedInventoryItem() {
         if (facingLeft) {
-            this.inventory.getSelectedItem().renderAtCharacter(positionX - 1f, positionY, facingLeft, gameWorld.getBatch());
+            this.inventory.getSelectedItem().renderAtCharacter(this, gameWorld.getBatch());
         } else {
-            this.inventory.getSelectedItem().renderAtCharacter(positionX - 0.1f, positionY, facingLeft, gameWorld.getBatch());
+            this.inventory.getSelectedItem().renderAtCharacter(this, gameWorld.getBatch());
         }
     }
 
@@ -57,7 +58,7 @@ public abstract class Character implements Disposable {
         Texture texture = this.getCurrentTexture();
         Sprite sprite = new Sprite(texture);
         sprite.flip(facingLeft, false);
-        sprite.setSize(1, (float) texture.getHeight() / (float) texture.getWidth());
+        sprite.setSize(CHARACTER_WIDTH, (float) texture.getHeight() / (float) texture.getWidth());
         sprite.setPosition(positionX + RENDERING_OFFSET_X, positionY + RENDERING_OFFSET_Y);
         sprite.draw(gameWorld.getBatch());
     }
@@ -157,6 +158,10 @@ public abstract class Character implements Disposable {
 
     public float getPositionY() {
         return positionY;
+    }
+
+    public boolean isFacingLeft() {
+        return facingLeft;
     }
 
     public float getHealthPoints() {

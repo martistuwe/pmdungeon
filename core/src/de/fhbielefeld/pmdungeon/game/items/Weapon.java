@@ -24,10 +24,11 @@ public abstract class Weapon extends Item {
     }
 
     @Override
-    protected void alterSprite(Sprite sprite, float x, float y, boolean facingLeft) {
+    protected void prepareSprite(Sprite sprite, Character character) {
+        super.prepareSprite(sprite, character);
         if (this.animationState == State.IN_USE) {
             calculateRotation();
-            if (facingLeft) {
+            if (character.isFacingLeft()) {
                 sprite.rotate(rotation);
             } else {
                 sprite.rotate(-rotation);

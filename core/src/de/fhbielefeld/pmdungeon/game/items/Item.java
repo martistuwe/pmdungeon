@@ -8,9 +8,12 @@ import de.fhbielefeld.pmdungeon.game.characters.Character;
 
 public abstract class Item implements Disposable {
 
+    protected static final float ITEM_SIZE_SCALE = 0.04f;
+    protected static final float CHARACTER_CENTER_AXIS_OFFSET = -0.06f;
+    protected static final float ITEM_SIDE_OFFSET = 0.5f;
+
     private final Texture texture;
 
-    private static final float ITEM_SIZE_SCALE = 0.04f;
     protected State animationState = State.IDLE;
 
     protected Item(Texture texture) {
@@ -19,15 +22,28 @@ public abstract class Item implements Disposable {
 
     public abstract void use(Character character);
 
-    protected abstract void alterSprite(Sprite sprite, float x, float y, boolean facingLeft);
+    protected void prepareSprite(Sprite sprite, Character character) {
+        float positionX = calculateXPosition(character);
+        float positionY = character.getPositionY();
 
-    public void renderAtCharacter(float x, float y, boolean facingLeft, SpriteBatch batch) {
-        Sprite sprite = new Sprite(texture);
         sprite.setSize(texture.getWidth() * ITEM_SIZE_SCALE, texture.getHeight() * ITEM_SIZE_SCALE);
         sprite.setOrigin((texture.getWidth() * ITEM_SIZE_SCALE) / 2, -0.1f);
-        sprite.setPosition(x, y);
+        sprite.setPosition(positionX, positionY);
+    }
 
-        alterSprite(sprite, x, y, facingLeft);
+    private float calculateXPosition(Character character) {
+        float x = character.getPositionX() - (Character.CHARACTER_WIDTH / 2) + CHARACTER_CENTER_AXIS_OFFSET;
+        if (character.isFacingLeft()) {
+            x -= ITEM_SIDE_OFFSET;
+        } else {
+            x += ITEM_SIDE_OFFSET;
+        }
+        return x;
+    }
+
+    public void renderAtCharacter(Character character, SpriteBatch batch) {
+        Sprite sprite = new Sprite(texture);
+        prepareSprite(sprite, character);
         sprite.draw(batch);
     }
 

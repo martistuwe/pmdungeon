@@ -7,14 +7,16 @@ import de.fhbielefeld.pmdungeon.game.characters.Character;
 public class HealthPotion extends Item {
 
     private static final float HEALTH_POINTS = 2;
+    private static final float POTION_RENDER_OFFSET = -0.1f;
 
     public HealthPotion() {
         super(new Texture("textures/items/flask_big_green.png"));
     }
 
     @Override
-    protected void alterSprite(Sprite sprite, float x, float y, boolean facingLeft) {
-        sprite.setPosition(x - 0.1f, y);
+    protected void prepareSprite(Sprite sprite, Character character) {
+        super.prepareSprite(sprite, character);
+        sprite.setPosition(sprite.getX() + POTION_RENDER_OFFSET, sprite.getY());
     }
 
     @Override
