@@ -17,6 +17,17 @@ public class Inventory {
         }
     }
 
+    public void removeItem(Item item) {
+        if (item != null) {
+            for (int i = 0; i < items.length; i++) {
+                if (items[i] == item) {
+                    item.dispose();
+                    items[i] = null;
+                }
+            }
+        }
+    }
+
     public Item getSelectedItem() {
         return items[selectedItem];
     }

@@ -20,5 +20,6 @@ public class HealthPotion extends Item {
     @Override
     public void use(Character character) {
         character.heal(HEALTH_POINTS);
+        character.getInventory().removeItem(this);
     }
 }

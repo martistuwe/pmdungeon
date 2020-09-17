@@ -85,7 +85,9 @@ public abstract class Character implements Disposable {
     }
 
     public void useSelectedItem() {
-        inventory.getSelectedItem().use(this);
+        if (inventory.getSelectedItem() != null) {
+            inventory.getSelectedItem().use(this);
+        }
     }
 
     public void selectItem(int index) {
