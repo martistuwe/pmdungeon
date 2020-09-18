@@ -5,12 +5,12 @@ import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
 import de.fhbielefeld.pmdungeon.game.characters.Imp;
 import de.fhbielefeld.pmdungeon.game.characters.MaleKnight;
-import de.fhbielefeld.pmdungeon.game.chest.Chest;
-import de.fhbielefeld.pmdungeon.game.chest.Interactable;
 import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
 import de.fhbielefeld.pmdungeon.game.inputhandling.Command;
 import de.fhbielefeld.pmdungeon.game.inputhandling.InputHandler;
+import de.fhbielefeld.pmdungeon.game.interactable.Chest;
+import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 
 import java.util.ArrayList;
 import java.util.List;
