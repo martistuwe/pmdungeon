@@ -12,10 +12,6 @@ public class Animation implements Disposable {
     private float maxFrameTime = 0;
     private float currentFrameTime = 0;
 
-    public Animation() {
-        textures = new Array<>();
-    }
-
     public Animation(float maxFrameTime) {
         textures = new Array<>();
         this.maxFrameTime = maxFrameTime;
@@ -35,10 +31,6 @@ public class Animation implements Disposable {
             }
         }
         return textures.get(currentFrameIndex);
-    }
-
-    public void setMaxFrameTime(float maxFrameTime) {
-        this.maxFrameTime = maxFrameTime;
     }
 
     @Override
