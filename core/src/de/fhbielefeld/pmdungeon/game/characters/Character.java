@@ -47,11 +47,7 @@ public abstract class Character implements Disposable {
     }
 
     private void renderSelectedInventoryItem() {
-        if (facingLeft) {
-            this.inventory.getSelectedItem().renderAtCharacter(this, gameWorld.getBatch());
-        } else {
-            this.inventory.getSelectedItem().renderAtCharacter(this, gameWorld.getBatch());
-        }
+        this.inventory.getSelectedItem().renderAtCharacter(this, gameWorld.getBatch());
     }
 
     private void renderCharacter() {
@@ -89,6 +85,10 @@ public abstract class Character implements Disposable {
         if (inventory.getSelectedItem() != null) {
             inventory.getSelectedItem().use(this);
         }
+    }
+
+    public void interact() {
+        // TODO
     }
 
     public void selectItem(int index) {
