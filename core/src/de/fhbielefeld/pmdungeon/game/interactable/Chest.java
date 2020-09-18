@@ -13,7 +13,7 @@ public class Chest implements Disposable, Interactable {
 
     private static final int CHEST_SIZE = 3;
     private static final int TEXTURE_COUNT = 3;
-    private static final long TRANSITION_TIME = 100;
+    private static final long TRANSITION_TIME = 200;
     private final Coordinate coordinate;
     private final Item[] content;
     private final Texture[] textures;
@@ -32,9 +32,9 @@ public class Chest implements Disposable, Interactable {
 
     public void update() {
         long currentTransitionTime = TimeUtils.timeSinceMillis(transitionStartTime);
-        if (this.state == State.OPENING && currentTransitionTime >= TRANSITION_TIME) {
+        if (this.state == State.OPENING && currentTransitionTime > TRANSITION_TIME) {
             this.state = State.OPEN;
-        } else if (this.state == State.CLOSING && currentTransitionTime >= TRANSITION_TIME) {
+        } else if (this.state == State.CLOSING && currentTransitionTime > TRANSITION_TIME) {
             this.state = State.CLOSED;
         }
     }
@@ -56,14 +56,14 @@ public class Chest implements Disposable, Interactable {
     }
 
     private void open() {
-        if (this.state == State.CLOSED) {
+        if (TimeUtils.timeSinceMillis(transitionStartTime) > TRANSITION_TIME && this.state == State.CLOSED) {
             this.state = State.OPENING;
             this.transitionStartTime = TimeUtils.millis();
         }
     }
 
     private void close() {
-        if (this.state == State.OPEN) {
+        if (TimeUtils.timeSinceMillis(transitionStartTime) > TRANSITION_TIME && this.state == State.OPEN) {
             this.state = State.CLOSING;
             this.transitionStartTime = TimeUtils.millis();
         }
@@ -84,6 +84,11 @@ public class Chest implements Disposable, Interactable {
 
     public Item[] getContent() {
         return content;
+    }
+
+    @Override
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
     @Override

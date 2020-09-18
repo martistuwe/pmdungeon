@@ -95,6 +95,10 @@ public class GameWorld implements Disposable {
         return characterList;
     }
 
+    public List<Interactable> getInteractables() {
+        return interactables;
+    }
+
     @Override
     public void dispose() {
         dungeon.dispose();

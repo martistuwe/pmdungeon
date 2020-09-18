@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
+import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 
 public abstract class Character implements Disposable {
@@ -13,6 +14,7 @@ public abstract class Character implements Disposable {
     public static final float CHARACTER_WIDTH = 1;
     private static final float RENDERING_OFFSET_X = -0.85f;
     private static final float RENDERING_OFFSET_Y = -0.5f;
+    private static final float INTERACTABLE_REACH = 1;
 
     protected GameWorld gameWorld;
 
@@ -88,7 +90,10 @@ public abstract class Character implements Disposable {
     }
 
     public void interact() {
-        // TODO
+        Interactable interactable = nearestInteractable();
+        if (interactable != null && distanceBetween(interactable.getCoordinate().getX(), interactable.getCoordinate().getY()) < INTERACTABLE_REACH) {
+            interactable.interact(this);
+        }
     }
 
     public void selectItem(int index) {
@@ -107,8 +112,22 @@ public abstract class Character implements Disposable {
         return returnCharacter;
     }
 
-    public float distanceBetween(Character that) {
-        return (float) Math.sqrt(Math.pow(this.positionX - that.positionX, 2) + Math.pow(this.positionY - that.positionY, 2));
+    private Interactable nearestInteractable() {
+        float minDistance = Float.MAX_VALUE;
+        Interactable returnInteractable = null;
+        for (Interactable interactable : gameWorld.getInteractables()) {
+            float distance = distanceBetween(interactable.getCoordinate().getX(), interactable.getCoordinate().getY());
+            if (minDistance > distance) returnInteractable = interactable;
+        }
+        return returnInteractable;
+    }
+
+    public float distanceBetween(Character character) {
+        return distanceBetween(character.getPositionX(), character.getPositionY());
+    }
+
+    private float distanceBetween(float x, float y) {
+        return (float) Math.sqrt(Math.pow(this.positionX - x, 2) + Math.pow(this.positionY - y, 2));
     }
 
     public void attack(Character character, float damage) {
