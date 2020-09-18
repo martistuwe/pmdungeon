@@ -4,11 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
+import de.fhbielefeld.pmdungeon.game.characters.Character;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.items.HealthPotion;
 import de.fhbielefeld.pmdungeon.game.items.Item;
 
-public class Chest implements Disposable {
+public class Chest implements Disposable, Interactable {
 
     private static final int CHEST_SIZE = 3;
     private static final int TEXTURE_COUNT = 3;
@@ -42,14 +43,26 @@ public class Chest implements Disposable {
         batch.draw(getTexture(), coordinate.getX(), coordinate.getY(), 1, 1);
     }
 
-    public void open() {
+    @Override
+    public void interact(Character character) {
+        switch (this.state) {
+            case CLOSED:
+                open();
+                break;
+            case OPEN:
+                close();
+                break;
+        }
+    }
+
+    private void open() {
         if (this.state == State.CLOSED) {
             this.state = State.OPENING;
             this.transitionStartTime = TimeUtils.millis();
         }
     }
 
-    public void close() {
+    private void close() {
         if (this.state == State.OPEN) {
             this.state = State.CLOSING;
             this.transitionStartTime = TimeUtils.millis();

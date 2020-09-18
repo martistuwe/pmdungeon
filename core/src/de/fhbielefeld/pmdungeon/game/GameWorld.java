@@ -6,6 +6,7 @@ import de.fhbielefeld.pmdungeon.game.characters.Character;
 import de.fhbielefeld.pmdungeon.game.characters.Imp;
 import de.fhbielefeld.pmdungeon.game.characters.MaleKnight;
 import de.fhbielefeld.pmdungeon.game.chest.Chest;
+import de.fhbielefeld.pmdungeon.game.chest.Interactable;
 import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
 import de.fhbielefeld.pmdungeon.game.inputhandling.Command;
@@ -18,7 +19,7 @@ public class GameWorld implements Disposable {
 
     private final SpriteBatch batch;
     private final List<Character> characterList = new ArrayList<>();
-    private final List<Chest> chestList = new ArrayList<>();
+    private final List<Interactable> interactables = new ArrayList<>();
     private final InputHandler inputHandler = new InputHandler();
     private Dungeon dungeon;
     private Character hero;
@@ -47,7 +48,7 @@ public class GameWorld implements Disposable {
     }
 
     private void setupLoot() {
-        chestList.add(new Chest(dungeon.getRandomPointInDungeon()));
+        interactables.add(new Chest(dungeon.getRandomPointInDungeon()));
     }
 
     public void update() {
@@ -59,8 +60,8 @@ public class GameWorld implements Disposable {
                 command.execute(hero);
             }
         }
-        for (Chest chest : chestList) {
-            chest.update();
+        for (Interactable interactable : interactables) {
+            interactable.update();
         }
         for (Character character : characterList) {
             character.update();
@@ -69,8 +70,8 @@ public class GameWorld implements Disposable {
 
     public void render() {
         dungeon.renderFloor(batch);
-        for (Chest chest : chestList) {
-            chest.render(batch);
+        for (Interactable interactable : interactables) {
+            interactable.render(batch);
         }
         for (Character character : characterList) {
             character.render();
