@@ -2,6 +2,7 @@ package de.fhbielefeld.pmdungeon.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import de.fhbielefeld.pmdungeon.game.characters.BigDemon;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
 import de.fhbielefeld.pmdungeon.game.characters.Imp;
 import de.fhbielefeld.pmdungeon.game.characters.MaleKnight;
@@ -45,6 +46,10 @@ public class GameWorld implements Disposable {
         Character imp = new Imp(this);
         imp.setPosition(dungeon.getRandomPointInDungeon());
         characterList.add(imp);
+
+        Character bigDemon = new BigDemon(this);
+        bigDemon.setPosition(dungeon.getRandomPointInDungeon());
+        characterList.add(bigDemon);
     }
 
     private void setupLoot() {
