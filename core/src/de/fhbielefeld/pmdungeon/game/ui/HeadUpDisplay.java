@@ -17,7 +17,7 @@ import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;
 public class HeadUpDisplay implements Disposable {
 
     private static final float HEART_SIZE = 0.4f;
-    private static final float INVENTORY_BACKGROUND_SIZE = 0.5f;
+    private static final float ITEM_BACKGROUND_SIZE = 0.5f;
     private static final float INVENTORY_ITEM_SIZE = 0.5f;
     private static final int CHEST_GRID = 3;
 
@@ -46,7 +46,7 @@ public class HeadUpDisplay implements Disposable {
             drawHealthPoints();
             drawInventory();
         }
-        drawOpenChestContent();
+        drawOpenChests();
         hudBatch.end();
     }
 
@@ -67,17 +67,17 @@ public class HeadUpDisplay implements Disposable {
         Texture highlight = createInventoryHighlight();
         Inventory inventory = gameWorld.getHero().getInventory();
 
-        float backgroundXAxis = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (inventory.getSize() * INVENTORY_BACKGROUND_SIZE) / 2;
+        float originX = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (inventory.getSize() * ITEM_BACKGROUND_SIZE) / 2;
 
         Item[] items = inventory.getItems();
         for (int i = 0; i < inventory.getSize(); i++) {
-            hudBatch.draw(background, backgroundXAxis + i * INVENTORY_BACKGROUND_SIZE, 0, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE);
+            hudBatch.draw(background, originX + i * ITEM_BACKGROUND_SIZE, 0, ITEM_BACKGROUND_SIZE, ITEM_BACKGROUND_SIZE);
             if (items[i] != null) {
                 if (inventory.getSelectedItem() != null && items[i] == inventory.getSelectedItem()) {
-                    hudBatch.draw(highlight, backgroundXAxis + i * INVENTORY_BACKGROUND_SIZE, 0, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE / 12);
+                    hudBatch.draw(highlight, originX + i * ITEM_BACKGROUND_SIZE, 0, ITEM_BACKGROUND_SIZE, ITEM_BACKGROUND_SIZE / 12);
                 }
-                float itemOffset = INVENTORY_BACKGROUND_SIZE / 2 - calculateItemWidth(items[i]) / 2;
-                hudBatch.draw(items[i].getTexture(), (backgroundXAxis + i * INVENTORY_ITEM_SIZE) + itemOffset, 0, calculateItemWidth(items[i]), INVENTORY_ITEM_SIZE);
+                float itemOffset = ITEM_BACKGROUND_SIZE / 2 - calculateItemWidth(items[i]) / 2;
+                hudBatch.draw(items[i].getTexture(), (originX + i * INVENTORY_ITEM_SIZE) + itemOffset, 0, calculateItemWidth(items[i]), INVENTORY_ITEM_SIZE);
             }
         }
     }
@@ -104,19 +104,35 @@ public class HeadUpDisplay implements Disposable {
         return (float) item.getTexture().getWidth() / (float) item.getTexture().getHeight() * INVENTORY_ITEM_SIZE;
     }
 
-    private void drawOpenChestContent() {
-        for (Interactable interactable : gameWorld.getInteractables()) {
-            if (interactable.getClass() == Chest.class && ((Chest) interactable).getState() == Chest.State.OPEN) {
-                float originX = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (CHEST_GRID * INVENTORY_BACKGROUND_SIZE) / 2;
-                float originY = (VIRTUAL_HEIGHT / 2) - (CHEST_GRID * INVENTORY_BACKGROUND_SIZE) / 2;
+    private void drawOpenChests() {
+        Chest chest = findOpenChest();
+        if (chest != null) {
+            float originX = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (CHEST_GRID * ITEM_BACKGROUND_SIZE) / 2;
+            float originY = (VIRTUAL_HEIGHT / 2) - (CHEST_GRID * ITEM_BACKGROUND_SIZE) / 2;
 
-                for (int i = 0; i < CHEST_GRID; i++) {
-                    for (int j = 0; j < CHEST_GRID; j++) {
-                        hudBatch.draw(background, originX + j * INVENTORY_BACKGROUND_SIZE, originY + i * INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE, INVENTORY_BACKGROUND_SIZE);
+            Item[] chestContent = chest.getContent();
+            int counter = 0;
+            for (int i = CHEST_GRID - 1; i >= 0; i--) {
+                for (int j = 0; j < CHEST_GRID; j++) {
+                    hudBatch.draw(background, originX + j * ITEM_BACKGROUND_SIZE, originY + i * ITEM_BACKGROUND_SIZE, ITEM_BACKGROUND_SIZE, ITEM_BACKGROUND_SIZE);
+                    if (chestContent[counter] != null) {
+                        Item item = chestContent[counter];
+                        float itemOffset = ITEM_BACKGROUND_SIZE / 2 - calculateItemWidth(item) / 2;
+                        hudBatch.draw(item.getTexture(), (originX + j * INVENTORY_ITEM_SIZE) + itemOffset, originY + i * INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE);
                     }
+                    counter++;
                 }
             }
         }
+    }
+
+    private Chest findOpenChest() {
+        for (Interactable interactable : gameWorld.getInteractables()) {
+            if (interactable.getClass() == Chest.class && ((Chest) interactable).getState() == Chest.State.OPEN) {
+                return (Chest) interactable;
+            }
+        }
+        return null;
     }
 
     public void resize(int width, int height) {
