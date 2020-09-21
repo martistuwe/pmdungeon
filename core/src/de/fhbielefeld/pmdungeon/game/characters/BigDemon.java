@@ -5,6 +5,7 @@ import de.fhbielefeld.pmdungeon.game.GameWorld;
 
 public class BigDemon extends Character {
 
+    private static final float CHARACTER_WIDTH = 2f;
     private static final float MOVEMENT_SPEED = 2.5f;
     private static final float MAX_HEALTH_POINTS = 15f;
     private static final int INVENTORY_SIZE = 1;
@@ -18,6 +19,11 @@ public class BigDemon extends Character {
             this.idleAnimation.addTexture(new Texture("textures/characters/demons/big_demon/big_demon_idle_anim_f" + i + ".png"));
             this.runAnimation.addTexture(new Texture("textures/characters/demons/big_demon/big_demon_run_anim_f" + i + ".png"));
         }
+    }
+
+    @Override
+    public float getCharacterWidth() {
+        return CHARACTER_WIDTH;
     }
 
     @Override

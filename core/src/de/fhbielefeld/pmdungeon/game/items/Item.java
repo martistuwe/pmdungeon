@@ -32,7 +32,7 @@ public abstract class Item implements Disposable {
     }
 
     private float calculateXPosition(Character character) {
-        float x = character.getPositionX() - (Character.CHARACTER_WIDTH / 2) + CHARACTER_CENTER_AXIS_OFFSET;
+        float x = character.getPositionX() - (character.getCharacterWidth() / 2) + CHARACTER_CENTER_AXIS_OFFSET;
         if (character.isFacingLeft()) {
             x -= ITEM_SIDE_OFFSET;
         } else {
