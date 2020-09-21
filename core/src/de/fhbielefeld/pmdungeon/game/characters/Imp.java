@@ -22,6 +22,5 @@ public class Imp extends Character {
 
     @Override
     public void update() {
-        //soon
     }
 }

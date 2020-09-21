@@ -11,7 +11,7 @@ import de.fhbielefeld.pmdungeon.game.items.Item;
 
 public class Chest implements Disposable, Interactable {
 
-    private static final int CHEST_SIZE = 3;
+    private static final int CHEST_SIZE = 9;
     private static final int TEXTURE_COUNT = 3;
     private static final long TRANSITION_TIME = 200;
     private final Coordinate coordinate;
@@ -86,6 +86,10 @@ public class Chest implements Disposable, Interactable {
         return content;
     }
 
+    public State getState() {
+        return state;
+    }
+
     @Override
     public Coordinate getCoordinate() {
         return coordinate;
@@ -98,7 +102,7 @@ public class Chest implements Disposable, Interactable {
         }
     }
 
-    enum State {
+    public enum State {
         OPEN,
         CLOSED,
         OPENING,

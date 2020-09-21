@@ -28,6 +28,5 @@ public class BigDemon extends Character {
 
     @Override
     public void update() {
-        //soon
     }
 }

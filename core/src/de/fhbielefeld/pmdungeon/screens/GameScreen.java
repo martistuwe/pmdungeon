@@ -23,7 +23,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
         this.gameWorld = new GameWorld(pmDungeon.getBatch());
-        this.hud = new HeadUpDisplay(gameWorld.getHero());
+        this.hud = new HeadUpDisplay(gameWorld);
         setupCamera();
     }
 
