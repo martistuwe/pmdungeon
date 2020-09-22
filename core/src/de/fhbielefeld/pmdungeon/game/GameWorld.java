@@ -40,20 +40,20 @@ public class GameWorld implements Disposable {
 
     private void setupCharacters() {
         hero = new MaleKnight(this);
-        hero.setPosition(dungeon.getStartingPoint());
+        hero.setPosition(dungeon.getStartingLocation());
         characterList.add(hero);
 
         Character imp = new Imp(this);
-        imp.setPosition(dungeon.getRandomPointInDungeon());
+        imp.setPosition(dungeon.getRandomLocationInDungeon());
         characterList.add(imp);
 
         Character bigDemon = new BigDemon(this);
-        bigDemon.setPosition(dungeon.getRandomPointInDungeon());
+        bigDemon.setPosition(dungeon.getBossStartingLocation());
         characterList.add(bigDemon);
     }
 
     private void setupLoot() {
-        interactables.add(new Chest(dungeon.getRandomPointInDungeon()));
+        interactables.add(new Chest(dungeon.getRandomLocationInDungeon()));
     }
 
     public void update() {

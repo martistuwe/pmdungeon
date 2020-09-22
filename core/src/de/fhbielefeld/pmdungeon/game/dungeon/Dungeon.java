@@ -39,16 +39,20 @@ public class Dungeon {
         }
     }
 
-    public Coordinate getStartingPoint() {
-        return getRandomPointInRoom(0);
+    public Coordinate getStartingLocation() {
+        return getRandomLocationInRoom(0);
     }
 
-    public Coordinate getRandomPointInDungeon() {
+    public Coordinate getBossStartingLocation() {
+        return getRandomLocationInRoom(rooms.length - 1);
+    }
+
+    public Coordinate getRandomLocationInDungeon() {
         int roomId = (this.random.nextInt(rooms.length - 1)) + 1;
-        return getRandomPointInRoom(roomId);
+        return getRandomLocationInRoom(roomId);
     }
 
-    private Coordinate getRandomPointInRoom(int roomId) {
+    private Coordinate getRandomLocationInRoom(int roomId) {
         if (rooms[roomId] != null) {
             Coordinate roomExtensions = rooms[roomId].getExtension();
 
