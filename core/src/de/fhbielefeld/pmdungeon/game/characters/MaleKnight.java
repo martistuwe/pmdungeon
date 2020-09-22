@@ -23,9 +23,4 @@ public class MaleKnight extends Character {
         inventory.setSlot(0, new Sword());
         inventory.setSlot(1, new HealthPotion());
     }
-
-    @Override
-    public void update() {
-
-    }
 }

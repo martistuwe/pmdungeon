@@ -25,8 +25,4 @@ public class BigDemon extends Character {
     public float getCharacterWidth() {
         return CHARACTER_WIDTH;
     }
-
-    @Override
-    public void update() {
-    }
 }

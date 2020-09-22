@@ -58,10 +58,8 @@ public class GameWorld implements Disposable {
 
     public void update() {
         Command[] commands = inputHandler.handleInput();
-        if (commands.length == 0) hero.setIdle(true);
         for (Command command : commands) {
             if (command != null) {
-                hero.setIdle(false);
                 command.execute(hero);
             }
         }

@@ -19,8 +19,4 @@ public class Imp extends Character {
             this.runAnimation.addTexture(new Texture("textures/characters/demons/imp/imp_run_anim_f" + i + ".png"));
         }
     }
-
-    @Override
-    public void update() {
-    }
 }

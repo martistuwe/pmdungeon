@@ -24,6 +24,8 @@ public abstract class Character implements Disposable {
     protected boolean facingLeft = false;
     protected float positionX = 0;
     protected float positionY = 0;
+    private float oldX = 0;
+    private float oldY = 0;
 
     private final float movementSpeed;
     private float healthPoints;
@@ -39,7 +41,11 @@ public abstract class Character implements Disposable {
         this.inventory = new Inventory(inventorySize);
     }
 
-    public abstract void update();
+    public void update() {
+        idle = positionX == oldX && positionY == oldY;
+        oldX = positionX;
+        oldY = positionY;
+    }
 
     public void render() {
         if (this.inventory.getSelectedItem() != null) {
@@ -189,10 +195,6 @@ public abstract class Character implements Disposable {
 
     public float getMaxHealthPoints() {
         return maxHealthPoints;
-    }
-
-    public void setIdle(boolean idle) {
-        this.idle = idle;
     }
 
     public Inventory getInventory() {
