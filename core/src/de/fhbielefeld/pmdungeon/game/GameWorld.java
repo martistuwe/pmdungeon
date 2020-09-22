@@ -66,9 +66,12 @@ public class GameWorld implements Disposable {
         for (Interactable interactable : interactables) {
             interactable.update();
         }
+        List<Character> deadCharacters = new ArrayList<>();
         for (Character character : characterList) {
             character.update();
+            if (character.isDead()) deadCharacters.add(character);
         }
+        characterList.removeAll(deadCharacters);
     }
 
     public void render() {

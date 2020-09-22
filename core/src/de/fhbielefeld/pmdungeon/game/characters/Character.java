@@ -21,6 +21,7 @@ public abstract class Character implements Disposable {
     protected Animation idleAnimation;
     protected Animation runAnimation;
     protected boolean idle = true;
+    private boolean dead = false;
     protected boolean facingLeft = false;
     protected float positionX = 0;
     protected float positionY = 0;
@@ -42,6 +43,7 @@ public abstract class Character implements Disposable {
     }
 
     public void update() {
+        if (dead) dispose();
         idle = positionX == oldX && positionY == oldY;
         oldX = positionX;
         oldY = positionY;
@@ -110,7 +112,7 @@ public abstract class Character implements Disposable {
         float minDistance = Float.MAX_VALUE;
         Character returnCharacter = null;
         for (Character character : gameWorld.getCharacterList()) {
-            if (this != character) {
+            if (character != this) {
                 float distance = distanceBetween(character);
                 if (minDistance > distance) returnCharacter = character;
             }
@@ -149,9 +151,8 @@ public abstract class Character implements Disposable {
     private void decreaseHealth(float damage) {
         this.healthPoints -= damage;
         if (this.healthPoints <= 0) {
-            System.out.println("DEAD: " + this.toString());
+            dead = true;
         }
-        //TODO if healthPoints < 0 = die
     }
 
     private void increaseHealth(float heal) {
@@ -191,6 +192,10 @@ public abstract class Character implements Disposable {
 
     public float getHealthPoints() {
         return healthPoints;
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 
     public float getMaxHealthPoints() {
