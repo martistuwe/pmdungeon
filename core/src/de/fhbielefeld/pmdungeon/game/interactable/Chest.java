@@ -2,14 +2,13 @@ package de.fhbielefeld.pmdungeon.game.interactable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.items.HealthPotion;
 import de.fhbielefeld.pmdungeon.game.items.Item;
 
-public class Chest implements Disposable, Interactable {
+public class Chest implements Interactable {
 
     private static final int CHEST_SIZE = 9;
     private static final int TEXTURE_COUNT = 3;

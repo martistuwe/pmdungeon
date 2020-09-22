@@ -111,5 +111,8 @@ public class GameWorld implements Disposable {
         for (Character character : characterList) {
             character.dispose();
         }
+        for (Interactable interactable : interactables) {
+            interactable.dispose();
+        }
     }
 }
