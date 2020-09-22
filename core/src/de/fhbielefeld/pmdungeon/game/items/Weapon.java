@@ -54,7 +54,7 @@ public abstract class Weapon extends Item {
             this.animationState = State.IN_USE;
             lastUsage = TimeUtils.millis();
             Character nearestCharacter = character.nearestCharacter();
-            if (character.distanceBetween(nearestCharacter) <= this.range) {
+            if (nearestCharacter != null && character.distanceBetween(nearestCharacter) <= this.range) {
                 character.attack(nearestCharacter, damage);
             }
         }
