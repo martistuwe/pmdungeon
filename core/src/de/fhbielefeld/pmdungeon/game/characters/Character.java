@@ -53,12 +53,12 @@ public abstract class Character implements Disposable {
 
     public void render() {
         if (this.inventory.getSelectedItem() != null) {
-            renderSelectedInventoryItem();
+            renderSelectedItem();
         }
         renderCharacter();
     }
 
-    private void renderSelectedInventoryItem() {
+    private void renderSelectedItem() {
         this.inventory.getSelectedItem().renderAtCharacter(this, gameWorld.getBatch());
     }
 
