@@ -13,14 +13,16 @@ public class Chest implements Interactable {
     private static final int CHEST_SIZE = 9;
     private static final int TEXTURE_COUNT = 3;
     private static final long TRANSITION_TIME = 200;
-    private final Coordinate coordinate;
+    private final float positionX;
+    private final float positionY;
     private final Item[] content;
     private final Texture[] textures;
     private State state = State.CLOSED;
     private long transitionStartTime;
 
     public Chest(Coordinate coordinate) {
-        this.coordinate = coordinate;
+        this.positionX = coordinate.getX() + 0.5f;
+        this.positionY = coordinate.getY() + 0.5f;
         this.content = new Item[CHEST_SIZE];
         this.content[0] = new HealthPotion();
         this.textures = new Texture[TEXTURE_COUNT];
@@ -39,7 +41,7 @@ public class Chest implements Interactable {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(getTexture(), coordinate.getX(), coordinate.getY(), 1, 1);
+        batch.draw(getTexture(), positionX - 0.5f, positionY - 0.5f, 1, 1);
     }
 
     @Override
@@ -98,8 +100,13 @@ public class Chest implements Interactable {
     }
 
     @Override
-    public Coordinate getCoordinate() {
-        return coordinate;
+    public float getPositionX() {
+        return positionX;
+    }
+
+    @Override
+    public float getPositionY() {
+        return positionY;
     }
 
     @Override

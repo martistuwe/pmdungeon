@@ -15,7 +15,7 @@ public abstract class Character implements Disposable {
     private static final float CHARACTER_WIDTH = 1;
     private static final float RENDERING_OFFSET_X = -0.85f;
     private static final float RENDERING_OFFSET_Y = -0.5f;
-    private static final float INTERACTABLE_REACH = 1;
+    private static final float INTERACTABLE_REACH = 1.5f;
 
     protected GameWorld gameWorld;
 
@@ -100,7 +100,7 @@ public abstract class Character implements Disposable {
 
     public void interact() {
         Interactable interactable = nearestInteractable();
-        if (interactable != null && distanceBetween(interactable.getCoordinate().getX(), interactable.getCoordinate().getY()) < INTERACTABLE_REACH) {
+        if (interactable != null && distanceBetween(interactable.getPositionX(), interactable.getPositionY()) < INTERACTABLE_REACH) {
             interactable.interact(this);
         }
     }
@@ -125,7 +125,7 @@ public abstract class Character implements Disposable {
         float minDistance = Float.MAX_VALUE;
         Interactable returnInteractable = null;
         for (Interactable interactable : gameWorld.getInteractables()) {
-            float distance = distanceBetween(interactable.getCoordinate().getX(), interactable.getCoordinate().getY());
+            float distance = distanceBetween(interactable.getPositionX(), interactable.getPositionY());
             if (minDistance > distance) returnInteractable = interactable;
         }
         return returnInteractable;
