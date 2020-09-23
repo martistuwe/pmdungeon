@@ -5,12 +5,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 import de.fhbielefeld.pmdungeon.game.items.Item;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;
 
@@ -28,6 +33,7 @@ public class HeadUpDisplay implements Disposable {
     private final Texture heartHalf = new Texture("textures/ui/ui_heart_half.png");
     private final Texture heartEmpty = new Texture("textures/ui/ui_heart_empty.png");
     private final Texture background = createBackground();
+    private final Map<Rectangle, Integer> chestInventoryInputs = new HashMap<>();
 
     public HeadUpDisplay(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
@@ -46,7 +52,13 @@ public class HeadUpDisplay implements Disposable {
             drawHealthPoints();
             drawInventory();
         }
-        drawOpenChests();
+        Chest openChest = findOpenChest();
+        if (openChest != null) {
+            drawOpenChest();
+            if (Gdx.input.isTouched()) {
+                checkOpenChestInput(openChest);
+            }
+        }
         hudBatch.end();
     }
 
@@ -93,7 +105,7 @@ public class HeadUpDisplay implements Disposable {
 
     private Texture createInventoryHighlight() {
         Pixmap highlightPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        highlightPixmap.setColor(0, 0, 1, 0.5f);
+        highlightPixmap.setColor(1, 1, 0, 0.5f);
         highlightPixmap.fill();
         Texture highlight = new Texture(highlightPixmap);
         highlightPixmap.dispose();
@@ -104,11 +116,13 @@ public class HeadUpDisplay implements Disposable {
         return (float) item.getTexture().getWidth() / (float) item.getTexture().getHeight() * INVENTORY_ITEM_SIZE;
     }
 
-    private void drawOpenChests() {
+    private void drawOpenChest() {
         Chest chest = findOpenChest();
         if (chest != null) {
-            float originX = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (CHEST_GRID * ITEM_BACKGROUND_SIZE) / 2;
-            float originY = (VIRTUAL_HEIGHT / 2) - (CHEST_GRID * ITEM_BACKGROUND_SIZE) / 2;
+            chestInventoryInputs.clear();
+            Vector3 screen = hudCamera.unproject(new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
+            float originX = screen.x / 2 - (CHEST_GRID * ITEM_BACKGROUND_SIZE) / 2;
+            float originY = VIRTUAL_HEIGHT / 2 - (CHEST_GRID * ITEM_BACKGROUND_SIZE) / 2;
 
             Item[] chestContent = chest.getContent();
             int counter = 0;
@@ -119,6 +133,7 @@ public class HeadUpDisplay implements Disposable {
                         Item item = chestContent[counter];
                         float itemOffset = ITEM_BACKGROUND_SIZE / 2 - calculateItemWidth(item) / 2;
                         hudBatch.draw(item.getTexture(), (originX + j * INVENTORY_ITEM_SIZE) + itemOffset, originY + i * INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE);
+                        chestInventoryInputs.put(new Rectangle(originX + j * ITEM_BACKGROUND_SIZE, originY + i * ITEM_BACKGROUND_SIZE, ITEM_BACKGROUND_SIZE, ITEM_BACKGROUND_SIZE), counter);
                     }
                     counter++;
                 }
@@ -133,6 +148,15 @@ public class HeadUpDisplay implements Disposable {
             }
         }
         return null;
+    }
+
+    private void checkOpenChestInput(Chest openChest) {
+        for (Map.Entry<Rectangle, Integer> entry : chestInventoryInputs.entrySet()) {
+            Vector3 inputPos = hudCamera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            if (entry.getKey().contains(inputPos.x, inputPos.y)) {
+                gameWorld.getHero().takeFromChest(openChest, entry.getValue());
+            }
+        }
     }
 
     public void resize(int width, int height) {

@@ -85,6 +85,14 @@ public class Chest implements Interactable {
         return content;
     }
 
+    public Item getItemAt(int index) {
+        return content[index];
+    }
+
+    public void removeItemAt(int index) {
+        content[index] = null;
+    }
+
     public State getState() {
         return state;
     }

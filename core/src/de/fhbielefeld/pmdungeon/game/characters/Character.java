@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
+import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 
@@ -162,6 +163,12 @@ public abstract class Character implements Disposable {
             } else {
                 this.healthPoints += heal;
             }
+        }
+    }
+
+    public void takeFromChest(Chest chest, int index) {
+        if (chest.getState() == Chest.State.OPEN && chest.getItemAt(index) != null) {
+            if (this.inventory.add(chest.getItemAt(index))) chest.removeItemAt(index);
         }
     }
 
