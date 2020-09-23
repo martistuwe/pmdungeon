@@ -115,7 +115,10 @@ public abstract class Character implements Disposable {
         for (Character character : gameWorld.getCharacterList()) {
             if (character != this) {
                 float distance = distanceBetween(character);
-                if (minDistance > distance) returnCharacter = character;
+                if (minDistance > distance) {
+                    minDistance = distance;
+                    returnCharacter = character;
+                }
             }
         }
         return returnCharacter;
@@ -126,7 +129,10 @@ public abstract class Character implements Disposable {
         Interactable returnInteractable = null;
         for (Interactable interactable : gameWorld.getInteractables()) {
             float distance = distanceBetween(interactable.getPositionX(), interactable.getPositionY());
-            if (minDistance > distance) returnInteractable = interactable;
+            if (minDistance > distance) {
+                minDistance = distance;
+                returnInteractable = interactable;
+            }
         }
         return returnInteractable;
     }

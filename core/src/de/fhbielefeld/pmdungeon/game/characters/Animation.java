@@ -9,7 +9,7 @@ public class Animation implements Disposable {
 
     private final Array<Texture> textures;
     private int currentFrameIndex = 0;
-    private float maxFrameTime = 0;
+    private final float maxFrameTime;
     private float currentFrameTime = 0;
 
     public Animation(float maxFrameTime) {
