@@ -49,9 +49,11 @@ public class Chest implements Interactable {
         switch (this.state) {
             case CLOSED:
                 open();
+                character.disableMovement();
                 break;
             case OPEN:
                 close();
+                character.enableMovement();
                 break;
         }
     }

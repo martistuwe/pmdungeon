@@ -24,6 +24,7 @@ public abstract class Character implements Disposable {
     protected boolean idle = true;
     private boolean dead = false;
     protected boolean facingLeft = false;
+    private boolean movementEnabled = true;
     protected float positionX = 0;
     protected float positionY = 0;
     private float oldX = 0;
@@ -71,29 +72,37 @@ public abstract class Character implements Disposable {
     }
 
     public void moveUp() {
-        float nextY = positionY + movementSpeed * Gdx.graphics.getDeltaTime();
-        if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+        if (movementEnabled) {
+            float nextY = positionY + movementSpeed * Gdx.graphics.getDeltaTime();
+            if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+        }
     }
 
     public void moveDown() {
-        float nextY = positionY - movementSpeed * Gdx.graphics.getDeltaTime();
-        if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+        if (movementEnabled) {
+            float nextY = positionY - movementSpeed * Gdx.graphics.getDeltaTime();
+            if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
+        }
     }
 
     public void moveLeft() {
-        facingLeft = true;
-        float nextX = positionX - movementSpeed * Gdx.graphics.getDeltaTime();
-        if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+        if (movementEnabled) {
+            facingLeft = true;
+            float nextX = positionX - movementSpeed * Gdx.graphics.getDeltaTime();
+            if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+        }
     }
 
     public void moveRight() {
-        facingLeft = false;
-        float nextX = positionX + movementSpeed * Gdx.graphics.getDeltaTime();
-        if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+        if (movementEnabled) {
+            facingLeft = false;
+            float nextX = positionX + movementSpeed * Gdx.graphics.getDeltaTime();
+            if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
+        }
     }
 
     public void useSelectedItem() {
-        if (inventory.getSelectedItem() != null) {
+        if (movementEnabled && inventory.getSelectedItem() != null) {
             inventory.getSelectedItem().use(this);
         }
     }
@@ -189,6 +198,14 @@ public abstract class Character implements Disposable {
         } else {
             return this.runAnimation.getCurrentTexture();
         }
+    }
+
+    public void enableMovement() {
+        this.movementEnabled = true;
+    }
+
+    public void disableMovement() {
+        this.movementEnabled = false;
     }
 
     public float getPositionX() {
