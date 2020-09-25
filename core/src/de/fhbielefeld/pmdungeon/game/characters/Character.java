@@ -135,10 +135,6 @@ public abstract class Character implements Disposable {
         }
     }
 
-    public void heal(float heal) {
-        increaseHealth(heal);
-    }
-
     private void decreaseHealth(float damage) {
         this.healthPoints -= damage;
         if (this.healthPoints <= 0) {
@@ -146,7 +142,7 @@ public abstract class Character implements Disposable {
         }
     }
 
-    private void increaseHealth(float heal) {
+    public void heal(float heal) {
         if (heal > 0) {
             if (this.healthPoints + heal >= this.maxHealthPoints) {
                 this.healthPoints = this.maxHealthPoints;
