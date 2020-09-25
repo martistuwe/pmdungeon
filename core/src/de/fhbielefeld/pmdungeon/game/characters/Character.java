@@ -96,7 +96,7 @@ public abstract class Character implements Disposable {
     }
 
     public void interact() {
-        Interactable interactable = nearestInteractable();
+        Interactable interactable = gameWorld.nearestInteractable(this);
         if (interactable != null && distanceBetween(interactable.getPositionX(), interactable.getPositionY()) < INTERACTABLE_REACH) {
             interactable.interact(this);
         }
@@ -121,24 +121,11 @@ public abstract class Character implements Disposable {
         return returnCharacter;
     }
 
-    private Interactable nearestInteractable() {
-        float minDistance = Float.MAX_VALUE;
-        Interactable returnInteractable = null;
-        for (Interactable interactable : gameWorld.getInteractables()) {
-            float distance = distanceBetween(interactable.getPositionX(), interactable.getPositionY());
-            if (minDistance > distance) {
-                minDistance = distance;
-                returnInteractable = interactable;
-            }
-        }
-        return returnInteractable;
-    }
-
     public float distanceBetween(Character character) {
         return distanceBetween(character.getPositionX(), character.getPositionY());
     }
 
-    private float distanceBetween(float x, float y) {
+    public float distanceBetween(float x, float y) {
         return (float) Math.sqrt(Math.pow(this.positionX - x, 2) + Math.pow(this.positionY - y, 2));
     }
 
@@ -170,8 +157,8 @@ public abstract class Character implements Disposable {
     }
 
     public void takeFromChest(Chest chest, int index) {
-        if (chest.getState() == Chest.State.OPEN && chest.getItemAt(index) != null) {
-            if (this.inventory.add(chest.getItemAt(index))) chest.removeItemAt(index);
+        if (chest.getState() == Chest.State.OPEN && chest.getItemAt(index) != null && this.inventory.add(chest.getItemAt(index))) {
+            chest.removeItemAt(index);
         }
     }
 

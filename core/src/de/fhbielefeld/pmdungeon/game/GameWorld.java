@@ -74,6 +74,19 @@ public class GameWorld implements Disposable {
         dungeon.renderWalls(batch);
     }
 
+    public Interactable nearestInteractable(Character character) {
+        float minDistance = Float.MAX_VALUE;
+        Interactable returnInteractable = null;
+        for (Interactable interactable : interactables) {
+            float distance = character.distanceBetween(interactable.getPositionX(), interactable.getPositionY());
+            if (minDistance > distance) {
+                minDistance = distance;
+                returnInteractable = interactable;
+            }
+        }
+        return returnInteractable;
+    }
+
     public SpriteBatch getBatch() {
         return batch;
     }
