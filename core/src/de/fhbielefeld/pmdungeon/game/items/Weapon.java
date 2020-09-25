@@ -11,7 +11,7 @@ public abstract class Weapon extends Item {
     private final float damage;
     private final float range;
     private final long coolDown;
-    private static final float ROTATION_SPEED = 400;
+    private static final float ROTATION_SPEED = 1000;
     private long lastUsage;
     private float rotation = 0;
 
