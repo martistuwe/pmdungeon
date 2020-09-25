@@ -1,8 +1,6 @@
 package de.fhbielefeld.pmdungeon.game.characters;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
@@ -13,15 +11,12 @@ import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 public abstract class Character implements Disposable {
 
     private static final float CHARACTER_WIDTH = 1;
-    private static final float RENDERING_OFFSET_X = -0.85f;
-    private static final float RENDERING_OFFSET_Y = -0.5f;
     private static final float INTERACTABLE_REACH = 1.5f;
 
     protected GameWorld gameWorld;
     protected InputComponent inputComponent;
+    protected GraphicsComponent graphicsComponent;
 
-    protected Animation idleAnimation;
-    protected Animation runAnimation;
     protected boolean idle = true;
     private boolean dead = false;
     protected boolean facingLeft = false;
@@ -44,7 +39,13 @@ public abstract class Character implements Disposable {
         this.maxHealthPoints = maxHealthPoints;
         this.healthPoints = maxHealthPoints;
         this.inventory = new Inventory(inventorySize);
+
+        graphicsComponent = new GraphicsComponent(this, setupIdleAnimation(), setupRunAnimation());
     }
+
+    protected abstract Animation setupIdleAnimation();
+
+    protected abstract Animation setupRunAnimation();
 
     public void update() {
         if (inputComponent != null) inputComponent.update(this);
@@ -55,23 +56,7 @@ public abstract class Character implements Disposable {
     }
 
     public void render() {
-        if (this.inventory.getSelectedItem() != null) {
-            renderSelectedItem();
-        }
-        renderCharacter();
-    }
-
-    private void renderSelectedItem() {
-        this.inventory.getSelectedItem().renderAtCharacter(this, gameWorld.getBatch());
-    }
-
-    private void renderCharacter() {
-        Texture texture = this.getCurrentTexture();
-        Sprite sprite = new Sprite(texture);
-        sprite.flip(facingLeft, false);
-        sprite.setSize(getCharacterWidth(), ((float) texture.getHeight() / (float) texture.getWidth()) * getCharacterWidth());
-        sprite.setPosition(positionX + RENDERING_OFFSET_X, positionY + RENDERING_OFFSET_Y);
-        sprite.draw(gameWorld.getBatch());
+        graphicsComponent.update(gameWorld.getBatch());
     }
 
     public void moveUp() {
@@ -195,14 +180,6 @@ public abstract class Character implements Disposable {
         this.positionY = position.getY();
     }
 
-    public Texture getCurrentTexture() {
-        if (idle) {
-            return this.idleAnimation.getCurrentTexture();
-        } else {
-            return this.runAnimation.getCurrentTexture();
-        }
-    }
-
     public void enableMovement() {
         this.movementEnabled = true;
     }
@@ -231,6 +208,10 @@ public abstract class Character implements Disposable {
         return dead;
     }
 
+    public boolean isIdle() {
+        return idle;
+    }
+
     public float getMaxHealthPoints() {
         return maxHealthPoints;
     }
@@ -245,7 +226,6 @@ public abstract class Character implements Disposable {
 
     @Override
     public void dispose() {
-        idleAnimation.dispose();
-        runAnimation.dispose();
+        graphicsComponent.dispose();
     }
 }
