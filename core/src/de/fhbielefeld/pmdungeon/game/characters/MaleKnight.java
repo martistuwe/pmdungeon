@@ -11,8 +11,8 @@ public class MaleKnight extends Character {
     private static final float MAX_HEALTH = 5f;
     public static final int INVENTORY_SIZE = 3;
 
-    public MaleKnight(GameWorld gameWorld) {
-        super(gameWorld, MOVEMENT_SPEED, MAX_HEALTH, INVENTORY_SIZE);
+    public MaleKnight(InputComponent inputComponent, GameWorld gameWorld) {
+        super(inputComponent, gameWorld, MOVEMENT_SPEED, MAX_HEALTH, INVENTORY_SIZE);
 
         this.idleAnimation = new Animation(0.2f);
         this.runAnimation = new Animation(0.1f);

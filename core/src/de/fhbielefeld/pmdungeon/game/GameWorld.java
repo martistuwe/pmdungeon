@@ -2,14 +2,10 @@ package de.fhbielefeld.pmdungeon.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import de.fhbielefeld.pmdungeon.game.characters.BigDemon;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
-import de.fhbielefeld.pmdungeon.game.characters.Imp;
-import de.fhbielefeld.pmdungeon.game.characters.MaleKnight;
+import de.fhbielefeld.pmdungeon.game.characters.*;
 import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
-import de.fhbielefeld.pmdungeon.game.inputhandling.Command;
-import de.fhbielefeld.pmdungeon.game.inputhandling.InputHandler;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 
@@ -21,7 +17,6 @@ public class GameWorld implements Disposable {
     private final SpriteBatch batch;
     private final List<Character> characterList = new ArrayList<>();
     private final List<Interactable> interactables = new ArrayList<>();
-    private final InputHandler inputHandler = new InputHandler();
     private Dungeon dungeon;
     private Character hero;
 
@@ -39,15 +34,15 @@ public class GameWorld implements Disposable {
     }
 
     private void setupCharacters() {
-        hero = new MaleKnight(this);
+        hero = new MaleKnight(new PlayerInputComponent(), this);
         hero.setPosition(dungeon.getStartingLocation());
         characterList.add(hero);
 
-        Character imp = new Imp(this);
+        Character imp = new Imp(null, this);
         imp.setPosition(dungeon.getRandomLocationInDungeon());
         characterList.add(imp);
 
-        Character bigDemon = new BigDemon(this);
+        Character bigDemon = new BigDemon(null, this);
         bigDemon.setPosition(dungeon.getBossStartingLocation());
         characterList.add(bigDemon);
     }
@@ -57,12 +52,6 @@ public class GameWorld implements Disposable {
     }
 
     public void update() {
-        Command[] commands = inputHandler.handleInput();
-        for (Command command : commands) {
-            if (command != null) {
-                command.execute(hero);
-            }
-        }
         for (Interactable interactable : interactables) {
             interactable.update();
         }

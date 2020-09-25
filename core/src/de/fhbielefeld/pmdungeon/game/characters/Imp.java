@@ -9,8 +9,8 @@ public class Imp extends Character {
     private static final float MAX_HEALTH_POINTS = 2f;
     private static final int INVENTORY_SIZE = 1;
 
-    public Imp(GameWorld gameWorld) {
-        super(gameWorld, MOVEMENT_SPEED, MAX_HEALTH_POINTS, INVENTORY_SIZE);
+    public Imp(InputComponent inputComponent, GameWorld gameWorld) {
+        super(inputComponent, gameWorld, MOVEMENT_SPEED, MAX_HEALTH_POINTS, INVENTORY_SIZE);
 
         this.idleAnimation = new Animation(0.2f);
         this.runAnimation = new Animation(0.2f);

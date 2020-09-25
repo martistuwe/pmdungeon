@@ -18,6 +18,7 @@ public abstract class Character implements Disposable {
     private static final float INTERACTABLE_REACH = 1.5f;
 
     protected GameWorld gameWorld;
+    protected InputComponent inputComponent;
 
     protected Animation idleAnimation;
     protected Animation runAnimation;
@@ -36,7 +37,8 @@ public abstract class Character implements Disposable {
 
     protected final Inventory inventory;
 
-    protected Character(GameWorld gameWorld, float movementSpeed, float maxHealthPoints, int inventorySize) {
+    protected Character(InputComponent inputComponent, GameWorld gameWorld, float movementSpeed, float maxHealthPoints, int inventorySize) {
+        this.inputComponent = inputComponent;
         this.gameWorld = gameWorld;
         this.movementSpeed = movementSpeed;
         this.maxHealthPoints = maxHealthPoints;
@@ -45,6 +47,7 @@ public abstract class Character implements Disposable {
     }
 
     public void update() {
+        if (inputComponent != null) inputComponent.update(this);
         if (dead) dispose();
         idle = positionX == oldX && positionY == oldY;
         oldX = positionX;
