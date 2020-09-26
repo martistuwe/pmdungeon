@@ -14,6 +14,8 @@ public abstract class Character implements Disposable {
 
     private static final float CHARACTER_WIDTH = 1;
     private static final float INTERACTABLE_REACH = 1.5f;
+    private static final float PUNCH_BACK_INTENSITY = 10f;
+    private static final float PUNCH_BACK_DURATION = 100;
 
     protected GameWorld gameWorld;
     protected InputComponent inputComponent;
@@ -24,7 +26,6 @@ public abstract class Character implements Disposable {
     protected boolean facingLeft = false;
     private boolean movementEnabled = true;
     private boolean punched = false;
-    private long punchBackDuration;
     private long punchStart;
     private Vector2 punchBackDirection = new Vector2();
     protected float positionX = 0;
@@ -56,9 +57,9 @@ public abstract class Character implements Disposable {
     public void update() {
         if (punched) {
             disableMovement();
-            if (TimeUtils.timeSinceMillis(punchStart) < punchBackDuration) {
-                float nextX = positionX + punchBackDirection.x * Gdx.graphics.getDeltaTime();
-                float nextY = positionY + punchBackDirection.y * Gdx.graphics.getDeltaTime();
+            if (TimeUtils.timeSinceMillis(punchStart) < PUNCH_BACK_DURATION) {
+                float nextX = positionX + punchBackDirection.x * Gdx.graphics.getDeltaTime() * PUNCH_BACK_INTENSITY;
+                float nextY = positionY + punchBackDirection.y * Gdx.graphics.getDeltaTime() * PUNCH_BACK_INTENSITY;
                 if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) nextY)) {
                     positionX = nextX;
                     positionY = nextY;
@@ -160,9 +161,8 @@ public abstract class Character implements Disposable {
         }
     }
 
-    public void punchBack(Character from, long duration) {
+    public void punchBack(Character from) {
         punched = true;
-        punchBackDuration = duration;
         Vector2 vector = new Vector2(positionX - from.getPositionX(), positionY - from.getPositionY());
         vector.nor();
         punchBackDirection = vector;
