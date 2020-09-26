@@ -3,23 +3,23 @@ package de.fhbielefeld.pmdungeon.game.dungeon.wallpattern;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ObjectMap;
-import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.Textures;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
+import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class WallPattern {
 
-    protected static final Dungeon.Tile W = Dungeon.Tile.WALL;
-    protected static final Dungeon.Tile D = Dungeon.Tile.DOOR;
-    protected static final Dungeon.Tile A = null; //Anything
+    protected static final Tile.Type W = Tile.Type.WALL;
+    protected static final Tile.Type D = Tile.Type.DOOR;
+    protected static final Tile.Type A = null; //Anything
 
     protected static final int WIDTH = 3;
     protected static final int HEIGHT = 3;
 
-    protected List<Dungeon.Tile[][]> patternList;
+    protected List<Tile.Type[][]> patternList;
 
     ObjectMap<Textures, Texture> textureMap;
 
@@ -28,16 +28,16 @@ public abstract class WallPattern {
         this.textureMap = textureMap;
     }
 
-    public boolean matches(List<Dungeon.Tile[][]> externalPatternList) {
-        for (Dungeon.Tile[][] internalPattern : patternList) {
-            for (Dungeon.Tile[][] externalPattern : externalPatternList) {
+    public boolean matches(List<Tile.Type[][]> externalPatternList) {
+        for (Tile.Type[][] internalPattern : patternList) {
+            for (Tile.Type[][] externalPattern : externalPatternList) {
                 if (patternMatches(internalPattern, externalPattern)) return true;
             }
         }
         return false;
     }
 
-    private boolean patternMatches(Dungeon.Tile[][] internalPattern, Dungeon.Tile[][] externalPattern) {
+    private boolean patternMatches(Tile.Type[][] internalPattern, Tile.Type[][] externalPattern) {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 if (externalPattern[x][y] != A && internalPattern[x][y] != externalPattern[x][y]) return false;
@@ -46,7 +46,7 @@ public abstract class WallPattern {
         return true;
     }
 
-    public List<Dungeon.Tile[][]> getPatternList() {
+    public List<Tile.Type[][]> getPatternList() {
         return patternList;
     }
 

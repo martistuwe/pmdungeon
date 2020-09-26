@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
+import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -98,7 +99,7 @@ public class DungeonConverter {
             } else {
                 edgeTo = node[i + 1];
             }
-            drawTiles(edgeFrom, edgeTo, room.getPosition(), dungeon, Dungeon.Tile.WALL);
+            drawTiles(edgeFrom, edgeTo, room.getPosition(), dungeon, Tile.Type.WALL);
         }
     }
 
@@ -111,7 +112,7 @@ public class DungeonConverter {
     private void drawDoors(Room room, Dungeon dungeon) {
         if (room.getDoors() != null) {
             for (Door door : room.getDoors()) {
-                drawTiles(door.getFrom(), door.getTo(), new Coordinate(0, 0), dungeon, Dungeon.Tile.DOOR);
+                drawTiles(door.getFrom(), door.getTo(), new Coordinate(0, 0), dungeon, Tile.Type.DOOR);
             }
         }
     }
@@ -125,7 +126,7 @@ public class DungeonConverter {
      * @param dungeon Dungeon in which the line should be drawn
      * @param tile    Kind of tile to draw
      */
-    private void drawTiles(Coordinate from, Coordinate to, Coordinate offset, Dungeon dungeon, Dungeon.Tile tile) {
+    private void drawTiles(Coordinate from, Coordinate to, Coordinate offset, Dungeon dungeon, Tile.Type tile) {
         //increasing Y same X
         for (int j = from.getY(); j <= to.getY(); j++) {
             dungeon.setTileAt(from.getX() + offset.getX(), j + offset.getY(), tile);
@@ -154,18 +155,18 @@ public class DungeonConverter {
         boolean foundEmptySpace = true;
         int startX = room.getPosition().getX() + room.getShape()[0].getX() + 1;
         int startY = room.getPosition().getY() + room.getShape()[0].getY() + 1;
-        while (dungeon.getTileAt(startX, startY) == Dungeon.Tile.EMPTY && foundEmptySpace) {
+        while (dungeon.getTileTypeAt(startX, startY) == Tile.Type.EMPTY && foundEmptySpace) {
             int nextY = room.getPosition().getY() + room.getShape()[0].getY() + 1;
             foundEmptySpace = false;
-            while (dungeon.getTileAt(startX, startY - 1) != Dungeon.Tile.WALL) {
+            while (dungeon.getTileTypeAt(startX, startY - 1) != Tile.Type.WALL) {
                 startY--;
             }
-            while (dungeon.getTileAt(startX, startY) == Dungeon.Tile.EMPTY) {
-                if (dungeon.getTileAt(startX + 1, startY) == Dungeon.Tile.EMPTY) {
+            while (dungeon.getTileTypeAt(startX, startY) == Tile.Type.EMPTY) {
+                if (dungeon.getTileTypeAt(startX + 1, startY) == Tile.Type.EMPTY) {
                     if (!foundEmptySpace) nextY = startY;
                     foundEmptySpace = true;
                 }
-                dungeon.setTileAt(startX, startY, Dungeon.Tile.FLOOR);
+                dungeon.setTileAt(startX, startY, Tile.Type.FLOOR);
                 startY++;
             }
             startX++;

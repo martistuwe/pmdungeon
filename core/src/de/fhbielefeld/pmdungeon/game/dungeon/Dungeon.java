@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ObjectMap;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Room;
+import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 import de.fhbielefeld.pmdungeon.game.dungeon.wallpattern.WallPattern;
 import de.fhbielefeld.pmdungeon.game.dungeon.wallpattern.WallPatternFactory;
 
@@ -34,7 +35,7 @@ public class Dungeon {
         tiles = new Tile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                tiles[i][j] = Tile.EMPTY;
+                tiles[i][j] = new Tile(Tile.Type.EMPTY, i, j);
             }
         }
     }
@@ -57,7 +58,7 @@ public class Dungeon {
             Coordinate roomExtensions = rooms[roomId].getExtension();
 
             Coordinate point = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
-            while (getTileAt(point) != Tile.FLOOR) {
+            while (getTileTypeAt(point) != Tile.Type.FLOOR) {
                 point.setX(random.nextInt(roomExtensions.getX() - 1));
                 point.setY(random.nextInt(roomExtensions.getY() - 1));
             }
@@ -72,7 +73,7 @@ public class Dungeon {
     public void renderWalls(SpriteBatch batch) {
         for (int x = 0; x < this.width; x++) {
             for (int y = this.height - 1; y >= 0; y--) {
-                if (this.tiles[x][y] == Tile.WALL) {
+                if (this.tiles[x][y].getType() == Tile.Type.WALL) {
                     WallPattern wallPattern = wallPatternFactory.getWallPattern(this, new Coordinate(x, y));
                     if (wallPattern != null) {
                         wallPattern.render(batch, new Coordinate(x, y));
@@ -85,40 +86,45 @@ public class Dungeon {
     public void renderFloor(SpriteBatch batch) {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
-                if (this.tiles[i][j] != Tile.EMPTY && this.tiles[i + 1][j] != Tile.EMPTY) {
+                if (this.tiles[i][j].getType() != Tile.Type.EMPTY && this.tiles[i + 1][j].getType() != Tile.Type.EMPTY) {
                     batch.draw(textureMap.get(Textures.FLOOR), i, j, 1, 1);
                 }
             }
         }
     }
 
-    public enum Tile {
-        FLOOR,
-        WALL,
-        DOOR,
-        EMPTY,
-    }
-
-    public Tile getTileAt(int x, int y) {
+    //TODO change
+    private Tile getTileAtNew(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return tiles[x][y];
         }
         return null;
     }
 
-    public Tile getTileAt(Coordinate coordinate) {
-        return this.getTileAt(coordinate.getX(), coordinate.getY());
+    public Tile.Type getTileTypeAt(int x, int y) {
+        Tile tile = getTileAtNew(x, y);
+        if (tile != null) {
+            return tile.getType();
+        }
+        return null;
     }
 
-    public void setTileAt(int x, int y, Tile tile) {
+    public Tile.Type getTileTypeAt(Coordinate coordinate) {
+        return this.getTileTypeAt(coordinate.getX(), coordinate.getY());
+    }
+
+    public void setTileAt(int x, int y, Tile.Type tile) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
-            tiles[x][y] = tile;
+            tiles[x][y] = new Tile(tile, x, y);
         }
     }
 
     public boolean isTileAccessible(int x, int y) {
-        Tile tile = getTileAt(x, y);
-        return tile == Tile.FLOOR || tile == Tile.DOOR;
+        Tile tile = getTileAtNew(x, y);
+        if (tile != null) {
+            return tile.isAccessible();
+        }
+        return false;
     }
 
     public void setRooms(Room[] rooms) {

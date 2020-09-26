@@ -3,26 +3,26 @@ package de.fhbielefeld.pmdungeon.game.dungeon.wallpattern;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ObjectMap;
-import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.Textures;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
+import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 
 public class HorizontalWall extends WallPattern {
 
     public HorizontalWall(ObjectMap<Textures, Texture> textureMap) {
         super(textureMap);
 
-        this.patternList.add(new Dungeon.Tile[][]{
+        this.patternList.add(new Tile.Type[][]{
                 {A, A, A},
                 {W, W, W},
                 {A, A, A}
         });
-        this.patternList.add(new Dungeon.Tile[][]{
+        this.patternList.add(new Tile.Type[][]{
                 {A, A, A},
                 {D, W, W},
                 {A, A, A}
         });
-        this.patternList.add(new Dungeon.Tile[][]{
+        this.patternList.add(new Tile.Type[][]{
                 {A, A, A},
                 {W, W, D},
                 {A, A, A}

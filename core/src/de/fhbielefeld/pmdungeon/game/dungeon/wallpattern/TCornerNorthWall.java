@@ -3,16 +3,16 @@ package de.fhbielefeld.pmdungeon.game.dungeon.wallpattern;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ObjectMap;
-import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.Textures;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
+import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 
 public class TCornerNorthWall extends WallPattern {
 
     public TCornerNorthWall(ObjectMap<Textures, Texture> textureMap) {
         super(textureMap);
 
-        this.patternList.add(new Dungeon.Tile[][]{
+        this.patternList.add(new Tile.Type[][]{
                 {A, W, A},
                 {W, W, W},
                 {A, A, A}
