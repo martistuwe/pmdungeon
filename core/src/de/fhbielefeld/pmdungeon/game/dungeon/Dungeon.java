@@ -1,7 +1,10 @@
 package de.fhbielefeld.pmdungeon.game.dungeon;
 
+import com.badlogic.gdx.ai.pfa.Connection;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Room;
@@ -11,17 +14,28 @@ import de.fhbielefeld.pmdungeon.game.dungeon.wallpattern.WallPatternFactory;
 
 import java.util.Random;
 
-public class Dungeon {
+public class Dungeon implements IndexedGraph<Tile> {
 
     private Room[] rooms;
 
     private int width;
     private int height;
     private Tile[][] tiles;
+    private final Coordinate[] surroundings = {
+            new Coordinate(0, 1),
+            new Coordinate(1, 1),
+            new Coordinate(1, 0),
+            new Coordinate(1, -1),
+            new Coordinate(0, -1),
+            new Coordinate(-1, -1),
+            new Coordinate(-1, 0),
+            new Coordinate(-1, 1)
+    };
 
     private final ObjectMap<Textures, Texture> textureMap;
     private final WallPatternFactory wallPatternFactory;
     private final Random random = new Random();
+    private int nodeCount = 0;
 
     private Dungeon() {
         textureMap = Textures.loadAllTextures();
@@ -37,36 +51,6 @@ public class Dungeon {
             for (int j = 0; j < height; j++) {
                 tiles[i][j] = new Tile(Tile.Type.EMPTY, i, j);
             }
-        }
-    }
-
-    public Coordinate getStartingLocation() {
-        return getRandomLocationInRoom(0);
-    }
-
-    public Coordinate getBossStartingLocation() {
-        return getRandomLocationInRoom(rooms.length - 1);
-    }
-
-    public Coordinate getRandomLocationInDungeon() {
-        int roomId = (this.random.nextInt(rooms.length - 1)) + 1;
-        return getRandomLocationInRoom(roomId);
-    }
-
-    private Coordinate getRandomLocationInRoom(int roomId) {
-        if (rooms[roomId] != null) {
-            Coordinate roomExtensions = rooms[roomId].getExtension();
-
-            Coordinate point = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
-            while (getTileTypeAt(point) != Tile.Type.FLOOR) {
-                point.setX(random.nextInt(roomExtensions.getX() - 1));
-                point.setY(random.nextInt(roomExtensions.getY() - 1));
-            }
-            point.add(new Coordinate(1, 1));
-            point.add(new Coordinate(rooms[roomId].getPosition().getX(), rooms[roomId].getPosition().getY()));
-            return point;
-        } else {
-            return null;
         }
     }
 
@@ -91,6 +75,56 @@ public class Dungeon {
                 }
             }
         }
+    }
+
+    public void makeConnections() {
+        for (int x = 0; x < this.width; x++) {
+            for (int y = 0; y < this.height; y++) {
+                if (tiles[x][y].isAccessible()) {
+                    nodeCount++;
+                    for (Coordinate coordinate : surroundings) {
+                        Tile tile = getTileAt(coordinate);
+                        if (tile != null && tile.isAccessible()) {
+                            tiles[x][y].addConnection(tile);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private Coordinate getRandomLocationInRoom(int roomId) {
+        if (rooms[roomId] != null) {
+            Coordinate roomExtensions = rooms[roomId].getExtension();
+
+            Coordinate point = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            while (getTileTypeAt(point) != Tile.Type.FLOOR) {
+                point.setX(random.nextInt(roomExtensions.getX() - 1));
+                point.setY(random.nextInt(roomExtensions.getY() - 1));
+            }
+            point.add(new Coordinate(1, 1));
+            point.add(new Coordinate(rooms[roomId].getPosition().getX(), rooms[roomId].getPosition().getY()));
+            return point;
+        } else {
+            return null;
+        }
+    }
+
+    public Coordinate getStartingLocation() {
+        return getRandomLocationInRoom(0);
+    }
+
+    public Coordinate getBossStartingLocation() {
+        return getRandomLocationInRoom(rooms.length - 1);
+    }
+
+    public Coordinate getRandomLocationInDungeon() {
+        int roomId = (this.random.nextInt(rooms.length - 1)) + 1;
+        return getRandomLocationInRoom(roomId);
+    }
+
+    private Tile getTileAt(Coordinate coordinate) {
+        return getTileAt(coordinate.getX(), coordinate.getY());
     }
 
     private Tile getTileAt(int x, int y) {
@@ -136,6 +170,21 @@ public class Dungeon {
 
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public int getIndex(Tile node) {
+        return node.getIndex();
+    }
+
+    @Override
+    public int getNodeCount() {
+        return nodeCount;
+    }
+
+    @Override
+    public Array<Connection<Tile>> getConnections(Tile fromNode) {
+        return fromNode.getConnections();
     }
 
     public void dispose() {

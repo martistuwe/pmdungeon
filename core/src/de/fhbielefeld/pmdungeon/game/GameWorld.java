@@ -31,6 +31,7 @@ public class GameWorld implements Disposable {
     private void setupDungeon() {
         DungeonConverter dungeonConverter = new DungeonConverter();
         dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
+        dungeon.makeConnections();
     }
 
     private void setupCharacters() {
