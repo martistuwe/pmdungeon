@@ -86,9 +86,9 @@ public class Dungeon implements IndexedGraph<Tile> {
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.height; y++) {
                 if (tiles[x][y].isAccessible()) {
-                    nodeCount++;
+                    tiles[x][y].setIndex(nodeCount++);
                     for (Coordinate coordinate : surroundings) {
-                        Tile tile = getTileAt(coordinate);
+                        Tile tile = getTileAt(x + coordinate.getX(), y + coordinate.getY());
                         if (tile != null && tile.isAccessible()) {
                             tiles[x][y].addConnection(tile);
                         }
@@ -134,11 +134,11 @@ public class Dungeon implements IndexedGraph<Tile> {
         return getRandomLocationInRoom(roomId);
     }
 
-    private Tile getTileAt(Coordinate coordinate) {
+    public Tile getTileAt(Coordinate coordinate) {
         return getTileAt(coordinate.getX(), coordinate.getY());
     }
 
-    private Tile getTileAt(int x, int y) {
+    public Tile getTileAt(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return tiles[x][y];
         }
