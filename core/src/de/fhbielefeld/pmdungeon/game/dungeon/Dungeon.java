@@ -93,8 +93,7 @@ public class Dungeon {
         }
     }
 
-    //TODO change
-    private Tile getTileAtNew(int x, int y) {
+    private Tile getTileAt(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return tiles[x][y];
         }
@@ -102,7 +101,7 @@ public class Dungeon {
     }
 
     public Tile.Type getTileTypeAt(int x, int y) {
-        Tile tile = getTileAtNew(x, y);
+        Tile tile = getTileAt(x, y);
         if (tile != null) {
             return tile.getType();
         }
@@ -120,7 +119,7 @@ public class Dungeon {
     }
 
     public boolean isTileAccessible(int x, int y) {
-        Tile tile = getTileAtNew(x, y);
+        Tile tile = getTileAt(x, y);
         if (tile != null) {
             return tile.isAccessible();
         }
@@ -129,10 +128,6 @@ public class Dungeon {
 
     public void setRooms(Room[] rooms) {
         this.rooms = rooms;
-    }
-
-    public Room getRoom(int index) {
-        return this.rooms[index];
     }
 
     public int getWidth() {
