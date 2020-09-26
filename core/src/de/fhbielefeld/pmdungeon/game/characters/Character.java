@@ -1,7 +1,9 @@
 package de.fhbielefeld.pmdungeon.game.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.TimeUtils;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
@@ -21,6 +23,10 @@ public abstract class Character implements Disposable {
     private boolean dead = false;
     protected boolean facingLeft = false;
     private boolean movementEnabled = true;
+    private boolean punched = false;
+    private long punchBackDuration;
+    private long punchStart;
+    private Vector2 punchBackDirection = new Vector2();
     protected float positionX = 0;
     protected float positionY = 0;
     private float oldX = 0;
@@ -48,8 +54,27 @@ public abstract class Character implements Disposable {
     protected abstract Animation setupRunAnimation();
 
     public void update() {
-        if (inputComponent != null) inputComponent.update(this);
+        if (punched) {
+            disableMovement();
+            if (TimeUtils.timeSinceMillis(punchStart) < punchBackDuration) {
+                float nextX = positionX + punchBackDirection.x * Gdx.graphics.getDeltaTime();
+                float nextY = positionY + punchBackDirection.y * Gdx.graphics.getDeltaTime();
+                if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) nextY)) {
+                    positionX = nextX;
+                    positionY = nextY;
+                }
+            } else {
+                enableMovement();
+            }
+        }
+
         if (dead) dispose();
+        if (inputComponent != null) inputComponent.update(this);
+
+        checkForIdle();
+    }
+
+    private void checkForIdle() {
         idle = positionX == oldX && positionY == oldY;
         oldX = positionX;
         oldY = positionY;
@@ -133,6 +158,15 @@ public abstract class Character implements Disposable {
         if (this != character) {
             character.decreaseHealth(damage);
         }
+    }
+
+    public void punchBack(Character from, long duration) {
+        punched = true;
+        punchBackDuration = duration;
+        Vector2 vector = new Vector2(positionX - from.getPositionX(), positionY - from.getPositionY());
+        vector.nor();
+        punchBackDirection = vector;
+        punchStart = TimeUtils.millis();
     }
 
     private void decreaseHealth(float damage) {

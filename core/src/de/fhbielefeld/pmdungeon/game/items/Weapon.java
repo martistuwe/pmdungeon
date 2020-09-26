@@ -11,15 +11,17 @@ public abstract class Weapon extends Item {
     private final float damage;
     private final float range;
     private final long coolDown;
+    private final long punchBackDuration;
     private static final float ROTATION_SPEED = 1000;
     private long lastUsage;
     private float rotation = 0;
 
-    protected Weapon(Texture texture, float damage, float range, long coolDown) {
+    protected Weapon(Texture texture, float damage, float range, long coolDown, long punchBackDuration) {
         super(texture);
         this.damage = damage;
         this.range = range;
         this.coolDown = coolDown;
+        this.punchBackDuration = punchBackDuration;
         this.lastUsage = TimeUtils.millis();
     }
 
@@ -56,6 +58,7 @@ public abstract class Weapon extends Item {
             Character nearestCharacter = character.nearestCharacter();
             if (nearestCharacter != null && character.distanceBetween(nearestCharacter) <= this.range) {
                 character.attack(nearestCharacter, damage);
+                nearestCharacter.punchBack(character, punchBackDuration);
             }
         }
     }
