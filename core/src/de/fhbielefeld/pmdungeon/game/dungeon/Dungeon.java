@@ -1,6 +1,9 @@
 package de.fhbielefeld.pmdungeon.game.dungeon;
 
 import com.badlogic.gdx.ai.pfa.Connection;
+import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
+import com.badlogic.gdx.ai.pfa.GraphPath;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,6 +12,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Room;
 import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
+import de.fhbielefeld.pmdungeon.game.dungeon.tiles.TileHeuristic;
 import de.fhbielefeld.pmdungeon.game.dungeon.wallpattern.WallPattern;
 import de.fhbielefeld.pmdungeon.game.dungeon.wallpattern.WallPatternFactory;
 
@@ -35,6 +39,7 @@ public class Dungeon implements IndexedGraph<Tile> {
     private final ObjectMap<Textures, Texture> textureMap;
     private final WallPatternFactory wallPatternFactory;
     private final Random random = new Random();
+    private final TileHeuristic tileHeuristic = new TileHeuristic();
     private int nodeCount = 0;
 
     private Dungeon() {
@@ -91,6 +96,12 @@ public class Dungeon implements IndexedGraph<Tile> {
                 }
             }
         }
+    }
+
+    public GraphPath<Tile> findPath(Tile start, Tile end) {
+        GraphPath<Tile> path = new DefaultGraphPath<>();
+        new IndexedAStarPathFinder<>(this).searchNodePath(start, end, tileHeuristic, path);
+        return path;
     }
 
     private Coordinate getRandomLocationInRoom(int roomId) {
