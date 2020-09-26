@@ -39,11 +39,13 @@ public class GameWorld implements Disposable {
         hero.setPosition(dungeon.getStartingLocation());
         characterList.add(hero);
 
-        Character imp = new Imp(null, this);
+        InputComponent ai = new AiInputComponent(this);
+
+        Character imp = new Imp(ai, this);
         imp.setPosition(dungeon.getRandomLocationInDungeon());
         characterList.add(imp);
 
-        Character bigDemon = new BigDemon(null, this);
+        Character bigDemon = new BigDemon(ai, this);
         bigDemon.setPosition(dungeon.getBossStartingLocation());
         characterList.add(bigDemon);
     }

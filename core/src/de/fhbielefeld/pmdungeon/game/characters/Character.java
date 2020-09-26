@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
+import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
@@ -195,6 +196,10 @@ public abstract class Character implements Disposable {
     public void setPosition(Coordinate position) {
         this.positionX = position.getX();
         this.positionY = position.getY();
+    }
+
+    public Tile currentTile() {
+        return gameWorld.getDungeon().getTileAt((int) positionX, (int) positionY);
     }
 
     public void enableMovement() {
