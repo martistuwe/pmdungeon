@@ -84,10 +84,10 @@ public class Dungeon implements IndexedGraph<Tile> {
     }
 
     private void addConnectionsToNeighbours(int x, int y) {
-        for (int i = x - 1; i < x + 1; i++) {
-            for (int j = y - 1; j < y + 1; j++) {
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
                 Tile checkTile = tiles[i][j];
-                if (checkTile != null && tiles[x][y] != checkTile && checkTile.isAccessible()) {
+                if (checkTile != null && checkTile != tiles[x][y] && checkTile.isAccessible()) {
                     tiles[x][y].addConnection(checkTile);
                 }
             }
