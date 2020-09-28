@@ -25,16 +25,6 @@ public class Dungeon implements IndexedGraph<Tile> {
     private int width;
     private int height;
     private Tile[][] tiles;
-    private final Coordinate[] surroundings = {
-            new Coordinate(0, 1),
-            new Coordinate(1, 1),
-            new Coordinate(1, 0),
-            new Coordinate(1, -1),
-            new Coordinate(0, -1),
-            new Coordinate(-1, -1),
-            new Coordinate(-1, 0),
-            new Coordinate(-1, 1)
-    };
 
     private final ObjectMap<Textures, Texture> textureMap;
     private final WallPatternFactory wallPatternFactory;
@@ -87,12 +77,18 @@ public class Dungeon implements IndexedGraph<Tile> {
             for (int y = 0; y < this.height; y++) {
                 if (tiles[x][y].isAccessible()) {
                     tiles[x][y].setIndex(nodeCount++);
-                    for (Coordinate coordinate : surroundings) {
-                        Tile tile = getTileAt(x + coordinate.getX(), y + coordinate.getY());
-                        if (tile != null && tile.isAccessible()) {
-                            tiles[x][y].addConnection(tile);
-                        }
-                    }
+                    addConnectionsToNeighbours(x, y);
+                }
+            }
+        }
+    }
+
+    private void addConnectionsToNeighbours(int x, int y) {
+        for (int i = x - 1; i < x + 1; i++) {
+            for (int j = y - 1; j < y + 1; j++) {
+                Tile checkTile = tiles[i][j];
+                if (checkTile != null && tiles[x][y] != checkTile && checkTile.isAccessible()) {
+                    tiles[x][y].addConnection(checkTile);
                 }
             }
         }
