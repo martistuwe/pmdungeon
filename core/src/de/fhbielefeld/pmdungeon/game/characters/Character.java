@@ -57,6 +57,8 @@ public abstract class Character implements Disposable {
 
     public abstract float getMaxHealthPoints();
 
+    public abstract int getAiRadius();
+
     public void update() {
         if (punched) {
             disableMovement();

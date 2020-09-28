@@ -11,6 +11,7 @@ public class MaleKnight extends Character {
     private static final float MAX_HEALTH = 5f;
     public static final int INVENTORY_SIZE = 3;
     public static final int TEXTURE_COUNT = 4;
+    public static final int AI_RADIUS = 0;
 
     public MaleKnight(InputComponent inputComponent, GameWorld gameWorld) {
         super(inputComponent, gameWorld);
@@ -49,5 +50,10 @@ public class MaleKnight extends Character {
     @Override
     public float getMaxHealthPoints() {
         return MAX_HEALTH;
+    }
+
+    @Override
+    public int getAiRadius() {
+        return AI_RADIUS;
     }
 }

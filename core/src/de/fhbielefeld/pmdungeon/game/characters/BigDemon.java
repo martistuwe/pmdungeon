@@ -10,6 +10,7 @@ public class BigDemon extends Character {
     private static final float MAX_HEALTH_POINTS = 15f;
     private static final int INVENTORY_SIZE = 1;
     private static final int TEXTURE_COUNT = 4;
+    private static final int AI_RADIUS = 10;
 
     public BigDemon(InputComponent inputComponent, GameWorld gameWorld) {
         super(inputComponent, gameWorld);
@@ -46,6 +47,11 @@ public class BigDemon extends Character {
     @Override
     public float getMaxHealthPoints() {
         return MAX_HEALTH_POINTS;
+    }
+
+    @Override
+    public int getAiRadius() {
+        return AI_RADIUS;
     }
 
     @Override
