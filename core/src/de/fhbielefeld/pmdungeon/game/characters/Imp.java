@@ -11,7 +11,7 @@ public class Imp extends Character {
     private static final int TEXTURE_COUNT = 4;
 
     public Imp(InputComponent inputComponent, GameWorld gameWorld) {
-        super(inputComponent, gameWorld, MOVEMENT_SPEED, MAX_HEALTH_POINTS, INVENTORY_SIZE);
+        super(inputComponent, gameWorld);
     }
 
     @Override
@@ -30,5 +30,20 @@ public class Imp extends Character {
             run.addTexture(new Texture("textures/characters/demons/imp/imp_run_anim_f" + i + ".png"));
         }
         return run;
+    }
+
+    @Override
+    protected float getMovementSpeed() {
+        return MOVEMENT_SPEED;
+    }
+
+    @Override
+    protected int getInventorySize() {
+        return INVENTORY_SIZE;
+    }
+
+    @Override
+    public float getMaxHealthPoints() {
+        return MAX_HEALTH_POINTS;
     }
 }

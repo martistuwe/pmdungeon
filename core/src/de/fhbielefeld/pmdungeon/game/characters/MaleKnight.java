@@ -13,7 +13,7 @@ public class MaleKnight extends Character {
     public static final int TEXTURE_COUNT = 4;
 
     public MaleKnight(InputComponent inputComponent, GameWorld gameWorld) {
-        super(inputComponent, gameWorld, MOVEMENT_SPEED, MAX_HEALTH, INVENTORY_SIZE);
+        super(inputComponent, gameWorld);
         inventory.setSlot(0, new Sword());
         inventory.setSlot(1, new HealthPotion());
     }
@@ -34,5 +34,20 @@ public class MaleKnight extends Character {
             run.addTexture(new Texture("textures/characters/playercharacters/knight_m_run_anim_f" + i + ".png"));
         }
         return run;
+    }
+
+    @Override
+    protected float getMovementSpeed() {
+        return MOVEMENT_SPEED;
+    }
+
+    @Override
+    protected int getInventorySize() {
+        return INVENTORY_SIZE;
+    }
+
+    @Override
+    public float getMaxHealthPoints() {
+        return MAX_HEALTH;
     }
 }

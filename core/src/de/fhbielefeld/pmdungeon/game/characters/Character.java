@@ -34,26 +34,28 @@ public abstract class Character implements Disposable {
     private float oldX = 0;
     private float oldY = 0;
 
-    private final float movementSpeed;
     private float healthPoints;
-    private final float maxHealthPoints;
 
     protected final Inventory inventory;
 
-    protected Character(InputComponent inputComponent, GameWorld gameWorld, float movementSpeed, float maxHealthPoints, int inventorySize) {
+    protected Character(InputComponent inputComponent, GameWorld gameWorld) {
         this.inputComponent = inputComponent;
         this.gameWorld = gameWorld;
-        this.movementSpeed = movementSpeed;
-        this.maxHealthPoints = maxHealthPoints;
-        this.healthPoints = maxHealthPoints;
-        this.inventory = new Inventory(inventorySize);
 
-        graphicsComponent = new GraphicsComponent(this, setupIdleAnimation(), setupRunAnimation());
+        this.inventory = new Inventory(getInventorySize());
+        this.healthPoints = getMaxHealthPoints();
+        this.graphicsComponent = new GraphicsComponent(this, setupIdleAnimation(), setupRunAnimation());
     }
 
     protected abstract Animation setupIdleAnimation();
 
     protected abstract Animation setupRunAnimation();
+
+    protected abstract float getMovementSpeed();
+
+    protected abstract int getInventorySize();
+
+    public abstract float getMaxHealthPoints();
 
     public void update() {
         if (punched) {
@@ -88,14 +90,14 @@ public abstract class Character implements Disposable {
 
     public void moveUp() {
         if (movementEnabled) {
-            float nextY = positionY + movementSpeed * Gdx.graphics.getDeltaTime();
+            float nextY = positionY + getMovementSpeed() * Gdx.graphics.getDeltaTime();
             if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
         }
     }
 
     public void moveDown() {
         if (movementEnabled) {
-            float nextY = positionY - movementSpeed * Gdx.graphics.getDeltaTime();
+            float nextY = positionY - getMovementSpeed() * Gdx.graphics.getDeltaTime();
             if (gameWorld.getDungeon().isTileAccessible((int) positionX, (int) nextY)) positionY = nextY;
         }
     }
@@ -103,7 +105,7 @@ public abstract class Character implements Disposable {
     public void moveLeft() {
         if (movementEnabled) {
             facingLeft = true;
-            float nextX = positionX - movementSpeed * Gdx.graphics.getDeltaTime();
+            float nextX = positionX - getMovementSpeed() * Gdx.graphics.getDeltaTime();
             if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
         }
     }
@@ -111,7 +113,7 @@ public abstract class Character implements Disposable {
     public void moveRight() {
         if (movementEnabled) {
             facingLeft = false;
-            float nextX = positionX + movementSpeed * Gdx.graphics.getDeltaTime();
+            float nextX = positionX + getMovementSpeed() * Gdx.graphics.getDeltaTime();
             if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) positionY)) positionX = nextX;
         }
     }
@@ -179,8 +181,8 @@ public abstract class Character implements Disposable {
 
     public void heal(float heal) {
         if (heal > 0) {
-            if (this.healthPoints + heal >= this.maxHealthPoints) {
-                this.healthPoints = this.maxHealthPoints;
+            if (this.healthPoints + heal >= getMaxHealthPoints()) {
+                this.healthPoints = getMaxHealthPoints();
             } else {
                 this.healthPoints += heal;
             }
@@ -232,10 +234,6 @@ public abstract class Character implements Disposable {
 
     public boolean isIdle() {
         return idle;
-    }
-
-    public float getMaxHealthPoints() {
-        return maxHealthPoints;
     }
 
     public Inventory getInventory() {

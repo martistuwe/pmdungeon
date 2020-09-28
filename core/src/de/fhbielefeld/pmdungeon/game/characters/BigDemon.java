@@ -12,7 +12,7 @@ public class BigDemon extends Character {
     private static final int TEXTURE_COUNT = 4;
 
     public BigDemon(InputComponent inputComponent, GameWorld gameWorld) {
-        super(inputComponent, gameWorld, MOVEMENT_SPEED, MAX_HEALTH_POINTS, INVENTORY_SIZE);
+        super(inputComponent, gameWorld);
     }
 
     @Override
@@ -31,6 +31,21 @@ public class BigDemon extends Character {
             run.addTexture(new Texture("textures/characters/demons/big_demon/big_demon_run_anim_f" + i + ".png"));
         }
         return run;
+    }
+
+    @Override
+    protected float getMovementSpeed() {
+        return MOVEMENT_SPEED;
+    }
+
+    @Override
+    protected int getInventorySize() {
+        return INVENTORY_SIZE;
+    }
+
+    @Override
+    public float getMaxHealthPoints() {
+        return MAX_HEALTH_POINTS;
     }
 
     @Override
