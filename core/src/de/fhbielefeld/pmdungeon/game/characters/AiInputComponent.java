@@ -15,9 +15,25 @@ public class AiInputComponent implements InputComponent {
     @Override
     public void update(Character character) {
         GraphPath<Tile> path = gameWorld.getDungeon().findPath(character.currentTile(), gameWorld.getHero().currentTile());
-        if (path.getCount() != 0) {
-            if (character.currentTile() == gameWorld.getDungeon().getTileAt(path.get(0).getX() + 1, path.get(0).getY())) {
-                character.moveUp();
+        if (path.getCount() > 1) {
+            Tile nextTile = path.get(1);
+            for (Tile.Direction direction : character.currentTile().directionTo(nextTile)) {
+                switch (direction) {
+                    case N:
+                        character.moveUp();
+                        break;
+                    case E:
+                        character.moveRight();
+                        break;
+                    case S:
+                        character.moveDown();
+                        break;
+                    case W:
+                        character.moveLeft();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

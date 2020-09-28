@@ -3,6 +3,9 @@ package de.fhbielefeld.pmdungeon.game.dungeon.tiles;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tile {
 
     private final Type type;
@@ -27,6 +30,22 @@ public class Tile {
                 return false;
         }
         return false;
+    }
+
+    public Direction[] directionTo(Tile that) {
+        List<Direction> directions = new ArrayList<>();
+        if (this.x < that.x) {
+            directions.add(Direction.E);
+        } else if (this.x > that.x) {
+            directions.add(Direction.W);
+        }
+
+        if (this.y < that.y) {
+            directions.add(Direction.N);
+        } else if (this.y > that.y) {
+            directions.add(Direction.S);
+        }
+        return directions.toArray(new Direction[0]);
     }
 
     public void addConnection(Tile to) {
@@ -62,5 +81,12 @@ public class Tile {
         WALL,
         DOOR,
         EMPTY,
+    }
+
+    public enum Direction {
+        N,
+        E,
+        S,
+        W,
     }
 }
