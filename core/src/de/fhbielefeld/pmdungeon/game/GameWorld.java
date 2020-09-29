@@ -10,7 +10,6 @@ import de.fhbielefeld.pmdungeon.game.characters.components.AiInputComponent;
 import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
 import de.fhbielefeld.pmdungeon.game.characters.components.PlayerInputComponent;
 import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
-import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 import de.fhbielefeld.pmdungeon.game.items.HealthPotion;
@@ -25,41 +24,47 @@ public class GameWorld implements Disposable {
     private final SpriteBatch batch;
     private final List<Character> characterList = new ArrayList<>();
     private final List<Interactable> interactables = new ArrayList<>();
+    private final InputComponent ai = new AiInputComponent(this);
     private Dungeon dungeon;
     private Character hero;
+    private boolean nextLevelTriggered = false;
 
     public GameWorld(SpriteBatch batch) {
         this.batch = batch;
-
-        setupDungeon();
-        setupCharacters();
-        setupLoot();
+        setupHero();
     }
 
-    private void setupDungeon() {
-        DungeonConverter dungeonConverter = new DungeonConverter();
-        dungeon = dungeonConverter.dungeonFromJson("simple_dungeon.json");
+    public void setupDungeon(Dungeon dungeon) {
+        if (this.dungeon != null) this.dungeon.dispose();
+        this.dungeon = dungeon;
+        this.nextLevelTriggered = false;
         dungeon.makeConnections();
     }
 
-    private void setupCharacters() {
-        hero = new MaleKnight(new PlayerInputComponent(), this);
+    public void populate() {
+        characterList.clear();
         hero.setPosition(dungeon.getStartingLocation());
-        hero.getInventory().add(new Sword());
-        hero.getInventory().add(new HealthPotion());
         characterList.add(hero);
+        for (int i = 1; i < dungeon.getRooms().length; i += 2) {
+            Character imp = new Imp(ai, this);
+            imp.setPosition(dungeon.getRandomLocationInDungeon());
+            imp.getInventory().add(new NpcAttack(1, 1, 300));
+            characterList.add(imp);
+        }
+        setupLoot();
+    }
 
-        InputComponent ai = new AiInputComponent(this);
-
-        Character imp = new Imp(ai, this);
-        imp.setPosition(dungeon.getRandomLocationInDungeon());
-        imp.getInventory().add(new NpcAttack(1, 1, 300));
-        characterList.add(imp);
-
+    public void setupBoss() {
         Character bigDemon = new BigDemon(ai, this);
         bigDemon.setPosition(dungeon.getBossStartingLocation());
         bigDemon.getInventory().add(new NpcAttack(1, 2, 500));
         characterList.add(bigDemon);
+    }
+
+    private void setupHero() {
+        hero = new MaleKnight(new PlayerInputComponent(), this);
+        hero.getInventory().add(new Sword());
+        hero.getInventory().add(new HealthPotion());
     }
 
     private void setupLoot() {
@@ -67,6 +72,7 @@ public class GameWorld implements Disposable {
     }
 
     public void update() {
+        if (hero.currentTile() == dungeon.getNextLevelTrigger()) nextLevelTriggered = true;
         for (Interactable interactable : interactables) {
             interactable.update();
         }
@@ -121,6 +127,10 @@ public class GameWorld implements Disposable {
 
     public List<Interactable> getInteractables() {
         return interactables;
+    }
+
+    public boolean isNextLevelTriggered() {
+        return nextLevelTriggered;
     }
 
     @Override

@@ -31,6 +31,7 @@ public class Dungeon implements IndexedGraph<Tile> {
     private final Random random = new Random();
     private final TileHeuristic tileHeuristic = new TileHeuristic();
     private int nodeCount = 0;
+    private Tile nextLevelTrigger;
 
     private Dungeon() {
         textureMap = Textures.loadAllTextures();
@@ -70,6 +71,7 @@ public class Dungeon implements IndexedGraph<Tile> {
                 }
             }
         }
+        batch.draw(textureMap.get(Textures.LADDER), nextLevelTrigger.getX(), nextLevelTrigger.getY(), 1, 1);
     }
 
     public void makeConnections() {
@@ -103,14 +105,13 @@ public class Dungeon implements IndexedGraph<Tile> {
     private Coordinate getRandomLocationInRoom(int roomId) {
         if (rooms[roomId] != null) {
             Coordinate roomExtensions = rooms[roomId].getExtension();
-
             Coordinate point = new Coordinate(Integer.MIN_VALUE, Integer.MIN_VALUE);
             while (getTileTypeAt(point) != Tile.Type.FLOOR) {
                 point.setX(random.nextInt(roomExtensions.getX() - 1));
                 point.setY(random.nextInt(roomExtensions.getY() - 1));
+                point.add(new Coordinate(rooms[roomId].getPosition().getX(), rooms[roomId].getPosition().getY()));
             }
             point.add(new Coordinate(1, 1));
-            point.add(new Coordinate(rooms[roomId].getPosition().getX(), rooms[roomId].getPosition().getY()));
             return point;
         } else {
             return null;
@@ -167,8 +168,17 @@ public class Dungeon implements IndexedGraph<Tile> {
         return false;
     }
 
+    public void setupNextLevelTriggerLocation() {
+        Coordinate coordinate = getRandomLocationInRoom(rooms.length - 1);
+        if (coordinate != null) nextLevelTrigger = getTileAt(coordinate);
+    }
+
     public void setRooms(Room[] rooms) {
         this.rooms = rooms;
+    }
+
+    public Room[] getRooms() {
+        return rooms;
     }
 
     public int getWidth() {
@@ -177,6 +187,10 @@ public class Dungeon implements IndexedGraph<Tile> {
 
     public int getHeight() {
         return height;
+    }
+
+    public Tile getNextLevelTrigger() {
+        return nextLevelTrigger;
     }
 
     @Override

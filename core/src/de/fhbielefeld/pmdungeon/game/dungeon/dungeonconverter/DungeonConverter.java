@@ -80,6 +80,7 @@ public class DungeonConverter {
             fillRoom(room, dungeon);
             drawDoors(room, dungeon);
         }
+        dungeon.setupNextLevelTriggerLocation();
         return dungeon;
     }
 

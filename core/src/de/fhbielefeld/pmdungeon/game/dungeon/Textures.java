@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 public enum Textures {
 
     FLOOR("floor/floor_1.png"),
+    LADDER("floor/floor_ladder.png"),
     WALL_CORNER_BOTTOM_LEFT("wall/wall_corner_bottom_left.png"),
     WALL_CORNER_FRONT_LEFT("wall/wall_corner_front_left.png"),
     WALL_CORNER_FRONT_RIGHT("wall/wall_corner_front_right.png"),

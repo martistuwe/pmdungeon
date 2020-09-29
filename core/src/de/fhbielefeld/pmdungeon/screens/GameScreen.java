@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.fhbielefeld.pmdungeon.PMDungeon;
+import de.fhbielefeld.pmdungeon.game.DemoSequence;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.ui.HeadUpDisplay;
 
@@ -19,11 +20,13 @@ public class GameScreen extends ScreenAdapter {
     private final HeadUpDisplay hud;
 
     private final GameWorld gameWorld;
+    private final DemoSequence demoSequence;
 
     public GameScreen(final PMDungeon pmDungeon) {
         this.pmDungeon = pmDungeon;
         this.gameWorld = new GameWorld(pmDungeon.getBatch());
         this.hud = new HeadUpDisplay(gameWorld);
+        this.demoSequence = new DemoSequence(gameWorld);
         setupCamera();
     }
 
@@ -50,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
 
         debugCameraZoom();
 
+        demoSequence.update();
         gameWorld.update();
 
         camera.position.set(gameWorld.getHero().getPositionX(), gameWorld.getHero().getPositionY(), 0);
