@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Sword extends Weapon {
 
-    private static final float DAMAGE = 3;
+    private static final float DAMAGE = 1.5f;
     private static final float RANGE = 1.5f;
     private static final long COOL_DOWN = 250;
 

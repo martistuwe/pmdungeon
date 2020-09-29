@@ -48,7 +48,7 @@ public class GameWorld implements Disposable {
         for (int i = 1; i < dungeon.getRooms().length; i += 2) {
             Character imp = new Imp(ai, this);
             imp.setPosition(dungeon.getRandomLocationInDungeon());
-            imp.getInventory().add(new NpcAttack(1, 1, 300));
+            imp.getInventory().add(new NpcAttack(1, 0.5f, 300));
             characterList.add(imp);
         }
         setupLoot();
@@ -57,7 +57,7 @@ public class GameWorld implements Disposable {
     public void setupBoss() {
         Character bigDemon = new BigDemon(ai, this);
         bigDemon.setPosition(dungeon.getBossStartingLocation());
-        bigDemon.getInventory().add(new NpcAttack(1, 2, 500));
+        bigDemon.getInventory().add(new NpcAttack(1, 2, 750));
         characterList.add(bigDemon);
     }
 
@@ -68,6 +68,7 @@ public class GameWorld implements Disposable {
     }
 
     private void setupLoot() {
+        interactables.clear();
         interactables.add(new Chest(dungeon.getRandomLocationInDungeon()));
     }
 

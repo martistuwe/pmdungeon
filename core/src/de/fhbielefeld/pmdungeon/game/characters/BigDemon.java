@@ -7,7 +7,7 @@ import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
 public class BigDemon extends Character {
 
     private static final float CHARACTER_WIDTH = 2f;
-    private static final float MOVEMENT_SPEED = 2.5f;
+    private static final float MOVEMENT_SPEED = 4f;
     private static final float MAX_HEALTH_POINTS = 15f;
     private static final int INVENTORY_SIZE = 1;
     private static final int TEXTURE_COUNT = 4;
