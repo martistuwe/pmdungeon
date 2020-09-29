@@ -1,8 +1,10 @@
-package de.fhbielefeld.pmdungeon.game.characters;
+package de.fhbielefeld.pmdungeon.game.characters.components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.fhbielefeld.pmdungeon.game.characters.Animation;
+import de.fhbielefeld.pmdungeon.game.characters.Character;
 
 public class GraphicsComponent {
 
@@ -33,9 +35,9 @@ public class GraphicsComponent {
     private void renderCharacter(SpriteBatch batch) {
         Texture texture = getCurrentTexture(character);
         Sprite sprite = new Sprite(texture);
-        sprite.flip(character.facingLeft, false);
+        sprite.flip(character.isFacingLeft(), false);
         sprite.setSize(character.getCharacterWidth(), ((float) texture.getHeight() / (float) texture.getWidth()) * character.getCharacterWidth());
-        sprite.setPosition(character.getPositionX() + RENDERING_OFFSET_X, character.positionY + RENDERING_OFFSET_Y);
+        sprite.setPosition(character.getPositionX() + RENDERING_OFFSET_X, character.getPositionY() + RENDERING_OFFSET_Y);
         sprite.draw(batch);
     }
 

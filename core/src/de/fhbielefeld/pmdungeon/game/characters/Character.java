@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
+import de.fhbielefeld.pmdungeon.game.characters.components.GraphicsComponent;
+import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;

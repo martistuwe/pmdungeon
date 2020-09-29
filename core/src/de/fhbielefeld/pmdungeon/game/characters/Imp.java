@@ -2,6 +2,7 @@ package de.fhbielefeld.pmdungeon.game.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
+import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
 
 public class Imp extends Character {
 

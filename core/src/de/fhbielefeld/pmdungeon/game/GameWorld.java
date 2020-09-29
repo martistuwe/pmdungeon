@@ -2,8 +2,13 @@ package de.fhbielefeld.pmdungeon.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import de.fhbielefeld.pmdungeon.game.characters.BigDemon;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
-import de.fhbielefeld.pmdungeon.game.characters.*;
+import de.fhbielefeld.pmdungeon.game.characters.Imp;
+import de.fhbielefeld.pmdungeon.game.characters.MaleKnight;
+import de.fhbielefeld.pmdungeon.game.characters.components.AiInputComponent;
+import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
+import de.fhbielefeld.pmdungeon.game.characters.components.PlayerInputComponent;
 import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
