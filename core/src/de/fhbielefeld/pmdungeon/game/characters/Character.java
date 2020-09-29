@@ -15,7 +15,7 @@ public abstract class Character implements Disposable {
 
     private static final float CHARACTER_WIDTH = 1;
     private static final float INTERACTABLE_REACH = 1.5f;
-    private static final float PUNCH_BACK_INTENSITY = 10f;
+    private static final float PUNCH_BACK_INTENSITY = 15f;
     private static final float PUNCH_BACK_DURATION = 100;
 
     protected GameWorld gameWorld;
@@ -61,23 +61,26 @@ public abstract class Character implements Disposable {
 
     public void update() {
         if (punched) {
-            disableMovement();
-            if (TimeUtils.timeSinceMillis(punchStart) < PUNCH_BACK_DURATION) {
-                float nextX = positionX + punchBackDirection.x * Gdx.graphics.getDeltaTime() * PUNCH_BACK_INTENSITY;
-                float nextY = positionY + punchBackDirection.y * Gdx.graphics.getDeltaTime() * PUNCH_BACK_INTENSITY;
-                if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) nextY)) {
-                    positionX = nextX;
-                    positionY = nextY;
-                }
-            } else {
-                enableMovement();
-            }
+            updatePositionWhilePunchBack();
         }
-
         if (dead) dispose();
         if (inputComponent != null) inputComponent.update(this);
 
         checkForIdle();
+    }
+
+    private void updatePositionWhilePunchBack() {
+        disableMovement();
+        if (TimeUtils.timeSinceMillis(punchStart) < PUNCH_BACK_DURATION) {
+            float nextX = positionX + punchBackDirection.x * Gdx.graphics.getDeltaTime() * PUNCH_BACK_INTENSITY;
+            float nextY = positionY + punchBackDirection.y * Gdx.graphics.getDeltaTime() * PUNCH_BACK_INTENSITY;
+            if (gameWorld.getDungeon().isTileAccessible((int) nextX, (int) nextY)) {
+                positionX = nextX;
+                positionY = nextY;
+            }
+        } else {
+            enableMovement();
+        }
     }
 
     private void checkForIdle() {
