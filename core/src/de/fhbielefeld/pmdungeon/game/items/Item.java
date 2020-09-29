@@ -42,9 +42,11 @@ public abstract class Item implements Disposable {
     }
 
     public void renderAtCharacter(Character character, SpriteBatch batch) {
-        Sprite sprite = new Sprite(texture);
-        prepareSprite(sprite, character);
-        sprite.draw(batch);
+        if (texture != null) {
+            Sprite sprite = new Sprite(texture);
+            prepareSprite(sprite, character);
+            sprite.draw(batch);
+        }
     }
 
     protected enum State {

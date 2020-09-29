@@ -3,6 +3,7 @@ package de.fhbielefeld.pmdungeon.game.characters;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
+import de.fhbielefeld.pmdungeon.game.items.Weapon;
 
 public class AiInputComponent implements InputComponent {
 
@@ -35,6 +36,10 @@ public class AiInputComponent implements InputComponent {
                         break;
                 }
             }
+        }
+        Weapon weapon = (Weapon) character.getInventory().getSelectedItem();
+        if (path.getCount() <= weapon.getRange()) {
+            character.useSelectedItem();
         }
     }
 }

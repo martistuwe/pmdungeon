@@ -8,6 +8,9 @@ import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
+import de.fhbielefeld.pmdungeon.game.items.HealthPotion;
+import de.fhbielefeld.pmdungeon.game.items.NpcAttack;
+import de.fhbielefeld.pmdungeon.game.items.Sword;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +40,20 @@ public class GameWorld implements Disposable {
     private void setupCharacters() {
         hero = new MaleKnight(new PlayerInputComponent(), this);
         hero.setPosition(dungeon.getStartingLocation());
+        hero.getInventory().add(new Sword());
+        hero.getInventory().add(new HealthPotion());
         characterList.add(hero);
 
         InputComponent ai = new AiInputComponent(this);
 
         Character imp = new Imp(ai, this);
         imp.setPosition(dungeon.getRandomLocationInDungeon());
+        imp.getInventory().add(new NpcAttack(1, 1, 300));
         characterList.add(imp);
 
         Character bigDemon = new BigDemon(ai, this);
         bigDemon.setPosition(dungeon.getBossStartingLocation());
+        bigDemon.getInventory().add(new NpcAttack(1, 2, 500));
         characterList.add(bigDemon);
     }
 

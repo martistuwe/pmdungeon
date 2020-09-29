@@ -48,6 +48,13 @@ public class Inventory {
         return false;
     }
 
+    public boolean isEmpty() {
+        for (Item item : items) {
+            if (item != null) return false;
+        }
+        return true;
+    }
+
     public int getSize() {
         return size;
     }

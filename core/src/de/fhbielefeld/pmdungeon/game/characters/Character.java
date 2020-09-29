@@ -60,6 +60,9 @@ public abstract class Character implements Disposable {
     public abstract int getAiRadius();
 
     public void update() {
+        if (!inventory.isEmpty() && inventory.getSelectedItem() == null) {
+            inventory.setSelectedItem(0);
+        }
         if (punched) {
             updatePositionWhilePunchBack();
         }
@@ -79,6 +82,7 @@ public abstract class Character implements Disposable {
                 positionY = nextY;
             }
         } else {
+            punched = false;
             enableMovement();
         }
     }

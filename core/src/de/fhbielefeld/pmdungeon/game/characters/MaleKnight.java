@@ -2,8 +2,6 @@ package de.fhbielefeld.pmdungeon.game.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
-import de.fhbielefeld.pmdungeon.game.items.HealthPotion;
-import de.fhbielefeld.pmdungeon.game.items.Sword;
 
 public class MaleKnight extends Character {
 
@@ -15,8 +13,6 @@ public class MaleKnight extends Character {
 
     public MaleKnight(InputComponent inputComponent, GameWorld gameWorld) {
         super(inputComponent, gameWorld);
-        inventory.setSlot(0, new Sword());
-        inventory.setSlot(1, new HealthPotion());
     }
 
     @Override

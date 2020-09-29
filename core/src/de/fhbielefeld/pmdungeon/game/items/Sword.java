@@ -9,6 +9,21 @@ public class Sword extends Weapon {
     private static final long COOL_DOWN = 250;
 
     public Sword() {
-        super(new Texture("textures/items/weapon_regular_sword.png"), DAMAGE, RANGE, COOL_DOWN);
+        super(new Texture("textures/items/weapon_regular_sword.png"));
+    }
+
+    @Override
+    public float getRange() {
+        return RANGE;
+    }
+
+    @Override
+    protected float getDamage() {
+        return DAMAGE;
+    }
+
+    @Override
+    protected long getCoolDown() {
+        return COOL_DOWN;
     }
 }

@@ -8,20 +8,20 @@ import de.fhbielefeld.pmdungeon.game.characters.Character;
 
 public abstract class Weapon extends Item {
 
-    private final float damage;
-    private final float range;
-    private final long coolDown;
     private static final float ROTATION_SPEED = 1000;
     private long lastUsage;
     private float rotation = 0;
 
-    protected Weapon(Texture texture, float damage, float range, long coolDown) {
+    protected Weapon(Texture texture) {
         super(texture);
-        this.damage = damage;
-        this.range = range;
-        this.coolDown = coolDown;
         this.lastUsage = TimeUtils.millis();
     }
+
+    public abstract float getRange();
+
+    protected abstract float getDamage();
+
+    protected abstract long getCoolDown();
 
     @Override
     protected void prepareSprite(Sprite sprite, Character character) {
@@ -37,9 +37,9 @@ public abstract class Weapon extends Item {
     }
 
     private void calculateRotation() {
-        if (TimeUtils.timeSinceMillis(lastUsage) <= coolDown / 2) {
+        if (TimeUtils.timeSinceMillis(lastUsage) <= getCoolDown() / 2) {
             rotation += ROTATION_SPEED * Gdx.graphics.getDeltaTime();
-        } else if (TimeUtils.timeSinceMillis(lastUsage) > coolDown / 2) {
+        } else if (TimeUtils.timeSinceMillis(lastUsage) > getCoolDown() / 2) {
             rotation -= ROTATION_SPEED * Gdx.graphics.getDeltaTime();
         }
         if (rotation <= 0) {
@@ -50,12 +50,12 @@ public abstract class Weapon extends Item {
 
     @Override
     public void use(Character character) {
-        if (TimeUtils.timeSinceMillis(lastUsage) >= coolDown) {
+        if (TimeUtils.timeSinceMillis(lastUsage) >= getCoolDown()) {
             this.animationState = State.IN_USE;
             lastUsage = TimeUtils.millis();
             Character nearestCharacter = character.nearestCharacter();
-            if (nearestCharacter != null && character.distanceBetween(nearestCharacter) <= this.range) {
-                character.attack(nearestCharacter, damage);
+            if (nearestCharacter != null && character.distanceBetween(nearestCharacter) <= getRange()) {
+                character.attack(nearestCharacter, getDamage());
                 nearestCharacter.punchBack(character);
             }
         }
