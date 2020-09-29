@@ -49,9 +49,9 @@ public class Dungeon implements IndexedGraph<Tile> {
         }
     }
 
-    public void renderWalls(SpriteBatch batch) {
+    public void renderWalls(int fromY, int toY, SpriteBatch batch) {
         for (int x = 0; x < this.width; x++) {
-            for (int y = this.height - 1; y >= 0; y--) {
+            for (int y = fromY - 1; y >= toY; y--) {
                 if (this.tiles[x][y].getType() == Tile.Type.WALL) {
                     WallPattern wallPattern = wallPatternFactory.getWallPattern(this, new Coordinate(x, y));
                     if (wallPattern != null) {

@@ -78,10 +78,11 @@ public class GameWorld implements Disposable {
         for (Interactable interactable : interactables) {
             interactable.render(batch);
         }
+        dungeon.renderWalls(dungeon.getHeight() - 1, (int) getHero().getPositionY(), batch);
         for (Character character : characterList) {
             character.render();
         }
-        dungeon.renderWalls(batch);
+        dungeon.renderWalls((int) getHero().getPositionY(), 0, batch);
     }
 
     public Interactable nearestInteractable(Character character) {
