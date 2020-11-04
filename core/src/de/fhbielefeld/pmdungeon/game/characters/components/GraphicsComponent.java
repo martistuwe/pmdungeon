@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.fhbielefeld.pmdungeon.game.characters.Animation;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
 
+/**
+ * Handles the graphic representation of a character. Can be a component of the player class.
+ */
 public class GraphicsComponent {
 
     private static final float RENDERING_OFFSET_X = -0.85f;
@@ -21,6 +24,11 @@ public class GraphicsComponent {
         this.runAnimation = runAnimation;
     }
 
+    /**
+     * Renders the character and his equipped item, if he has one
+     *
+     * @param batch SpriteBatch used to render on the screen
+     */
     public void update(SpriteBatch batch) {
         if (character.getInventory().getSelectedItem() != null) {
             renderSelectedItem(batch);
@@ -28,10 +36,20 @@ public class GraphicsComponent {
         renderCharacter(batch);
     }
 
+    /**
+     * Renders the selected item of a character
+     *
+     * @param batch SpriteBatch used to render on the screen
+     */
     private void renderSelectedItem(SpriteBatch batch) {
         character.getInventory().getSelectedItem().renderAtCharacter(character, batch);
     }
 
+    /**
+     * Adds the texture of the character to the SpriteBatch, based on direction and position
+     *
+     * @param batch SpriteBatch used to render on the screen
+     */
     private void renderCharacter(SpriteBatch batch) {
         Texture texture = getCurrentTexture(character);
         Sprite sprite = new Sprite(texture);
@@ -41,6 +59,12 @@ public class GraphicsComponent {
         sprite.draw(batch);
     }
 
+    /**
+     * Returns the current texture of a character based on it's current animation state
+     *
+     * @param character Character from which the current texture should be returned
+     * @return Current texture of the given character
+     */
     public Texture getCurrentTexture(Character character) {
         if (character.isIdle()) {
             return this.idleAnimation.getCurrentTexture();
@@ -49,6 +73,9 @@ public class GraphicsComponent {
         }
     }
 
+    /**
+     * Frees system resources
+     */
     public void dispose() {
         this.idleAnimation.dispose();
         this.runAnimation.dispose();

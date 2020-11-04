@@ -6,6 +6,9 @@ import de.fhbielefeld.pmdungeon.game.characters.Character;
 import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 import de.fhbielefeld.pmdungeon.game.items.Weapon;
 
+/**
+ * Handles AI input generation. Can be a component of the character class.
+ */
 public class AiInputComponent implements InputComponent {
 
     private final GameWorld gameWorld;
@@ -16,6 +19,11 @@ public class AiInputComponent implements InputComponent {
         this.aiRadius = aiRadius;
     }
 
+    /**
+     * Generates a path for the given character, checks if the player is close enough and evaluates the direction
+     *
+     * @param character The NPC that should be moved
+     */
     @Override
     public void update(Character character) {
         GraphPath<Tile> path = gameWorld.getDungeon().findPath(character.currentTile(), gameWorld.getHero().currentTile());
