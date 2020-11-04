@@ -55,6 +55,8 @@ public class Chest implements Interactable {
                 close();
                 character.enableMovement();
                 break;
+            default:
+                break;
         }
     }
 

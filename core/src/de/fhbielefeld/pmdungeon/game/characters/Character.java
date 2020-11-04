@@ -37,29 +37,23 @@ public abstract class Character implements Disposable {
     private float oldY = 0;
 
     private float healthPoints;
-
+    private final float maxHealthPoints;
+    private final float movementSpeed;
     protected final Inventory inventory;
 
-    protected Character(InputComponent inputComponent, GameWorld gameWorld) {
-        this.inputComponent = inputComponent;
+    public Character(GameWorld gameWorld, InputComponent inputComponent, float maxHealthPoints, float movementSpeed, int inventorySize) {
         this.gameWorld = gameWorld;
+        this.inputComponent = inputComponent;
+        this.healthPoints = this.maxHealthPoints = maxHealthPoints;
+        this.movementSpeed = movementSpeed;
 
-        this.inventory = new Inventory(getInventorySize());
-        this.healthPoints = getMaxHealthPoints();
+        this.inventory = new Inventory(inventorySize);
         this.graphicsComponent = new GraphicsComponent(this, setupIdleAnimation(), setupRunAnimation());
     }
 
     protected abstract Animation setupIdleAnimation();
 
     protected abstract Animation setupRunAnimation();
-
-    protected abstract float getMovementSpeed();
-
-    protected abstract int getInventorySize();
-
-    public abstract float getMaxHealthPoints();
-
-    public abstract int getAiRadius();
 
     public void update() {
         if (!inventory.isEmpty() && inventory.getSelectedItem() == null) {
@@ -253,6 +247,14 @@ public abstract class Character implements Disposable {
 
     public float getCharacterWidth() {
         return CHARACTER_WIDTH;
+    }
+
+    public float getMaxHealthPoints() {
+        return maxHealthPoints;
+    }
+
+    public float getMovementSpeed() {
+        return movementSpeed;
     }
 
     @Override

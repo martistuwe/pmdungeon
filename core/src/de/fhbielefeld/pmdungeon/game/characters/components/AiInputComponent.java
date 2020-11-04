@@ -9,15 +9,17 @@ import de.fhbielefeld.pmdungeon.game.items.Weapon;
 public class AiInputComponent implements InputComponent {
 
     private final GameWorld gameWorld;
+    private final int aiRadius;
 
-    public AiInputComponent(GameWorld gameWorld) {
+    public AiInputComponent(GameWorld gameWorld, int aiRadius) {
         this.gameWorld = gameWorld;
+        this.aiRadius = aiRadius;
     }
 
     @Override
     public void update(Character character) {
         GraphPath<Tile> path = gameWorld.getDungeon().findPath(character.currentTile(), gameWorld.getHero().currentTile());
-        if (path.getCount() > 1 && path.getCount() < character.getAiRadius()) {
+        if (path.getCount() > 1 && path.getCount() < this.aiRadius) {
             Tile nextTile = path.get(1);
             for (Tile.Direction direction : character.currentTile().directionTo(nextTile)) {
                 switch (direction) {

@@ -7,7 +7,6 @@ import de.fhbielefeld.pmdungeon.game.characters.Character;
 import de.fhbielefeld.pmdungeon.game.characters.Imp;
 import de.fhbielefeld.pmdungeon.game.characters.MaleKnight;
 import de.fhbielefeld.pmdungeon.game.characters.components.AiInputComponent;
-import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
 import de.fhbielefeld.pmdungeon.game.characters.components.PlayerInputComponent;
 import de.fhbielefeld.pmdungeon.game.dungeon.Dungeon;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
@@ -24,7 +23,6 @@ public class GameWorld implements Disposable {
     private final SpriteBatch batch;
     private final List<Character> characterList = new ArrayList<>();
     private final List<Interactable> interactables = new ArrayList<>();
-    private final InputComponent ai = new AiInputComponent(this);
     private Dungeon dungeon;
     private Character hero;
     private boolean nextLevelTriggered = false;
@@ -46,7 +44,7 @@ public class GameWorld implements Disposable {
         hero.setPosition(dungeon.getStartingLocation());
         characterList.add(hero);
         for (int i = 1; i < dungeon.getRooms().length; i += 2) {
-            Character imp = new Imp(ai, this);
+            Character imp = new Imp(this, new AiInputComponent(this, 6));
             imp.setPosition(dungeon.getRandomLocationInDungeon());
             imp.getInventory().add(new NpcAttack(1, 0.5f, 300));
             characterList.add(imp);
@@ -55,14 +53,14 @@ public class GameWorld implements Disposable {
     }
 
     public void setupBoss() {
-        Character bigDemon = new BigDemon(ai, this);
+        Character bigDemon = new BigDemon(this, new AiInputComponent(this, 10));
         bigDemon.setPosition(dungeon.getBossStartingLocation());
         bigDemon.getInventory().add(new NpcAttack(1, 2, 750));
         characterList.add(bigDemon);
     }
 
     private void setupHero() {
-        hero = new MaleKnight(new PlayerInputComponent(), this);
+        hero = new MaleKnight(this, new PlayerInputComponent());
         hero.getInventory().add(new Sword());
         hero.getInventory().add(new HealthPotion());
     }
