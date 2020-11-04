@@ -15,6 +15,11 @@ public class MaleKnight extends Character {
         super(gameWorld, inputComponent, MAX_HEALTH, MOVEMENT_SPEED, INVENTORY_SIZE);
     }
 
+    /**
+     * Setting up idle animation
+     *
+     * @return Idle animation of the character
+     */
     @Override
     protected Animation setupIdleAnimation() {
         Animation idle = new Animation(0.2f);
@@ -24,6 +29,11 @@ public class MaleKnight extends Character {
         return idle;
     }
 
+    /**
+     * Setting up running animation
+     *
+     * @return Running animation of the character
+     */
     @Override
     protected Animation setupRunAnimation() {
         Animation run = new Animation(0.1f);

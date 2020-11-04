@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
 
+/**
+ * Boss character
+ */
 public class BigDemon extends Character {
 
     private static final float CHARACTER_WIDTH = 2f;
@@ -16,6 +19,11 @@ public class BigDemon extends Character {
         super(gameWorld, inputComponent, MAX_HEALTH_POINTS, MOVEMENT_SPEED, INVENTORY_SIZE);
     }
 
+    /**
+     * Setting up idle animation
+     *
+     * @return Idle animation of the character
+     */
     @Override
     protected Animation setupIdleAnimation() {
         Animation idle = new Animation(0.2f);
@@ -25,6 +33,11 @@ public class BigDemon extends Character {
         return idle;
     }
 
+    /**
+     * Setting up running animation
+     *
+     * @return Running animation of the character
+     */
     @Override
     protected Animation setupRunAnimation() {
         Animation run = new Animation(0.1f);
@@ -34,6 +47,11 @@ public class BigDemon extends Character {
         return run;
     }
 
+    /**
+     * Overwriting character width to render this one bigger than the others
+     *
+     * @return Character width specific to this boss
+     */
     @Override
     public float getCharacterWidth() {
         return CHARACTER_WIDTH;

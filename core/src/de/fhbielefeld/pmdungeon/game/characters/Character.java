@@ -13,6 +13,9 @@ import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
 import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 
+/**
+ * Represents a character of the game
+ */
 public abstract class Character implements Disposable {
 
     private static final float CHARACTER_WIDTH = 1;
@@ -51,8 +54,18 @@ public abstract class Character implements Disposable {
         this.graphicsComponent = new GraphicsComponent(this, setupIdleAnimation(), setupRunAnimation());
     }
 
+    /**
+     * Characters are setting up their specific idle animation
+     *
+     * @return Idle animation
+     */
     protected abstract Animation setupIdleAnimation();
 
+    /**
+     * Characters are setting up their specific running animation
+     *
+     * @return Running animation
+     */
     protected abstract Animation setupRunAnimation();
 
     public void update() {
@@ -68,6 +81,9 @@ public abstract class Character implements Disposable {
         checkForIdle();
     }
 
+    /**
+     * Determines the position of a character after it was hit. Updates it over time.
+     */
     private void updatePositionWhilePunchBack() {
         disableMovement();
         if (TimeUtils.timeSinceMillis(punchStart) < PUNCH_BACK_DURATION) {
@@ -83,16 +99,25 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Checks if a character is moving or in idle
+     */
     private void checkForIdle() {
         idle = positionX == oldX && positionY == oldY;
         oldX = positionX;
         oldY = positionY;
     }
 
+    /**
+     * Delegates render call to characters graphics component
+     */
     public void render() {
         graphicsComponent.update(gameWorld.getBatch());
     }
 
+    /**
+     * Moving character up if target tile is accessible
+     */
     public void moveUp() {
         if (movementEnabled) {
             float nextY = positionY + getMovementSpeed() * Gdx.graphics.getDeltaTime();
@@ -100,6 +125,9 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Moving character down if target tile is accessible
+     */
     public void moveDown() {
         if (movementEnabled) {
             float nextY = positionY - getMovementSpeed() * Gdx.graphics.getDeltaTime();
@@ -107,6 +135,9 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Moving character left if target tile is accessible
+     */
     public void moveLeft() {
         if (movementEnabled) {
             facingLeft = true;
@@ -115,6 +146,9 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Moving character right if target tile is accessible
+     */
     public void moveRight() {
         if (movementEnabled) {
             facingLeft = false;
@@ -123,12 +157,18 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Delegates item use to equipped item, if there is one
+     */
     public void useSelectedItem() {
         if (movementEnabled && inventory.getSelectedItem() != null) {
             inventory.getSelectedItem().use(this);
         }
     }
 
+    /**
+     * Interacts with nearest interactable, if there is one
+     */
     public void interact() {
         Interactable interactable = gameWorld.nearestInteractable(this);
         if (interactable != null && distanceBetween(interactable.getPositionX(), interactable.getPositionY()) < INTERACTABLE_REACH) {
@@ -136,10 +176,20 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Sets the selected item
+     *
+     * @param index Index in the inventory of the item that should be equipped
+     */
     public void selectItem(int index) {
         inventory.setSelectedItem(index);
     }
 
+    /**
+     * Determines the nearest character
+     *
+     * @return Nearest character from the current one
+     */
     public Character nearestCharacter() {
         float minDistance = Float.MAX_VALUE;
         Character returnCharacter = null;
@@ -155,20 +205,44 @@ public abstract class Character implements Disposable {
         return returnCharacter;
     }
 
+    /**
+     * Calculates the distance between the current and another character
+     *
+     * @param character The other character
+     * @return Distance between the two characters
+     */
     public float distanceBetween(Character character) {
         return distanceBetween(character.getPositionX(), character.getPositionY());
     }
 
+    /**
+     * Calculates the position between the currents character and another position
+     *
+     * @param x X coordinate of the position
+     * @param y Y coordinate of the position
+     * @return Distance between the character and the coordinates
+     */
     public float distanceBetween(float x, float y) {
         return (float) Math.sqrt(Math.pow(this.positionX - x, 2) + Math.pow(this.positionY - y, 2));
     }
 
+    /**
+     * Attacks a given character with a given damage. Can't be the same character.
+     *
+     * @param character Character that's attacked
+     * @param damage    Amount of damage
+     */
     public void attack(Character character, float damage) {
         if (this != character) {
             character.decreaseHealth(damage);
         }
     }
 
+    /**
+     * Call if a punch should be triggered. Calculates the direction of the punch back. Attacked player gets punched back in a straight line
+     *
+     * @param from The attacker
+     */
     public void punchBack(Character from) {
         punched = true;
         Vector2 vector = new Vector2(positionX - from.getPositionX(), positionY - from.getPositionY());
@@ -177,6 +251,11 @@ public abstract class Character implements Disposable {
         punchStart = TimeUtils.millis();
     }
 
+    /**
+     * Decreases healthpoints of this character by the given amount and checks if the character is dead.
+     *
+     * @param damage Amount of healthpoints to be removed
+     */
     private void decreaseHealth(float damage) {
         this.healthPoints -= damage;
         if (this.healthPoints <= 0) {
@@ -184,6 +263,11 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Increase healthpoints of this character by the given amount.
+     *
+     * @param heal Amount of healthpoints to be restored
+     */
     public void heal(float heal) {
         if (heal > 0) {
             if (this.healthPoints + heal >= getMaxHealthPoints()) {
@@ -194,6 +278,12 @@ public abstract class Character implements Disposable {
         }
     }
 
+    /**
+     * Grab an item from the chest and add it to characters inventory. Doesn't take the item when inventory is full.
+     *
+     * @param chest Chest from which the item is taken
+     * @param index Index of the item in the chest
+     */
     public void takeFromChest(Chest chest, int index) {
         if (chest.getState() == Chest.State.OPEN && chest.getItemAt(index) != null && this.inventory.add(chest.getItemAt(index))) {
             chest.removeItemAt(index);

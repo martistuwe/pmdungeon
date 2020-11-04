@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+/**
+ * Houses an animation for a character
+ */
 public class Animation implements Disposable {
 
     private final Array<Texture> textures;
@@ -17,10 +20,20 @@ public class Animation implements Disposable {
         this.maxFrameTime = maxFrameTime;
     }
 
+    /**
+     * Adds the given texture to the animation
+     *
+     * @param texture Texture that should be added to the animation
+     */
     public void addTexture(Texture texture) {
         textures.add(texture);
     }
 
+    /**
+     * Returns the current texture of the animation based on time
+     *
+     * @return Current texture of the animation
+     */
     public Texture getCurrentTexture() {
         currentFrameTime += Gdx.graphics.getDeltaTime();
         if (currentFrameTime >= maxFrameTime) {
@@ -33,6 +46,9 @@ public class Animation implements Disposable {
         return textures.get(currentFrameIndex);
     }
 
+    /**
+     * Frees system resources
+     */
     @Override
     public void dispose() {
         for (Texture texture : textures) {
