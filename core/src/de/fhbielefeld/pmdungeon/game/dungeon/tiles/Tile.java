@@ -6,6 +6,9 @@ import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a piece of the dungeon
+ */
 public class Tile {
 
     private final Type type;
@@ -20,6 +23,11 @@ public class Tile {
         this.y = y;
     }
 
+    /**
+     * Returns if the tile is accessible by a character
+     *
+     * @return true if the tile ist floor or door; false if its a wall or empty
+     */
     public boolean isAccessible() {
         switch (type) {
             case FLOOR:
@@ -32,6 +40,12 @@ public class Tile {
         return false;
     }
 
+    /**
+     * Returns the direction to a given tile.
+     *
+     * @param that To which tile is the direction
+     * @return Can either be north, east, south, west or a combination of two.
+     */
     public Direction[] directionTo(Tile that) {
         List<Direction> directions = new ArrayList<>();
         if (this.x < that.x) {

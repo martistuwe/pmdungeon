@@ -18,6 +18,9 @@ import de.fhbielefeld.pmdungeon.game.dungeon.wallpattern.WallPatternFactory;
 
 import java.util.Random;
 
+/**
+ * Data structure of a dungeon
+ */
 public class Dungeon implements IndexedGraph<Tile> {
 
     private Room[] rooms;
@@ -50,6 +53,13 @@ public class Dungeon implements IndexedGraph<Tile> {
         }
     }
 
+    /**
+     * Renders the walls using the {@link de.fhbielefeld.pmdungeon.game.dungeon.wallpattern.WallPatternFactory}
+     *
+     * @param fromY Start rendering at this y coordinate
+     * @param toY   Stop rendering at this y coordinate
+     * @param batch SpriteBatch used to render on the screen
+     */
     public void renderWalls(int fromY, int toY, SpriteBatch batch) {
         for (int x = 0; x < this.width; x++) {
             for (int y = fromY - 1; y >= toY; y--) {
@@ -63,6 +73,11 @@ public class Dungeon implements IndexedGraph<Tile> {
         }
     }
 
+    /**
+     * Renders the floor of the dungeon
+     *
+     * @param batch SpriteBatch used to render on the screen
+     */
     public void renderFloor(SpriteBatch batch) {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
@@ -74,6 +89,9 @@ public class Dungeon implements IndexedGraph<Tile> {
         batch.draw(textureMap.get(Textures.LADDER), nextLevelTrigger.getX(), nextLevelTrigger.getY(), 1, 1);
     }
 
+    /**
+     * Checks tiles for connections and
+     */
     public void makeConnections() {
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.height; y++) {
@@ -85,6 +103,12 @@ public class Dungeon implements IndexedGraph<Tile> {
         }
     }
 
+    /**
+     * Adds a connection a tiles list of neighbours
+     *
+     * @param x X coordinate of the tile
+     * @param y Y coordinate of the tile
+     */
     private void addConnectionsToNeighbours(int x, int y) {
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
@@ -96,12 +120,25 @@ public class Dungeon implements IndexedGraph<Tile> {
         }
     }
 
+    /**
+     * Starts the indexed A* pathfinding algorithm an returns a path
+     *
+     * @param start Start tile
+     * @param end   End tile
+     * @return Generated path
+     */
     public GraphPath<Tile> findPath(Tile start, Tile end) {
         GraphPath<Tile> path = new DefaultGraphPath<>();
         new IndexedAStarPathFinder<>(this).searchNodePath(start, end, tileHeuristic, path);
         return path;
     }
 
+    /**
+     * Generates a random position in a room. Position can't be directly next to wall.
+     *
+     * @param roomId Room in which the position should be generated
+     * @return Random coordinates in the given room
+     */
     private Coordinate getRandomLocationInRoom(int roomId) {
         if (rooms[roomId] != null) {
             Coordinate roomExtensions = rooms[roomId].getExtension();
@@ -118,17 +155,55 @@ public class Dungeon implements IndexedGraph<Tile> {
         }
     }
 
+    /**
+     * Generates the random starting position of the playable character.
+     *
+     * @return Random location in the room with id 0
+     */
     public Coordinate getStartingLocation() {
         return getRandomLocationInRoom(0);
     }
 
+    /**
+     * Generates the random starting position of the boss.
+     *
+     * @return Random location in the last room
+     */
     public Coordinate getBossStartingLocation() {
         return getRandomLocationInRoom(rooms.length - 1);
     }
 
+    /**
+     * Generates a random location in the dungeon. Position can't be in the first room of the dungeon
+     *
+     * @return Random position in the dungeon
+     */
     public Coordinate getRandomLocationInDungeon() {
         int roomId = (this.random.nextInt(rooms.length - 1)) + 1;
         return getRandomLocationInRoom(roomId);
+    }
+
+    /**
+     * Evaluates if the tile at the given coordinates is accessible
+     *
+     * @param x X coordinate of the tile
+     * @param y Y coordinate of the tile
+     * @return true if tile is accessible; false if not
+     */
+    public boolean isTileAccessible(int x, int y) {
+        Tile tile = getTileAt(x, y);
+        if (tile != null) {
+            return tile.isAccessible();
+        }
+        return false;
+    }
+
+    /**
+     * Setting the location to trigger the next level
+     */
+    public void setupNextLevelTriggerLocation() {
+        Coordinate coordinate = getRandomLocationInRoom(rooms.length - 1);
+        if (coordinate != null) nextLevelTrigger = getTileAt(coordinate);
     }
 
     public Tile getTileAt(Coordinate coordinate) {
@@ -158,19 +233,6 @@ public class Dungeon implements IndexedGraph<Tile> {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             tiles[x][y] = new Tile(tile, x, y);
         }
-    }
-
-    public boolean isTileAccessible(int x, int y) {
-        Tile tile = getTileAt(x, y);
-        if (tile != null) {
-            return tile.isAccessible();
-        }
-        return false;
-    }
-
-    public void setupNextLevelTriggerLocation() {
-        Coordinate coordinate = getRandomLocationInRoom(rooms.length - 1);
-        if (coordinate != null) nextLevelTrigger = getTileAt(coordinate);
     }
 
     public void setRooms(Room[] rooms) {

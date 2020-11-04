@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
 
+/**
+ * Item sub-class. Just for weapon.
+ */
 public abstract class Weapon extends Item {
 
     private static final float ROTATION_SPEED = 1000;
@@ -23,6 +26,12 @@ public abstract class Weapon extends Item {
 
     protected abstract long getCoolDown();
 
+    /**
+     * Overrides the default because weapons get rotated for animation.
+     *
+     * @param sprite    Sprite the item texture should be added to
+     * @param character Owner of the item
+     */
     @Override
     protected void prepareSprite(Sprite sprite, Character character) {
         super.prepareSprite(sprite, character);
@@ -36,6 +45,9 @@ public abstract class Weapon extends Item {
         }
     }
 
+    /**
+     * Calculates the current degree of rotation based on time.
+     */
     private void calculateRotation() {
         if (TimeUtils.timeSinceMillis(lastUsage) <= getCoolDown() / 2) {
             rotation += ROTATION_SPEED * Gdx.graphics.getDeltaTime();
@@ -48,6 +60,11 @@ public abstract class Weapon extends Item {
         }
     }
 
+    /**
+     * Concrete implementation of use methode. Checks if the weapon has cooldown, triggers its animation and attacks the nearest player, if there is one.
+     *
+     * @param character Character on which the item is used.
+     */
     @Override
     public void use(Character character) {
         if (TimeUtils.timeSinceMillis(lastUsage) >= getCoolDown()) {

@@ -2,6 +2,9 @@ package de.fhbielefeld.pmdungeon.game.items;
 
 import com.badlogic.gdx.graphics.Texture;
 
+/**
+ * Sword is an item of type weapon
+ */
 public class Sword extends Weapon {
 
     private static final float DAMAGE = 1.5f;

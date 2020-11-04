@@ -10,6 +10,9 @@ import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base representation of wall segments for pattern matching
+ */
 public abstract class WallPattern {
 
     protected static final Tile.Type W = Tile.Type.WALL;
@@ -28,6 +31,12 @@ public abstract class WallPattern {
         this.textureMap = textureMap;
     }
 
+    /**
+     * Checks if any of the given pattern matches
+     *
+     * @param externalPatternList List of patterns for a wall segment
+     * @return true if any pattern matches; false if it doesn't
+     */
     public boolean matches(List<Tile.Type[][]> externalPatternList) {
         for (Tile.Type[][] internalPattern : patternList) {
             for (Tile.Type[][] externalPattern : externalPatternList) {
@@ -37,6 +46,13 @@ public abstract class WallPattern {
         return false;
     }
 
+    /**
+     * Checks if a single pattern matches another
+     *
+     * @param internalPattern A pattern
+     * @param externalPattern Another pattern
+     * @return true if the patterns match
+     */
     private boolean patternMatches(Tile.Type[][] internalPattern, Tile.Type[][] externalPattern) {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -50,5 +66,11 @@ public abstract class WallPattern {
         return patternList;
     }
 
+    /**
+     * Defines how walls should be rendered
+     *
+     * @param batch    SpriteBatch used to render on the screen
+     * @param position Position where the wall segment is rendered
+     */
     public abstract void render(SpriteBatch batch, Coordinate position);
 }

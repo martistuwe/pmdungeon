@@ -3,6 +3,9 @@ package de.fhbielefeld.pmdungeon.game.dungeon.tiles;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Represents a connection between two tile
+ */
 public class TileConnection implements Connection<Tile> {
 
     private final Tile from;

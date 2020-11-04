@@ -9,6 +9,9 @@ import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds all patterns and controls which ones are rendered
+ */
 public class WallPatternFactory {
 
     private final List<WallPattern> wallPatternList = new ArrayList<>();
@@ -26,6 +29,13 @@ public class WallPatternFactory {
         wallPatternList.add(new VerticalWall(textureMap));
     }
 
+    /**
+     * Determines how wall segments are rendered based on their patterns
+     *
+     * @param dungeon Reference to the dungeon
+     * @param center  Coordinates of the currently checked tile
+     * @return The wall class pattern of the pattern that matched
+     */
     public WallPattern getWallPattern(Dungeon dungeon, Coordinate center) {
         DungeonCutout dungeonCutout = new DungeonCutout();
         dungeonCutout.fromDungeonTiles(dungeon, center);

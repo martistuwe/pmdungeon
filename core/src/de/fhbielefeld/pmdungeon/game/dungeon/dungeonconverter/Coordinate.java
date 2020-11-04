@@ -2,6 +2,9 @@ package de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Holds a coordinate
+ */
 public class Coordinate {
 
     @SerializedName("X")

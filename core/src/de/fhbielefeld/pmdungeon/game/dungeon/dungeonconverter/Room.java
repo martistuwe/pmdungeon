@@ -2,6 +2,9 @@ package de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents a room of the dungeon
+ */
 public class Room {
 
     @SerializedName("Node")
@@ -23,6 +26,11 @@ public class Room {
         this.doors = doors;
     }
 
+    /**
+     * Determines the size of the room
+     *
+     * @return The size of the room in x and y direction
+     */
     public Coordinate getExtension() {
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
@@ -33,13 +41,11 @@ public class Room {
         return new Coordinate(maxX, maxY);
     }
 
-    public Coordinate getCenter() {
-        Coordinate extension = getExtension();
-        extension.setX(extension.getX() / 2);
-        extension.setY(extension.getY() / 2);
-        return extension;
-    }
-
+    /**
+     * Moves the room and its doors by the given offset
+     *
+     * @param offset Offset to move the room
+     */
     public void move(Coordinate offset) {
         if (offset != null) {
             this.position.add(offset);

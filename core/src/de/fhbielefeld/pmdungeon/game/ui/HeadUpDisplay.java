@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
+import de.fhbielefeld.pmdungeon.game.characters.components.InventoryComponent;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
-import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 import de.fhbielefeld.pmdungeon.game.items.Item;
 
 import java.util.HashMap;
@@ -19,6 +19,9 @@ import java.util.Map;
 
 import static de.fhbielefeld.pmdungeon.screens.GameScreen.VIRTUAL_HEIGHT;
 
+/**
+ * Holds the HUD.
+ */
 public class HeadUpDisplay implements Disposable {
 
     private static final float HEART_SIZE = 0.4f;
@@ -43,6 +46,9 @@ public class HeadUpDisplay implements Disposable {
         hudCamera.update();
     }
 
+    /**
+     * Main loop of the hud.
+     */
     public void render() {
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.combined);
@@ -62,6 +68,9 @@ public class HeadUpDisplay implements Disposable {
         hudBatch.end();
     }
 
+    /**
+     * Draws health points at the upper left corner of the screen.
+     */
     private void drawHealthPoints() {
         int i = 0;
         for (; i < Math.floor(gameWorld.getHero().getHealthPoints()); i++) {
@@ -75,9 +84,12 @@ public class HeadUpDisplay implements Disposable {
         }
     }
 
+    /**
+     * Draws the inventory at the bottom of the screen.
+     */
     private void drawInventory() {
         Texture highlight = createInventoryHighlight();
-        Inventory inventory = gameWorld.getHero().getInventory();
+        InventoryComponent inventory = gameWorld.getHero().getInventory();
 
         float originX = ((VIRTUAL_HEIGHT * Gdx.graphics.getWidth() / Gdx.graphics.getHeight()) / 2) - (inventory.getSize() * ITEM_BACKGROUND_SIZE) / 2;
 
@@ -94,6 +106,11 @@ public class HeadUpDisplay implements Disposable {
         }
     }
 
+    /**
+     * Creates a black, slightly translucent background texture for the inventory.
+     *
+     * @return Black and slightly translucent texture
+     */
     private Texture createBackground() {
         Pixmap backgroundPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         backgroundPixmap.setColor(0, 0, 0, 0.3f);
@@ -103,6 +120,11 @@ public class HeadUpDisplay implements Disposable {
         return texture;
     }
 
+    /**
+     * Creates a yellow highlight for the inventory.
+     *
+     * @return Yellow highlight texture
+     */
     private Texture createInventoryHighlight() {
         Pixmap highlightPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         highlightPixmap.setColor(1, 1, 0, 0.5f);
@@ -112,10 +134,19 @@ public class HeadUpDisplay implements Disposable {
         return highlight;
     }
 
+    /**
+     * Calculates the size in which the item will be drawn to the screen.
+     *
+     * @param item Item that will be drawn
+     * @return Width of the item texture
+     */
     private float calculateItemWidth(Item item) {
         return (float) item.getTexture().getWidth() / (float) item.getTexture().getHeight() * INVENTORY_ITEM_SIZE;
     }
 
+    /**
+     * Draws the HUD overlay for an opened chest.
+     */
     private void drawOpenChest() {
         Chest chest = findOpenChest();
         if (chest != null) {
@@ -141,6 +172,11 @@ public class HeadUpDisplay implements Disposable {
         }
     }
 
+    /**
+     * Searches for any chest with the state set to open
+     *
+     * @return An open chest, if there is one
+     */
     private Chest findOpenChest() {
         for (Interactable interactable : gameWorld.getInteractables()) {
             if (interactable.getClass() == Chest.class && ((Chest) interactable).getState() == Chest.State.OPEN) {
@@ -150,6 +186,11 @@ public class HeadUpDisplay implements Disposable {
         return null;
     }
 
+    /**
+     * Check if there was a click on the overlay of the opened chest.
+     *
+     * @param openChest An opened chest
+     */
     private void checkOpenChestInput(Chest openChest) {
         for (Map.Entry<Rectangle, Integer> entry : chestInventoryInputs.entrySet()) {
             Vector3 inputPos = hudCamera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -159,6 +200,12 @@ public class HeadUpDisplay implements Disposable {
         }
     }
 
+    /**
+     * Resizing the camera according to the size of the window.
+     *
+     * @param width  Window width
+     * @param height Window height
+     */
     public void resize(int width, int height) {
         hudCamera.setToOrtho(false, VIRTUAL_HEIGHT * width / (float) height, VIRTUAL_HEIGHT);
         hudBatch.setProjectionMatrix(hudCamera.combined);

@@ -11,6 +11,9 @@ import de.fhbielefeld.pmdungeon.game.ui.HeadUpDisplay;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
+/**
+ * Class for setting up the basics like window height and camera. Is also holding the gameword instance and is handling the demo sequence.
+ */
 public class GameScreen extends ScreenAdapter {
 
     public static final float VIRTUAL_HEIGHT = 5f;
@@ -30,12 +33,18 @@ public class GameScreen extends ScreenAdapter {
         setupCamera();
     }
 
+    /**
+     * Setting up the camera.
+     */
     private void setupCamera() {
         camera = new OrthographicCamera();
         camera.position.set(0, 0, 0);
         camera.update();
     }
 
+    /**
+     * Variable camera zoom for developing purposes.
+     */
     private void debugCameraZoom() {
         float cameraZoomSpeed = 5;
         if (Gdx.input.isKeyPressed(Input.Keys.PLUS)) {
@@ -46,6 +55,11 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Main gameloop.
+     *
+     * @param delta Time since last loop.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -66,6 +80,12 @@ public class GameScreen extends ScreenAdapter {
         pmDungeon.getBatch().end();
     }
 
+    /**
+     * Resizing the camera according to the size of the window.
+     *
+     * @param width  Window width
+     * @param height Window height
+     */
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, VIRTUAL_HEIGHT * width / (float) height, VIRTUAL_HEIGHT);

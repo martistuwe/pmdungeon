@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import de.fhbielefeld.pmdungeon.game.characters.Character;
 
+/**
+ * Healthpotion to regenerate health points
+ */
 public class HealthPotion extends Item {
 
     private static final float HEALTH_POINTS = 2;

@@ -18,6 +18,9 @@ import de.fhbielefeld.pmdungeon.game.items.Sword;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is where all the strings run together. Handles every character, interactable und the dungeon itself.
+ */
 public class GameWorld implements Disposable {
 
     private final SpriteBatch batch;
@@ -32,6 +35,11 @@ public class GameWorld implements Disposable {
         setupHero();
     }
 
+    /**
+     * Setting up a new dungeon. Gets also called when the level changes and the dungeon gets replaced.
+     *
+     * @param dungeon new Dungeon
+     */
     public void setupDungeon(Dungeon dungeon) {
         if (this.dungeon != null) this.dungeon.dispose();
         this.dungeon = dungeon;
@@ -39,6 +47,9 @@ public class GameWorld implements Disposable {
         dungeon.makeConnections();
     }
 
+    /**
+     * Adds characters and loot to the dungeon.
+     */
     public void populate() {
         characterList.clear();
         hero.setPosition(dungeon.getStartingLocation());
@@ -52,6 +63,9 @@ public class GameWorld implements Disposable {
         setupLoot();
     }
 
+    /**
+     * Sets up the boss, if there should be one in the current level.
+     */
     public void setupBoss() {
         Character bigDemon = new BigDemon(this, new AiInputComponent(this, 10));
         bigDemon.setPosition(dungeon.getBossStartingLocation());
@@ -59,17 +73,26 @@ public class GameWorld implements Disposable {
         characterList.add(bigDemon);
     }
 
+    /**
+     * Setting up the playable character.
+     */
     private void setupHero() {
         hero = new MaleKnight(this, new PlayerInputComponent());
         hero.getInventory().add(new Sword());
         hero.getInventory().add(new HealthPotion());
     }
 
+    /**
+     * Hiding a chest with loot in the dungeon.
+     */
     private void setupLoot() {
         interactables.clear();
         interactables.add(new Chest(dungeon.getRandomLocationInDungeon()));
     }
 
+    /**
+     * Part of the gameloop. Updates everything in the dungeon, that needs to be updated.
+     */
     public void update() {
         if (hero.currentTile() == dungeon.getNextLevelTrigger()) nextLevelTriggered = true;
         for (Interactable interactable : interactables) {
@@ -83,6 +106,9 @@ public class GameWorld implements Disposable {
         characterList.removeAll(deadCharacters);
     }
 
+    /**
+     * Part of the gameloop. Renders everything in the dungeon and the dungeon itself.
+     */
     public void render() {
         dungeon.renderFloor(batch);
         for (Interactable interactable : interactables) {
@@ -95,6 +121,12 @@ public class GameWorld implements Disposable {
         dungeon.renderWalls((int) getHero().getPositionY(), 0, batch);
     }
 
+    /**
+     * Methode for finding the nearest interactable in the dungeon, from a given character.
+     *
+     * @param character Character who looks for an interactable
+     * @return Nearest interactable to the character
+     */
     public Interactable nearestInteractable(Character character) {
         float minDistance = Float.MAX_VALUE;
         Interactable returnInteractable = null;

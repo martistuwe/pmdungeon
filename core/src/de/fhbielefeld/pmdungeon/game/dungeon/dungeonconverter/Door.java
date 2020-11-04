@@ -2,6 +2,9 @@ package de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents a door in the dungeon
+ */
 public class Door {
 
     @SerializedName("Node")

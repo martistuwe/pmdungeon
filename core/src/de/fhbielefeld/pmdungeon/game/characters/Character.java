@@ -7,11 +7,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 import de.fhbielefeld.pmdungeon.game.GameWorld;
 import de.fhbielefeld.pmdungeon.game.characters.components.GraphicsComponent;
 import de.fhbielefeld.pmdungeon.game.characters.components.InputComponent;
+import de.fhbielefeld.pmdungeon.game.characters.components.InventoryComponent;
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.Coordinate;
 import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 import de.fhbielefeld.pmdungeon.game.interactable.Chest;
 import de.fhbielefeld.pmdungeon.game.interactable.Interactable;
-import de.fhbielefeld.pmdungeon.game.inventory.Inventory;
 
 /**
  * Represents a character of the game
@@ -42,7 +42,7 @@ public abstract class Character implements Disposable {
     private float healthPoints;
     private final float maxHealthPoints;
     private final float movementSpeed;
-    protected final Inventory inventory;
+    protected final InventoryComponent inventory;
 
     public Character(GameWorld gameWorld, InputComponent inputComponent, float maxHealthPoints, float movementSpeed, int inventorySize) {
         this.gameWorld = gameWorld;
@@ -50,7 +50,7 @@ public abstract class Character implements Disposable {
         this.healthPoints = this.maxHealthPoints = maxHealthPoints;
         this.movementSpeed = movementSpeed;
 
-        this.inventory = new Inventory(inventorySize);
+        this.inventory = new InventoryComponent(inventorySize);
         this.graphicsComponent = new GraphicsComponent(this, setupIdleAnimation(), setupRunAnimation());
     }
 
@@ -331,7 +331,7 @@ public abstract class Character implements Disposable {
         return idle;
     }
 
-    public Inventory getInventory() {
+    public InventoryComponent getInventory() {
         return inventory;
     }
 

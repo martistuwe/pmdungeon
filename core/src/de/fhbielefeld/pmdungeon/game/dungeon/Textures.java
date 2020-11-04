@@ -3,6 +3,9 @@ package de.fhbielefeld.pmdungeon.game.dungeon;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ObjectMap;
 
+/**
+ * Central texture handling for dungeon textures
+ */
 public enum Textures {
 
     FLOOR("floor/floor_1.png"),
@@ -30,19 +33,29 @@ public enum Textures {
         this.filename = filename;
     }
 
-    protected Texture get() {
-        if (filename != null) {
-            return new Texture(PATH + filename);
-        } else {
-            throw new IllegalArgumentException("No texture found for filename.");
-        }
-    }
-
+    /**
+     * Loading all dungeon textures into a Map
+     *
+     * @return Map of all textures used to render the dungeon
+     */
     public static ObjectMap<Textures, Texture> loadAllTextures() {
         ObjectMap<Textures, Texture> textureMap = new ObjectMap<>();
         for (Textures t : Textures.values()) {
             textureMap.put(t, t.get());
         }
         return textureMap;
+    }
+
+    /**
+     * Used to set up textures
+     *
+     * @return Texture
+     */
+    protected Texture get() {
+        if (filename != null) {
+            return new Texture(PATH + filename);
+        } else {
+            throw new IllegalArgumentException("No texture found for filename.");
+        }
     }
 }

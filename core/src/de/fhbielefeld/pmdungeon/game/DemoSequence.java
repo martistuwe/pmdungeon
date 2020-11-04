@@ -2,6 +2,9 @@ package de.fhbielefeld.pmdungeon.game;
 
 import de.fhbielefeld.pmdungeon.game.dungeon.dungeonconverter.DungeonConverter;
 
+/**
+ * Demo sequence to offer multiple levels. Used instead of a procedural level generator.
+ */
 public class DemoSequence {
 
     private final GameWorld gameWorld;
@@ -13,10 +16,16 @@ public class DemoSequence {
         nextStage();
     }
 
+    /**
+     * Polling if next stage got triggered.
+     */
     public void update() {
         if (gameWorld.isNextLevelTriggered()) nextStage();
     }
 
+    /**
+     * If next stage is triggered, change the dungeon.
+     */
     private void nextStage() {
         switch (stage) {
             case A:

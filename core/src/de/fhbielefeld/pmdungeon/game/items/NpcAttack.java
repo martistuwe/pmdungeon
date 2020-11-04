@@ -1,5 +1,8 @@
 package de.fhbielefeld.pmdungeon.game.items;
 
+/**
+ * Textureless default weapon of NPCs.
+ */
 public class NpcAttack extends Weapon {
 
     private final float range;
