@@ -9,6 +9,9 @@ import de.fhbielefeld.pmdungeon.game.dungeon.tiles.Tile;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+/**
+ * Houses the converter, to convert a json formatted dungeon to a {@link de.fhbielefeld.pmdungeon.game.dungeon.Dungeon} data structure
+ */
 public class DungeonConverter {
 
     /**
